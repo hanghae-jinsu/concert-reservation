@@ -9,15 +9,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
 class ApiControllerAdvice {
-
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
-
 
     @ExceptionHandler(Exception::class)
     fun handleException(e: Exception): ErrorResponse {
         return ErrorResponse(
             HttpStatus.INTERNAL_SERVER_ERROR.value().toString(),
-            e.message.toString()
+            e.message.toString(),
         )
     }
 
@@ -25,12 +23,9 @@ class ApiControllerAdvice {
     fun handleException(e: AuthenticationException): ErrorResponse {
         return ErrorResponse(
             HttpStatus.UNAUTHORIZED.value().toString(),
-            e.message.toString()
+            e.message.toString(),
         )
     }
-
-
 }
 
 data class ErrorResponse(val code: String, val message: String)
-

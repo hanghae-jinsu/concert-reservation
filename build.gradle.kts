@@ -49,7 +49,7 @@ dependencies {
     // DB
     runtimeOnly("com.mysql:mysql-connector-j")
 
-    //swagger
+    // swagger
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
 
     // Kotest 의존성
