@@ -8,5 +8,5 @@ class Reservation(
     var reservationId: String,
     var chargeInfo: ChargeInfo,
     var concertInfo: ConcertInfo,
-    var buyerInfo: BuyerInfo
+    var buyerInfo: BuyerInfo,
 )

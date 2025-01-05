@@ -6,5 +6,5 @@ class HallSector(
     sectorId: String,
     sectorType: SectorType,
     capacity: Int,
-    hallId: String
+    hallId: String,
 )

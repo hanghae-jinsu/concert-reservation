@@ -4,5 +4,5 @@ import com.my.sparta.concert.aggregate.concert.application.domain.valueobject.Se
 
 class SeatInfo(
     var sectorType: SectorType,
-    var number: Int
+    var number: Int,
 )

@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
 class UserCommandController {
-
     @GetMapping("/token/{userId}")
-    fun getToken(
-    ) {
+    fun getToken() {
         TODO("토큰을 발급한다.")
     }
 
@@ -24,8 +22,6 @@ class UserCommandController {
 
     @PostMapping("/charge/{userId}")
     fun chargeMoney() {
-
         TODO("해당 유저 잔고를 충전한다.")
     }
-
 }

@@ -9,11 +9,8 @@ import org.springframework.web.bind.annotation.RestController
 @RequiredArgsConstructor
 @RequestMapping("/concert")
 class ConcertQueryController() {
-
-
     @GetMapping("{concertId}/reserve")
     fun getReservableSeats() {
-        //TODO:  콘서트를 예매가능한 콘서트 좌석을 조회한다.
+        // TODO:  콘서트를 예매가능한 콘서트 좌석을 조회한다.
     }
-
 }

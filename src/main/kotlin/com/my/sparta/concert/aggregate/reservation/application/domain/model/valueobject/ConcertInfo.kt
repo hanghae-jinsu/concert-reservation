@@ -1,6 +1,6 @@
 package com.my.sparta.concert.aggregate.reservation.application.domain.model.valueobject
 
-class ConcertInfo (
+class ConcertInfo(
     var concertId: String,
     var concertName: String,
     var seatInfo: SeatInfo,

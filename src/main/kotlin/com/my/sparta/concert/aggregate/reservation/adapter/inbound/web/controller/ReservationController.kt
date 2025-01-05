@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/reservation")
 class ReservationController {
-
     @PostMapping
     fun reserveConcert() {
-        //TODO: 유저가 좌석을 조회하고  콘서트를 예약한다.
+        // TODO: 유저가 좌석을 조회하고  콘서트를 예약한다.
     }
 }
