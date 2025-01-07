@@ -6,7 +6,7 @@ import java.security.MessageDigest
 import java.time.LocalDateTime
 
 @Component
-class TokenService {
+class TokenUtilService {
     private val algorithm = "SHA-256"
     private val platform = "concert-reservation"
 
