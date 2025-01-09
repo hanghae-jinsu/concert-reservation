@@ -1,31 +1,16 @@
 package com.my.sparta.concert.aggregate.concert.adapter.inbound.web.controller.query
 
-import com.my.sparta.concert.aggregate.concert.adapter.inbound.web.interfaces.response.ConcertScheduleResponse
-import com.my.sparta.concert.aggregate.concert.adapter.inbound.web.mapper.ConcertScheduleWebMapper
-import com.my.sparta.concert.aggregate.concert.application.port.outbound.GetConcertScheduleInfoPort
 import lombok.RequiredArgsConstructor
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/concert")
-class ConcertQueryController(
-    private val getConcertScheduleInfoPort: GetConcertScheduleInfoPort,
-    private val concertScheduleWebMapper: ConcertScheduleWebMapper
-) {
-
+class ConcertQueryController() {
     @GetMapping("{concertId}/reserve")
-    fun getReservableSeats(
-        @PathVariable("concertId") concertId: String,
-    ): ResponseEntity<ConcertScheduleResponse> {
-
-        val concertScheduleList = getConcertScheduleInfoPort.getConcertScheduleById(concertId);
-        return ResponseEntity.ok(concertScheduleWebMapper.mapToListResponse(concertScheduleList))
-
+    fun getReservableSeats() {
+        // TODO:  콘서트를 예매가능한 콘서트 좌석을 조회한다.
     }
-
 }

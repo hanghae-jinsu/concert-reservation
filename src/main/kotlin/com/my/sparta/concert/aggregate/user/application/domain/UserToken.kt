@@ -1,4 +1,4 @@
-package com.my.sparta.concert.aggregate.user.application.domain.model
+package com.my.sparta.concert.aggregate.user.application.domain
 
 import java.time.LocalDateTime
 

@@ -6,5 +6,4 @@ class Concert(
     var runningTime: Int,
     var targetAge: Int,
     var notice: String,
-    var cost: Double,
 )

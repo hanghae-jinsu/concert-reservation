@@ -3,5 +3,6 @@ package com.my.sparta.concert.aggregate.reservation.application.domain.model.val
 import com.my.sparta.concert.aggregate.concert.application.domain.valueobject.SectorType
 
 class SeatInfo(
-    var id: Int,
+    var sectorType: SectorType,
+    var number: Int,
 )
