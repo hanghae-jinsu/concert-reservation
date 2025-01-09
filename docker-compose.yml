@@ -9,8 +9,10 @@ services:
       - MYSQL_USER=users
       - MYSQL_PASSWORD=password
       - MYSQL_DATABASE=concert
+      - TZ= Asia/Seoul
     volumes:
       - ./data/mysql/:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
 
 networks:
   default:
