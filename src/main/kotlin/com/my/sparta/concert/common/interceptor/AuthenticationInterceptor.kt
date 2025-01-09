@@ -11,14 +11,14 @@ import org.springframework.web.servlet.HandlerInterceptor
 
 @Component
 class AuthenticationInterceptor(
-    private val tokenService: TokenUtilService
+    private val tokenUtilService: TokenUtilService
 ) : HandlerInterceptor {
 
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     @PostConstruct
     fun init() {
-        tokenService.loadInitialTokens();
+        tokenUtilService.loadInitialTokens();
     }
 
     override fun preHandle(
@@ -35,7 +35,7 @@ class AuthenticationInterceptor(
         }
 
         // 토큰 검증 로직
-        if (!tokenService.validateToken(token)) {
+        if (!tokenUtilService.validateToken(token)) {
 
             response.status = HttpServletResponse.SC_UNAUTHORIZED
             response.writer.write("Unauthorized: Invalid token")
