@@ -21,7 +21,7 @@ class ConcertSeatPersistenceAdapter(
 ) : LoadConcertSeatPort, SaveConcertSeatPort {
 
 
-    override fun getConcertSeatDetailInfo(seatId: Int, scheduleId: String) {
+    override fun getConcertSeatDetailInfo(seatId: List<Int>, scheduleId: String) {
 
         concertSeatRepository.findByIdAndScheduleId(seatId = seatId, scheduleId).ifPresent {
             throw EntityExistsException("해당하는 id $seatId 는 이미 예약된 좌석 입니다.")
@@ -29,9 +29,9 @@ class ConcertSeatPersistenceAdapter(
 
     }
 
-    override fun saveConcertSeat(domain: ConcertSeat) {
+    override fun saveConcertSeat(domain: List<ConcertSeat>) {
 
-        concertSeatRepository.save(concertSeatPersistenceMapper.mapToEntity(domain))
+        concertSeatRepository.saveAll(concertSeatPersistenceMapper.mapToEntities(domain))
 
     }
 }

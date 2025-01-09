@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor
 import lombok.extern.slf4j.Slf4j
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+
 // Todo; layer 하나 더 만들 것.
 @Slf4j
 @Service
@@ -27,12 +28,18 @@ class ConcertReservationFacade(
 ) : ReserveConcertUseCase {
 
     @Transactional
-    override fun reserve(command: ConcertReservationCommand): Reservation {
+    override fun reserve(command: ConcertReservationCommand): List<Reservation> {
+
+        require(command.concertSeatNumber.size == command.count) {
+            "해당 요청은 요청하는 seat size ${command.concertSeatNumber.size} 와  count ${command.count}가 다릅니다."
+        }
 
         // 콘서트 자리 있는지 확인
         loadConcertSeatPort.getConcertSeatDetailInfo(command.concertSeatNumber, command.concertScheduleId)
 
-        val concertSeat = ConcertSeat(command.userId, command.concertScheduleId, command.concertSeatNumber);
+        val concertSeat = command.concertSeatNumber.map { value ->
+            ConcertSeat(command.userId, command.concertScheduleId, value)
+        }
         // 콘서트 자리 save 하고 lock 걸기
         saveConcertSeatPort.saveConcertSeat(concertSeat)
 
@@ -47,7 +54,10 @@ class ConcertReservationFacade(
         val payment = Payment("", userInfo.userId, command.paymentType, totalPrice, PayingTransaction.PAYMENT)
         val savePaymentInfo = savePaymentHistoryPort.savePaymentInfo(payment)
 
-        val reservation = Reservation.createReservation(concert, userInfo, concertSeat, command, savePaymentInfo)
+        val reservation = concertSeat.map { values ->
+            Reservation.createReservation(concert, userInfo, values, command, savePaymentInfo, totalPrice)
+        }
+
         val saveReservationHistory = saveReservationPort.SaveReservationHistory(reservation)
         return saveReservationHistory;
     }

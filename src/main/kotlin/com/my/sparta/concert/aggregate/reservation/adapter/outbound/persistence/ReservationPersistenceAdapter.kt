@@ -14,10 +14,11 @@ class ReservationPersistenceAdapter(
     private val reservationPersistenceMapper: ReservationPersistenceMapper
 ) : SaveReservationPort {
 
-    override fun SaveReservationHistory(reservation: Reservation): Reservation {
+    override fun SaveReservationHistory(reservations: List<Reservation>): List<Reservation> {
 
-        val reservationEntity = reservationPersistenceMapper.mapToJpaEntity(reservation);
-        val savedEntity = reservationRepository.save(reservationEntity);
-        return reservationPersistenceMapper.mapToDomain(savedEntity);
+        val reservationEntity = reservationPersistenceMapper.mapToJpaEntities(reservations);
+        val savedEntity = reservationRepository.saveAll(reservationEntity);
+        return reservationPersistenceMapper.mapToDomainList(savedEntity);
+
     }
 }

@@ -8,6 +8,14 @@ import java.util.*
 
 interface ConcertSeatJpaRepository : JpaRepository<ConcertSeatEntity, Long> {
 
-    @Query("select cs from ConcertSeatEntity as cs where cs.concertSeatId = :seatId and cs.concertScheduleId = :scheduleId")
-    fun findByIdAndScheduleId(@Param("seatId") seatId:Int, @Param("scheduleId") scheduleId:String): Optional<ConcertSeatEntity>
+    @Query("""
+    select cs 
+    from ConcertSeatEntity as cs 
+    where cs.concertSeatId IN :seatIds 
+      and cs.concertScheduleId = :scheduleId
+""")
+    fun findByIdAndScheduleId(
+        @Param("seatId") seatId: List<Int>,
+        @Param("scheduleId") scheduleId: String
+    ): Optional<ConcertSeatEntity>
 }

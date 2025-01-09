@@ -22,7 +22,7 @@ class Wallet(
             "사람 인원 수는 0보다 작을수 없습니다. "
         }
 
-        require(totalCost > money) {
+        require(totalCost < this.money) {
             "지갑에 돈이 없어서 $cost 해당 영화비를 낼 수 없습니다."
         }
         this.money -= totalCost

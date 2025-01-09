@@ -41,4 +41,12 @@ class ReservationPersistenceMapper {
         )
     }
 
+    fun mapToJpaEntities(reservations: List<Reservation>): List<ReservationEntity> {
+        return reservations.stream().map(this::mapToJpaEntity).toList();
+    }
+
+    fun mapToDomainList(savedEntity: List<ReservationEntity>): List<Reservation> {
+        return savedEntity.stream().map(this::mapToDomain).toList();
+    }
+
 }

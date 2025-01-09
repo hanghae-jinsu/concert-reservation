@@ -4,5 +4,5 @@ import com.my.sparta.concert.aggregate.reservation.application.domain.model.Rese
 
 interface SaveReservationPort {
 
-    fun SaveReservationHistory(reservation: Reservation): Reservation
+    fun SaveReservationHistory(reservation: List<Reservation>): List<Reservation>
 }

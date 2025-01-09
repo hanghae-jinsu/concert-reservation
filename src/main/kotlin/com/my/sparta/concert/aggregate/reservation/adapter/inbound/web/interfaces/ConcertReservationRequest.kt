@@ -11,7 +11,7 @@ class ConcertReservationRequest(
     val concertId: String,
     val userId: String,
     val concertScheduleId: String,
-    val concertSeatNumber: Int,
+    val concertSeatNumber: List<Int>,
     val count: Int,
     val paymentType: String,
 

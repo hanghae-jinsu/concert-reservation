@@ -27,7 +27,8 @@ class Reservation(
             userInfo: Users,
             concertSeat: ConcertSeat,
             command: ConcertReservationCommand,
-            payment: Payment
+            payment: Payment,
+            totalPrice: Double,
         ): Reservation {
             return Reservation(
                 reservationId = UUID.randomUUID().toString(),
@@ -43,7 +44,7 @@ class Reservation(
                 ),
                 buyerInfo = BuyerInfo(
                     userInfo.userId,
-                    concert.cost,
+                    totalPrice,
                     command.count,
                     concert.targetAge
                 )
