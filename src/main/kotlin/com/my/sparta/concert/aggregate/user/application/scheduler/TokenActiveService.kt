@@ -5,12 +5,14 @@ import com.my.sparta.concert.aggregate.user.application.port.outbound.LoadQueuei
 import com.my.sparta.concert.aggregate.user.application.port.outbound.SaveQueueingTokenPort
 import lombok.RequiredArgsConstructor
 import lombok.extern.slf4j.Slf4j
+import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Slf4j
 @Service
+@EnableScheduling
 @RequiredArgsConstructor
 class TokenActiveService(
     private val loadQueueingTokenPort: LoadQueueingTokenPort,
