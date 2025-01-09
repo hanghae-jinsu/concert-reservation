@@ -1,4 +1,4 @@
-package com.my.sparta.concert.config
+package com.my.sparta.concert.common.config
 
 import org.apache.tomcat.websocket.AuthenticationException
 import org.slf4j.Logger

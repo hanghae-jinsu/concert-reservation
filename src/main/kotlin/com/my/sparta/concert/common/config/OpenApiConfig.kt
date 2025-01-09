@@ -1,4 +1,4 @@
-package com.my.sparta.concert.config
+package com.my.sparta.concert.common.config
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition
 import io.swagger.v3.oas.annotations.servers.Server
