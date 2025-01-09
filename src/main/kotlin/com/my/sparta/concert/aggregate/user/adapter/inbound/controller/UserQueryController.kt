@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/user")
 @RequiredArgsConstructor
 class UserQueryController(
     val generateTokenUseCase: GenerateTokenUseCase,
@@ -21,7 +20,7 @@ class UserQueryController(
     val userWebMapper: UserWebMapper
 ) {
 
-    @GetMapping("/token/{userId}")
+    @GetMapping("/public/token/{userId}")
     fun getToken(
         @PathVariable userId: String,
     ): ResponseEntity<GetTokenResponse> {
@@ -29,7 +28,7 @@ class UserQueryController(
         return ResponseEntity.ok(GetTokenResponse(userToken))
     }
 
-    @GetMapping("/money/{userId}")
+    @GetMapping("/user/money/{userId}")
     fun findChargedMoney(
         @PathVariable("userId") userId: String,
     ): ResponseEntity<UserWalletInfoResponse> {
