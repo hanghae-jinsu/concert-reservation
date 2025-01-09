@@ -12,8 +12,12 @@ class WebConfig(
 
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(authenticationInterceptor)
-            .addPathPatterns("/**") // 모든 경로에 대해 적용
-            .excludePathPatterns("/public/**") // 제외 경로 설정
+            .addPathPatterns("/user/**","/concert/**","/reservation/**") // 모든 경로에 대해 적용
+            .excludePathPatterns(
+                "/public/**", "/swagger-ui/**",
+                "/v3/api-docs/**",
+                "/swagger-ui.html#/**"
+            ) 
     }
 
 }
