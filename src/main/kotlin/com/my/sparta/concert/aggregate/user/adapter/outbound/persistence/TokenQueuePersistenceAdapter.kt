@@ -10,6 +10,8 @@ import com.my.sparta.concert.aggregate.user.application.port.outbound.SaveQueuei
 import com.my.sparta.concert.aggregate.user.application.port.outbound.SaveUserTokenPort
 import lombok.RequiredArgsConstructor
 import lombok.extern.slf4j.Slf4j
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
@@ -22,6 +24,8 @@ class TokenQueuePersistenceAdapter(
     private val tokenQueueJpaRepository: TokenQueueJpaRepository,
 ) : SaveUserTokenPort, SaveQueueingTokenPort, LoadQueueingTokenPort, DeleteQueueingTokenPort {
 
+    private val logger: Logger = LoggerFactory.getLogger(javaClass)
+
     override fun saveUserToken(token: UserToken): String {
         val tokenEntity = tokenPersistenceMapper.mapToJpaEntity(token)
         val savedToken = tokenQueueJpaRepository.save(tokenEntity)
@@ -31,8 +35,11 @@ class TokenQueuePersistenceAdapter(
 
     override fun loadActivatableTokens(): List<UserTokenEntity> {
 
+
         val dateTime = LocalDateTime.now();
         val pageable = PageRequest.of(0, 50)
+
+        logger.info("$dateTime : loadActivatableTokens ")
 
         return tokenQueueJpaRepository.findByTokenNonExpired(dateTime, pageable);
 
@@ -41,6 +48,7 @@ class TokenQueuePersistenceAdapter(
     override fun loadExpiredTargetTokens(): List<UserTokenEntity> {
         val dateTime = LocalDateTime.now();
 
+        logger.info("$dateTime : loadExpiredTargetTokens")
         return tokenQueueJpaRepository.findByExpiredTargetToken(dateTime);
 
     }

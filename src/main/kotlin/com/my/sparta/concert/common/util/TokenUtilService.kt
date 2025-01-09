@@ -23,7 +23,7 @@ class TokenUtilService(
     fun generateToken(userId: String): UserToken {
         val tokenString = StringBuilder(userId + platform).toString()
         val tokenId = hashString(tokenString)
-        val currentTime = LocalDateTime.now()
+        val currentTime = LocalDateTime.now();
 
         return UserToken(
             tokenId = tokenId,

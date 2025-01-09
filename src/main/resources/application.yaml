@@ -16,10 +16,10 @@ spring:
     generate-ddl: false
     show-sql: false
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate.timezone.default_storage: NORMALIZE_UTC
-      hibernate.jdbc.time_zone: UTC
+      hibernate.jdbc.time_zone: Asia/Seoul
 
 springdoc:
   api-docs:
@@ -32,6 +32,6 @@ spring.config.activate.on-profile: local, test
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3310/concert?characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3310/concert?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
     username: users
     password: password

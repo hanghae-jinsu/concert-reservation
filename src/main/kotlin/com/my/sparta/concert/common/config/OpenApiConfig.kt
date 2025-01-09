@@ -3,7 +3,6 @@ package com.my.sparta.concert.common.config
 import io.swagger.v3.oas.annotations.OpenAPIDefinition
 import io.swagger.v3.oas.annotations.servers.Server
 import io.swagger.v3.oas.annotations.tags.Tag
-import io.swagger.v3.oas.models.info.Info
 import org.springframework.context.annotation.Configuration
 
 @OpenAPIDefinition(
@@ -20,10 +19,11 @@ import org.springframework.context.annotation.Configuration
                 description = "local API",
             ),
         ),
-    tags =
-        arrayOf(
+    tags = [
             Tag(name = "concert API", description = "concert API"),
-        ),
+            Tag(name = "money", description = "money API"),
+            Tag(name = "user", description = "user API"),
+        ],
 )
 @Configuration
 class OpenApiConfig

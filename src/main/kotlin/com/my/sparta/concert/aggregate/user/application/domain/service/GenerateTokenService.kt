@@ -3,7 +3,7 @@ package com.my.sparta.concert.aggregate.user.application.domain.service
 import com.my.sparta.concert.aggregate.user.application.port.inbound.GenerateTokenUseCase
 import com.my.sparta.concert.aggregate.user.application.port.outbound.LoadUserInfoPort
 import com.my.sparta.concert.aggregate.user.application.port.outbound.SaveUserTokenPort
-import com.my.sparta.concert.aggregate.user.application.util.TokenUtilService
+import com.my.sparta.concert.common.util.TokenUtilService
 import lombok.RequiredArgsConstructor
 import lombok.extern.slf4j.Slf4j
 import org.springframework.stereotype.Service
