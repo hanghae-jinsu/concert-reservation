@@ -15,4 +15,5 @@ class TokenPersistenceMapper {
             token.expiresAt,
         )
     }
+
 }
