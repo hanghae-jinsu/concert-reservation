@@ -17,4 +17,5 @@ class ConcertSeatEntity(
     val userId: String,
     @Column(name = "concert_schedule_id")
     val concertScheduleId: String,
+    val isActive: Boolean
 )

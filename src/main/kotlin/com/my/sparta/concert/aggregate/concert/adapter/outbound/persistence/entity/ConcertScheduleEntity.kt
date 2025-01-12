@@ -11,6 +11,7 @@ import java.time.LocalDateTime
 @Table(name = "concert_schedule")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 class ConcertScheduleEntity(
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "concert_schedule_id", nullable = false)
@@ -29,7 +30,9 @@ class ConcertScheduleEntity(
     var concert: ConcertEntity,
     @ManyToOne(fetch = FetchType.LAZY)
     var concertHall: ConcertHallEntity,
+    var finished: Boolean,
 ) {
+
     constructor(concertScheduleId: String) : this(
         concertScheduleId = concertScheduleId,
         concertName = "",
@@ -39,5 +42,6 @@ class ConcertScheduleEntity(
         notice = "",
         concert = ConcertEntity(),
         concertHall = ConcertHallEntity(),
+        finished = false,
     )
 }

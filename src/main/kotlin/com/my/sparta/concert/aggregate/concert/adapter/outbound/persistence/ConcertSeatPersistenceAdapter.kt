@@ -5,7 +5,7 @@ import com.my.sparta.concert.aggregate.concert.adapter.outbound.persistence.repo
 import com.my.sparta.concert.aggregate.concert.application.domain.model.ConcertSeat
 import com.my.sparta.concert.aggregate.reservation.application.port.outbound.LoadConcertSeatPort
 import com.my.sparta.concert.aggregate.reservation.application.port.outbound.SaveConcertSeatPort
-import jakarta.persistence.EntityExistsException
+import jakarta.persistence.*
 import lombok.RequiredArgsConstructor
 import lombok.extern.slf4j.Slf4j
 import org.springframework.stereotype.Component
@@ -17,6 +17,7 @@ class ConcertSeatPersistenceAdapter(
     private val concertSeatRepository: ConcertSeatJpaRepository,
     private val concertSeatPersistenceMapper: ConcertSeatPersistenceMapper,
 ) : LoadConcertSeatPort, SaveConcertSeatPort {
+
     override fun getConcertSeatDetailInfo(
         seatId: List<Int>,
         scheduleId: String,
@@ -26,7 +27,8 @@ class ConcertSeatPersistenceAdapter(
         }
     }
 
-    override fun saveConcertSeat(domain: List<ConcertSeat>) {
-        concertSeatRepository.saveAll(concertSeatPersistenceMapper.mapToEntities(domain))
+    override fun saveConcertSeat(domain: List<ConcertSeat>) : List<ConcertSeat> {
+        val savedAllEntity = concertSeatRepository.saveAll(concertSeatPersistenceMapper.mapToEntities(domain))
+        return concertSeatPersistenceMapper.mapToDomainList(savedAllEntity);
     }
 }

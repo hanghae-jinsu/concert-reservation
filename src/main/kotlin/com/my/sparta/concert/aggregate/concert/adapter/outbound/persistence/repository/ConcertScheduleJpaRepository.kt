@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query
 import java.util.*
 
 interface ConcertScheduleJpaRepository : JpaRepository<ConcertScheduleEntity, UUID> {
-    @Query("select t from ConcertScheduleEntity t where t.concert.concertId = :concertId")
+
+    @Query("select t from ConcertScheduleEntity t where t.concert.concertId = :concertId and t.finished != true")
     fun findByConcertId(concertId: String): List<ConcertScheduleEntity>
 }
