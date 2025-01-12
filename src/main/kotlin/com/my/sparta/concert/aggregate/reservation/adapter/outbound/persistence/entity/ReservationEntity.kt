@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 class ReservationEntity(
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "reservation_id")
