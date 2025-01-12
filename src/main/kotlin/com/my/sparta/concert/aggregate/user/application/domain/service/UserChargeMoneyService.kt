@@ -16,12 +16,11 @@ import org.springframework.stereotype.Service
 @RequiredArgsConstructor
 class UserChargeMoneyService(
     private val saveMoneyPort: SaveMoneyPort,
-    private val loadUserInfoPort: LoadUserInfoPort
+    private val loadUserInfoPort: LoadUserInfoPort,
 ) : UserChargeMoneyUseCase {
-
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
-    override fun chargeMoney(command: UserChargeCommand): Users {
 
+    override fun chargeMoney(command: UserChargeCommand): Users {
         val userInfo = loadUserInfoPort.getUserInfoById(command.userId)
 
         userInfo.wallet.chargeMoney(command.wallet.money.toInt())
@@ -31,6 +30,5 @@ class UserChargeMoneyService(
         val user = saveMoneyPort.saveMoney(userInfo)
 
         return user
-
     }
 }

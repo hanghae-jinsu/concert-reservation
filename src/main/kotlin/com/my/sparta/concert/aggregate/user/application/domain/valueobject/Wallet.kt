@@ -7,15 +7,15 @@ class Wallet(
     var paymentType: PaymentType,
     var money: Double,
 ) {
-
-    fun chargeMoney(amount: Int): Unit {
-
+    fun chargeMoney(amount: Int) {
         require(amount > 0) { "충전 금액은 0보다 커야 합니다." }
         this.money += amount
-
     }
 
-    fun useWallet(cost: Double, count: Int) {
+    fun useWallet(
+        cost: Double,
+        count: Int,
+    ) {
         val totalCost = count * cost
 
         require(count > 0) {

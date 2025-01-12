@@ -11,14 +11,11 @@ import org.springframework.stereotype.Component
 @RequiredArgsConstructor
 class ReservationPersistenceAdapter(
     private val reservationRepository: ReservationJpaRepository,
-    private val reservationPersistenceMapper: ReservationPersistenceMapper
+    private val reservationPersistenceMapper: ReservationPersistenceMapper,
 ) : SaveReservationPort {
-
-    override fun SaveReservationHistory(reservations: List<Reservation>): List<Reservation> {
-
-        val reservationEntity = reservationPersistenceMapper.mapToJpaEntities(reservations);
-        val savedEntity = reservationRepository.saveAll(reservationEntity);
-        return reservationPersistenceMapper.mapToDomainList(savedEntity);
-
+    override fun saveReservationHistory(reservations: List<Reservation>): List<Reservation> {
+        val reservationEntity = reservationPersistenceMapper.mapToJpaEntities(reservations)
+        val savedEntity = reservationRepository.saveAll(reservationEntity)
+        return reservationPersistenceMapper.mapToDomainList(savedEntity)
     }
 }

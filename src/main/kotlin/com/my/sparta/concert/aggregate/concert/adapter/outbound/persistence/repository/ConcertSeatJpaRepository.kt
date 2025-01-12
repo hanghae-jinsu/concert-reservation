@@ -7,15 +7,16 @@ import org.springframework.data.repository.query.Param
 import java.util.*
 
 interface ConcertSeatJpaRepository : JpaRepository<ConcertSeatEntity, Long> {
-
-    @Query("""
+    @Query(
+        """
     select cs 
     from ConcertSeatEntity as cs 
     where cs.concertSeatId IN :seatIds 
       and cs.concertScheduleId = :scheduleId
-""")
+""",
+    )
     fun findByIdAndScheduleId(
         @Param("seatId") seatId: List<Int>,
-        @Param("scheduleId") scheduleId: String
+        @Param("scheduleId") scheduleId: String,
     ): Optional<ConcertSeatEntity>
 }

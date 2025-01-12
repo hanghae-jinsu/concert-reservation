@@ -10,17 +10,13 @@ import lombok.NoArgsConstructor
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 class ReservationEntity(
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "reservation_id")
     val reservationId: String,
-
     var paymentId: String,
-
     @Enumerated(EnumType.STRING)
     var paymentType: PaymentType,
-
     var concertId: String,
     var concertName: String,
     var seatId: Int,
@@ -29,5 +25,4 @@ class ReservationEntity(
     var cost: Double,
     var count: Int,
     var targetAge: Int,
-
-    )
+)

@@ -18,9 +18,8 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/reservation")
 class ReservationController(
     private val reserveConcertUseCase: ReserveConcertUseCase,
-    private val reserveWebMapper: ReserveWebMapper
+    private val reserveWebMapper: ReserveWebMapper,
 ) {
-
     @Operation(summary = "해당 콘서트를 예약한다.", description = "콘서트를 예약한다.")
     @ApiResponses(
         value = [
@@ -30,12 +29,11 @@ class ReservationController(
     )
     @PostMapping
     fun reserveConcert(
-        @RequestBody request: ConcertReservationRequest
+        @RequestBody request: ConcertReservationRequest,
     ): ResponseEntity<*> {
+        val concertReservationCommand = reserveWebMapper.mapToCommand(request)
+        val concertReservationDetailInfo = reserveConcertUseCase.reserve(concertReservationCommand)
 
-        val concertReservationCommand = reserveWebMapper.mapToCommand(request);
-        val concertReservationDetailInfo = reserveConcertUseCase.reserve(concertReservationCommand);
-
-        return ResponseEntity.ok(concertReservationDetailInfo);
+        return ResponseEntity.ok(concertReservationDetailInfo)
     }
 }

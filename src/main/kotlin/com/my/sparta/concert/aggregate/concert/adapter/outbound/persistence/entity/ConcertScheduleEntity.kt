@@ -1,6 +1,5 @@
 package com.my.sparta.concert.aggregate.concert.adapter.outbound.persistence.entity
 
-import com.my.sparta.concert.aggregate.concert.application.domain.model.Concert
 import jakarta.persistence.*
 import lombok.AccessLevel
 import lombok.Getter
@@ -12,12 +11,10 @@ import java.time.LocalDateTime
 @Table(name = "concert_schedule")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 class ConcertScheduleEntity(
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "concert_schedule_id", nullable = false)
     var concertScheduleId: String,
-
     @Column(name = "concert_name")
     var concertName: String,
     @Column(name = "start_date_time")
@@ -28,16 +25,11 @@ class ConcertScheduleEntity(
     var runningTime: Int,
     @Column(name = "notice")
     var notice: String,
-
     @ManyToOne(fetch = FetchType.LAZY)
     var concert: ConcertEntity,
-
     @ManyToOne(fetch = FetchType.LAZY)
     var concertHall: ConcertHallEntity,
-
 ) {
-
-
     constructor(concertScheduleId: String) : this(
         concertScheduleId = concertScheduleId,
         concertName = "",
@@ -48,6 +40,4 @@ class ConcertScheduleEntity(
         concert = ConcertEntity(),
         concertHall = ConcertHallEntity(),
     )
-
-
 }

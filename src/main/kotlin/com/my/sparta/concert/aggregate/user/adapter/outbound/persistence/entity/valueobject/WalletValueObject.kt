@@ -7,9 +7,7 @@ import jakarta.persistence.Enumerated
 
 @Embeddable
 class WalletValueObject(
-
     @Enumerated(EnumType.STRING)
     val paymentType: PaymentType,
     val money: Double,
-
 )

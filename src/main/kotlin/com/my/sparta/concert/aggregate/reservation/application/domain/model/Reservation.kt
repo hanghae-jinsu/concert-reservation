@@ -12,16 +12,12 @@ import com.my.sparta.concert.aggregate.user.application.domain.model.Users
 import java.util.*
 
 class Reservation(
-
     var reservationId: String,
     var chargeInfo: ChargeInfo,
     var concertInfo: ConcertInfo,
     var buyerInfo: BuyerInfo,
-
-    ) {
-
+) {
     companion object {
-
         fun createReservation(
             concert: Concert,
             userInfo: Users,
@@ -32,22 +28,25 @@ class Reservation(
         ): Reservation {
             return Reservation(
                 reservationId = UUID.randomUUID().toString(),
-                chargeInfo = ChargeInfo(
-                    payment.paymentId,
-                    payment.paymentType
-                ),
-                concertInfo = ConcertInfo(
-                    concert.concertId,
-                    concert.concertName,
-                    SeatInfo(concertSeat.id),
-                    concert.runningTime
-                ),
-                buyerInfo = BuyerInfo(
-                    userInfo.userId,
-                    totalPrice,
-                    command.count,
-                    concert.targetAge
-                )
+                chargeInfo =
+                    ChargeInfo(
+                        payment.paymentId,
+                        payment.paymentType,
+                    ),
+                concertInfo =
+                    ConcertInfo(
+                        concert.concertId,
+                        concert.concertName,
+                        SeatInfo(concertSeat.id),
+                        concert.runningTime,
+                    ),
+                buyerInfo =
+                    BuyerInfo(
+                        userInfo.userId,
+                        totalPrice,
+                        command.count,
+                        concert.targetAge,
+                    ),
             )
         }
     }

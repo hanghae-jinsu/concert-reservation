@@ -14,16 +14,14 @@ import org.springframework.stereotype.Component
 @RequiredArgsConstructor
 class ConcertPersistenceAdapter(
     private val concertRepository: ConcertJpaRepository,
-    private val concertPersistenceMapper: ConcertPersistenceMapper
+    private val concertPersistenceMapper: ConcertPersistenceMapper,
 ) : LoadConcertPort {
-
     override fun getConcertInfoById(concertId: String): Concert {
+        val concertEntity =
+            concertRepository.findById(concertId).orElseThrow {
+                EntityNotFoundException("해당 $concertId 로는 entity를 찾을 수 없습니다.")
+            }
 
-        val concertEntity = concertRepository.findById(concertId).orElseThrow {
-            EntityNotFoundException("해당 $concertId 로는 entity를 찾을 수 없습니다.")
-        }
-
-        return concertPersistenceMapper.mapToDomain(concertEntity);
-
+        return concertPersistenceMapper.mapToDomain(concertEntity)
     }
 }

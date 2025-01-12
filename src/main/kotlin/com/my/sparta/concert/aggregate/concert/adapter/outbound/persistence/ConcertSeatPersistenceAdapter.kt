@@ -14,24 +14,19 @@ import org.springframework.stereotype.Component
 @Component
 @RequiredArgsConstructor
 class ConcertSeatPersistenceAdapter(
-
     private val concertSeatRepository: ConcertSeatJpaRepository,
-    private val concertSeatPersistenceMapper: ConcertSeatPersistenceMapper
-
+    private val concertSeatPersistenceMapper: ConcertSeatPersistenceMapper,
 ) : LoadConcertSeatPort, SaveConcertSeatPort {
-
-
-    override fun getConcertSeatDetailInfo(seatId: List<Int>, scheduleId: String) {
-
+    override fun getConcertSeatDetailInfo(
+        seatId: List<Int>,
+        scheduleId: String,
+    ) {
         concertSeatRepository.findByIdAndScheduleId(seatId = seatId, scheduleId).ifPresent {
             throw EntityExistsException("해당하는 id $seatId 는 이미 예약된 좌석 입니다.")
         }
-
     }
 
     override fun saveConcertSeat(domain: List<ConcertSeat>) {
-
         concertSeatRepository.saveAll(concertSeatPersistenceMapper.mapToEntities(domain))
-
     }
 }

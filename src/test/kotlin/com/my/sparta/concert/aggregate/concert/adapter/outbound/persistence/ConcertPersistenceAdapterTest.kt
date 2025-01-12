@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class ConcertPersistenceAdapterTest {
-
     private val concertRepository: ConcertJpaRepository = mockk()
     private val concertPersistenceMapper: ConcertPersistenceMapper = mockk()
     private val adapter = ConcertPersistenceAdapter(concertRepository, concertPersistenceMapper)
@@ -20,18 +19,19 @@ class ConcertPersistenceAdapterTest {
     fun `getConcertInfoById should return concert info when concert exists`() {
         // Arrange
         val concertId = "concert123"
-        val concertEntity = ConcertEntity(
-            concertId = concertId,
-
-        )
-        val concert = Concert(
-            concertId = concertId,
-            concertName = "Amazing Concert",
-            runningTime = 100,
-            targetAge = 10,
-            notice = "",
-            cost = 1000.0
-        )
+        val concertEntity =
+            ConcertEntity(
+                concertId = concertId,
+            )
+        val concert =
+            Concert(
+                concertId = concertId,
+                concertName = "Amazing Concert",
+                runningTime = 100,
+                targetAge = 10,
+                notice = "",
+                cost = 1000.0,
+            )
 
         every { concertRepository.findById(concertId) } returns java.util.Optional.of(concertEntity)
         every { concertPersistenceMapper.mapToDomain(concertEntity) } returns concert
@@ -51,11 +51,10 @@ class ConcertPersistenceAdapterTest {
         every { concertRepository.findById(concertId) } returns java.util.Optional.empty()
 
         // Act & Assert
-        val exception = assertThrows(EntityNotFoundException::class.java) {
-            adapter.getConcertInfoById(concertId)
-        }
+        val exception =
+            assertThrows(EntityNotFoundException::class.java) {
+                adapter.getConcertInfoById(concertId)
+            }
         assertEquals("해당 $concertId 로는 entity를 찾을 수 없습니다.", exception.message)
     }
-
 }
-

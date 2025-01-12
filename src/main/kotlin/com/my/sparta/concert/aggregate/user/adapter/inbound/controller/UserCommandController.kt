@@ -20,9 +20,8 @@ import org.springframework.web.bind.annotation.RestController
 @RequiredArgsConstructor
 class UserCommandController(
     val userChargeMoneyUseCase: UserChargeMoneyUseCase,
-    val userWebMapper: UserWebMapper
+    val userWebMapper: UserWebMapper,
 ) {
-
     @Operation(summary = "해당 유저 잔고를 충전한다.", description = "유저의 잔고를 추가한다.")
     @ApiResponses(
         value = [
@@ -33,13 +32,11 @@ class UserCommandController(
     @Tag(name = "money", description = "money")
     @PostMapping("/money/{userId}")
     fun chargeMoney(
-        @RequestBody request: UserChargeMoneyRequest
+        @RequestBody request: UserChargeMoneyRequest,
     ): ResponseEntity<UserWalletInfoResponse> {
         val chargeCommand = userWebMapper.mapToCommand(request)
-        val chargeMoney = userChargeMoneyUseCase.chargeMoney(chargeCommand);
+        val chargeMoney = userChargeMoneyUseCase.chargeMoney(chargeCommand)
 
         return ResponseEntity.ok(UserWalletInfoResponse(chargeMoney.userId, chargeMoney.wallet.money))
-
     }
-
 }

@@ -23,7 +23,6 @@ class TokenQueuePersistenceAdapter(
     private val tokenPersistenceMapper: TokenPersistenceMapper,
     private val tokenQueueJpaRepository: TokenQueueJpaRepository,
 ) : SaveUserTokenPort, SaveQueueingTokenPort, LoadQueueingTokenPort, DeleteQueueingTokenPort {
-
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     override fun saveUserToken(token: UserToken): String {
@@ -34,32 +33,26 @@ class TokenQueuePersistenceAdapter(
     }
 
     override fun loadActivatableTokens(): List<UserTokenEntity> {
-
-
-        val dateTime = LocalDateTime.now();
+        val dateTime = LocalDateTime.now()
         val pageable = PageRequest.of(0, 50)
 
         logger.info("$dateTime : loadActivatableTokens ")
 
-        return tokenQueueJpaRepository.findByTokenNonExpired(dateTime, pageable);
-
+        return tokenQueueJpaRepository.findByTokenNonExpired(dateTime, pageable)
     }
 
     override fun loadExpiredTargetTokens(): List<UserTokenEntity> {
-        val dateTime = LocalDateTime.now();
+        val dateTime = LocalDateTime.now()
 
         logger.info("$dateTime : loadExpiredTargetTokens")
-        return tokenQueueJpaRepository.findByExpiredTargetToken(dateTime);
-
+        return tokenQueueJpaRepository.findByExpiredTargetToken(dateTime)
     }
 
     override fun saveTokens(tokens: List<UserTokenEntity>) {
-
-        tokenQueueJpaRepository.saveAll(tokens);
+        tokenQueueJpaRepository.saveAll(tokens)
     }
 
     override fun deleteTokens(tokens: List<UserTokenEntity>) {
-
-        tokenQueueJpaRepository.deleteAll(tokens);
+        tokenQueueJpaRepository.deleteAll(tokens)
     }
 }

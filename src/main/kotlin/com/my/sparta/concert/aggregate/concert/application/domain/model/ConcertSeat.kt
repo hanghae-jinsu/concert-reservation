@@ -4,9 +4,7 @@ import lombok.Getter
 
 @Getter
 class ConcertSeat(
-
     var userId: String,
     var concertScheduleId: String,
     var id: Int,
-
 )

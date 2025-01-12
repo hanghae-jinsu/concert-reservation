@@ -8,13 +8,11 @@ import com.my.sparta.concert.aggregate.reservation.application.domain.model.valu
 import com.my.sparta.concert.aggregate.reservation.application.domain.model.valueobject.ChargeInfo
 import com.my.sparta.concert.aggregate.reservation.application.domain.model.valueobject.ConcertInfo
 import com.my.sparta.concert.aggregate.user.application.domain.valueobject.PaymentType
-import io.mockk.every
-import io.mockk.mockk
+import io.mockk.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class ReservationPersistenceAdapterTest {
-
     private val reservationRepository: ReservationJpaRepository = mockk()
     private val reservationPersistenceMapper: ReservationPersistenceMapper = mockk()
     private val adapter = ReservationPersistenceAdapter(reservationRepository, reservationPersistenceMapper)
@@ -23,65 +21,70 @@ class ReservationPersistenceAdapterTest {
     fun `SaveReservationHistory should map, save, and return domain reservations`() {
         // Arrange
         val chargeInfo = ChargeInfo(paymentId = "payment123", paymentType = PaymentType.CARD)
-        val concertInfo = ConcertInfo(
-            concertId = "concert123",
-            concertName = "Amazing Concert",
-            seatInfo = mockk(), // Assuming SeatInfo is a value object, mocked here
-            runningTime = 120
-        )
-        val buyerInfo = BuyerInfo(
-            userId = "user123",
-            cost = 150.0,
-            count = 2,
-            targetAge = 18
-        )
-        val domainReservations = listOf(
-            Reservation("reservation1", chargeInfo, concertInfo, buyerInfo),
-            Reservation("reservation2", chargeInfo, concertInfo, buyerInfo)
-        )
-
-        val reservationEntities = listOf(
-            ReservationEntity(
-                reservationId = "reservation1",
-                paymentId = "payment123",
-                paymentType = PaymentType.CARD,
+        val concertInfo =
+            ConcertInfo(
                 concertId = "concert123",
                 concertName = "Amazing Concert",
-                seatId = 101,
+                seatInfo = mockk(),
                 runningTime = 120,
-                userId = "user123",
-                cost = 150.0,
-                count = 2,
-                targetAge = 18
-            ),
-            ReservationEntity(
-                reservationId = "reservation2",
-                paymentId = "payment123",
-                paymentType = PaymentType.CARD,
-                concertId = "concert123",
-                concertName = "Amazing Concert",
-                seatId = 102,
-                runningTime = 120,
-                userId = "user123",
-                cost = 150.0,
-                count = 2,
-                targetAge = 18
             )
-        )
+        val buyerInfo =
+            BuyerInfo(
+                userId = "user123",
+                cost = 150.0,
+                count = 2,
+                targetAge = 18,
+            )
+        val domainReservations =
+            listOf(
+                Reservation("reservation1", chargeInfo, concertInfo, buyerInfo),
+                Reservation("reservation2", chargeInfo, concertInfo, buyerInfo),
+            )
+
+        val reservationEntities =
+            listOf(
+                ReservationEntity(
+                    reservationId = "reservation1",
+                    paymentId = "payment123",
+                    paymentType = PaymentType.CARD,
+                    concertId = "concert123",
+                    concertName = "Amazing Concert",
+                    seatId = 101,
+                    runningTime = 120,
+                    userId = "user123",
+                    cost = 150.0,
+                    count = 2,
+                    targetAge = 18,
+                ),
+                ReservationEntity(
+                    reservationId = "reservation2",
+                    paymentId = "payment123",
+                    paymentType = PaymentType.CARD,
+                    concertId = "concert123",
+                    concertName = "Amazing Concert",
+                    seatId = 102,
+                    runningTime = 120,
+                    userId = "user123",
+                    cost = 150.0,
+                    count = 2,
+                    targetAge = 18,
+                ),
+            )
 
         val savedEntities = reservationEntities
 
-        val mappedBackDomainReservations = listOf(
-            Reservation("reservation1", chargeInfo, concertInfo, buyerInfo),
-            Reservation("reservation2", chargeInfo, concertInfo, buyerInfo)
-        )
+        val mappedBackDomainReservations =
+            listOf(
+                Reservation("reservation1", chargeInfo, concertInfo, buyerInfo),
+                Reservation("reservation2", chargeInfo, concertInfo, buyerInfo),
+            )
 
         every { reservationPersistenceMapper.mapToJpaEntities(domainReservations) } returns reservationEntities
         every { reservationRepository.saveAll(reservationEntities) } returns savedEntities
         every { reservationPersistenceMapper.mapToDomainList(savedEntities) } returns mappedBackDomainReservations
 
         // Act
-        val result = adapter.SaveReservationHistory(domainReservations)
+        val result = adapter.saveReservationHistory(domainReservations)
 
         // Assert
         assertEquals(2, result.size)
@@ -95,6 +98,5 @@ class ReservationPersistenceAdapterTest {
         assertEquals(150.0, result[0].buyerInfo.cost)
         assertEquals(2, result[0].buyerInfo.count)
         assertEquals(18, result[0].buyerInfo.targetAge)
-
     }
 }
