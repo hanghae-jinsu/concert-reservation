@@ -29,6 +29,14 @@ class SeatLockPersistenceAdapter(
 
     }
 
+    override fun deleteSeatLocks(seatList: List<SeatLock>) {
+
+        logger.info("log deleteSeatLocks : {}", seatList);
+
+        val entities = seatLockPersistenceMapper.mapToEntities(seatList);
+        seatLockJpaRepository.deleteAll(entities);
+    }
+
     override fun getSeatLockByExpired(): List<SeatLock> {
 
         val now = LocalDateTime.now();

@@ -19,6 +19,10 @@ class SeatLockPersistenceMapper {
 
     }
 
+    fun mapToEntities(seatLocks: List<SeatLock>): List<SeatLockEntity> {
+        return seatLocks.stream().map(this::mapToJpaEntity).toList();
+    }
+
     fun mapToDomainList(seatList: List<SeatLockEntity>): List<SeatLock> {
         return seatList.stream().map(this::mapToDomain).toList();
     }
