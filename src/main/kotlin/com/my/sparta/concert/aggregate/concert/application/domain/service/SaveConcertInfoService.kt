@@ -9,6 +9,7 @@ import com.my.sparta.concert.aggregate.reservation.application.port.outbound.Loa
 import com.my.sparta.concert.aggregate.reservation.application.port.outbound.SaveConcertSeatPort
 import lombok.RequiredArgsConstructor
 import lombok.extern.slf4j.Slf4j
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
@@ -19,7 +20,7 @@ import java.time.LocalDateTime
 class SaveConcertInfoService(
     private val loadConcertSeatPort: LoadConcertSeatPort,
     private val saveConcertSeatPort: SaveConcertSeatPort,
-    private val saveSeatLockPort: SaveSeatLockPort,
+    private val saveSeatLockPort: SaveSeatLockPort
 ) : SaveConcertInfoUseCase {
 
     // 이벤트 사용하도록 리팩토링
@@ -30,15 +31,16 @@ class SaveConcertInfoService(
         loadConcertSeatPort.getConcertSeatDetailInfo(command.concertSeatNumber, command.concertScheduleId);
 
         val concertSeat = ConcertSeat(
+            command.concertSeatNumber,
             command.userId,
             command.concertScheduleId,
-            command.concertSeatNumber,
             ConcertSeat.SeatStatus.HOLD
         )
 
         val currentTime = LocalDateTime.now();
-        val seatLock = SeatLock(command.concertSeatNumber, currentTime, currentTime.plusMinutes(3), command.userId)
+        val seatLock = SeatLock("", command.concertSeatNumber, currentTime, currentTime.plusMinutes(3), command.userId)
 
+        saveSeatLockPort.saveHoldSeatInfo(seatLock);
 
         return saveConcertSeatPort.saveConcertSeat(concertSeat)
 
