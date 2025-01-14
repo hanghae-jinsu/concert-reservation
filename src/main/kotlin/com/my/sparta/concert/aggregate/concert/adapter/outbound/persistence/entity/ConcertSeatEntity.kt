@@ -23,6 +23,7 @@ class ConcertSeatEntity(
     var seatStatus: SeatStatus,
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "concert_schedule_id", nullable = false)
     val concertSchedule: ConcertScheduleEntity
 
 )

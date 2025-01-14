@@ -18,7 +18,7 @@ class FindCancelHoldSeatService(
     private val eventPublisher: ApplicationEventPublisher,
 ) : CancelHoldConcertSeatUseCase {
 
-    @Scheduled(cron = "* 0/1 * * * ?")
+    @Scheduled(cron = "0 0/1 * * * ?")
     @Transactional
     override fun changeAvailableSeat() {
 

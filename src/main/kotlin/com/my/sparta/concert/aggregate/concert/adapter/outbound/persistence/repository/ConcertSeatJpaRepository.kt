@@ -12,7 +12,7 @@ interface ConcertSeatJpaRepository : JpaRepository<ConcertSeatEntity, Long> {
     select cs 
     from ConcertSeatEntity as cs 
     where cs.concertSeatId IN :seatId 
-      and cs.concertScheduleId = :scheduleId
+      and cs.concertSchedule.concertScheduleId = :scheduleId
 """,
     )
     fun findByIdAndScheduleId(

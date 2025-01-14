@@ -17,6 +17,7 @@ class ConcertScheduleEntity(
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "concert_schedule_id", nullable = false)
     var concertScheduleId: String,
+
     @Column(name = "concert_name")
     var concertName: String,
     @Column(name = "start_date_time")
