@@ -9,12 +9,9 @@ import com.my.sparta.concert.aggregate.reservation.application.port.outbound.Loa
 import com.my.sparta.concert.aggregate.reservation.application.port.outbound.SaveReservationPort
 import com.my.sparta.concert.aggregate.user.application.port.outbound.BuyIngTicketUserUseCase
 import lombok.RequiredArgsConstructor
-import lombok.extern.slf4j.Slf4j
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
-// Todo; layer 하나 더 만들 것.
-@Slf4j
 @Service
 @RequiredArgsConstructor
 class ConcertReservationFacade(
@@ -40,7 +37,6 @@ class ConcertReservationFacade(
         val paymentInfo = savePaymentInfoUseCase.savePayment(userInfo, concert, command);
 
         val reservation =  Reservation.createReservation(concert, userInfo, savedConcertSeat, command, paymentInfo)
-
 
         return saveReservationPort.saveReservationHistory(reservation)
 

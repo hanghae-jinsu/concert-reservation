@@ -21,8 +21,10 @@ class ConcertScheduleSchedulePersistenceAdapter(
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     override fun getConcertScheduleById(concertId: String): List<ConcertSchedule> {
+
         val concertScheduleList = concertScheduleRepository.findByConcertId(concertId)
 
         return concertSchedulePersistenceMapper.mapToDomainList(concertScheduleList)
+
     }
 }
