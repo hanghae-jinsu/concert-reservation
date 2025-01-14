@@ -4,10 +4,7 @@ import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.entity.
 import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.mapper.TokenPersistenceMapper
 import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.repository.TokenQueueJpaRepository
 import com.my.sparta.concert.aggregate.user.application.domain.model.UserToken
-import com.my.sparta.concert.aggregate.user.application.port.outbound.DeleteQueueingTokenPort
-import com.my.sparta.concert.aggregate.user.application.port.outbound.LoadQueueingTokenPort
-import com.my.sparta.concert.aggregate.user.application.port.outbound.SaveQueueingTokenPort
-import com.my.sparta.concert.aggregate.user.application.port.outbound.SaveUserTokenPort
+import com.my.sparta.concert.aggregate.user.application.port.outbound.*
 import lombok.RequiredArgsConstructor
 import lombok.extern.slf4j.Slf4j
 import org.slf4j.Logger
@@ -22,7 +19,9 @@ import java.time.LocalDateTime
 class TokenQueuePersistenceAdapter(
     private val tokenPersistenceMapper: TokenPersistenceMapper,
     private val tokenQueueJpaRepository: TokenQueueJpaRepository,
-) : SaveUserTokenPort, SaveQueueingTokenPort, LoadQueueingTokenPort, DeleteQueueingTokenPort {
+) : SaveUserTokenPort, SaveQueueingTokenPort, LoadQueueingTokenPort, DeleteQueueingTokenPort,
+    LoadNonExpiredTokenPort {
+
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     override fun saveUserToken(token: UserToken): String {
@@ -46,6 +45,12 @@ class TokenQueuePersistenceAdapter(
 
         logger.info("$dateTime : loadExpiredTargetTokens")
         return tokenQueueJpaRepository.findByExpiredTargetToken(dateTime)
+    }
+
+    override fun validateActiveTokens(tokenString: Set<String>): Set<String> {
+
+        return tokenQueueJpaRepository.findByUsedTokens(tokenString);
+
     }
 
     override fun saveTokens(tokens: List<UserTokenEntity>) {
