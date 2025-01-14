@@ -1,5 +1,6 @@
 package com.my.sparta.concert.aggregate.concert.adapter.outbound.persistence.mapper
 
+import com.my.sparta.concert.aggregate.concert.adapter.outbound.persistence.entity.ConcertScheduleEntity
 import com.my.sparta.concert.aggregate.concert.adapter.outbound.persistence.entity.ConcertSeatEntity
 import com.my.sparta.concert.aggregate.concert.application.domain.model.ConcertSeat
 import org.springframework.stereotype.Component
@@ -9,10 +10,10 @@ class ConcertSeatPersistenceMapper {
 
     fun mapToDomain(entity: ConcertSeatEntity): ConcertSeat {
         return ConcertSeat(
-            entity.userId,
-            entity.concertScheduleId,
             entity.concertSeatId,
-            entity.isActive
+            entity.userId,
+            entity.concertSchedule.concertScheduleId,
+            entity.seatStatus
         )
     }
 
@@ -20,8 +21,10 @@ class ConcertSeatPersistenceMapper {
         return ConcertSeatEntity(
             domain.id,
             domain.userId,
-            domain.concertScheduleId,
-            domain.isActive
+            domain.seatStatus,
+            ConcertScheduleEntity(
+                domain.concertScheduleId
+            )
         )
     }
 

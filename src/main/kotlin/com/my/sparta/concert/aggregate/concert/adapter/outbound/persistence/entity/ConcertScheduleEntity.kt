@@ -5,6 +5,7 @@ import lombok.AccessLevel
 import lombok.Getter
 import lombok.NoArgsConstructor
 import java.time.LocalDateTime
+import java.util.*
 
 @Getter
 @Entity
@@ -16,6 +17,7 @@ class ConcertScheduleEntity(
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "concert_schedule_id", nullable = false)
     var concertScheduleId: String,
+
     @Column(name = "concert_name")
     var concertName: String,
     @Column(name = "start_date_time")
@@ -26,10 +28,15 @@ class ConcertScheduleEntity(
     var runningTime: Int,
     @Column(name = "notice")
     var notice: String,
-    @ManyToOne(fetch = FetchType.LAZY)
-    var concert: ConcertEntity,
-    @ManyToOne(fetch = FetchType.LAZY)
-    var concertHall: ConcertHallEntity,
+
+    @Column(name = "concert_id")
+    var concertId: String,
+    @Column(name = "concert_hall_id")
+    var concertHallId: String,
+
+    @OneToMany(mappedBy = "concertSchedule", cascade = [CascadeType.ALL], orphanRemoval = true)
+    val concertSeat: MutableList<ConcertSeatEntity>,
+
     var finished: Boolean,
 ) {
 
@@ -40,8 +47,9 @@ class ConcertScheduleEntity(
         endDateTime = LocalDateTime.now(),
         runningTime = 0,
         notice = "",
-        concert = ConcertEntity(),
-        concertHall = ConcertHallEntity(),
-        finished = false,
+        concertId = "",
+        concertHallId = "",
+        concertSeat = mutableListOf(),
+        finished = false
     )
 }
