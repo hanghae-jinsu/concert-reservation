@@ -6,4 +6,6 @@ interface SaveSeatLockPort {
 
     fun saveHoldSeatInfo(seatLock: SeatLock)
 
+    fun deleteSeatLocks(seatList: List<SeatLock>)
+
 }

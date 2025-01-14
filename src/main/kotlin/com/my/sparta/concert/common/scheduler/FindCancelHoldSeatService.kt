@@ -1,6 +1,7 @@
 package com.my.sparta.concert.common.scheduler
 
 import com.my.sparta.concert.aggregate.concert.application.domain.model.event.HoldConcertSeatEvent
+import com.my.sparta.concert.aggregate.concert.application.port.outbound.SaveSeatLockPort
 import com.my.sparta.concert.aggregate.reservation.application.port.outbound.LoadSeatLockPort
 import com.my.sparta.concert.common.scheduler.usecase.CancelHoldConcertSeatUseCase
 import lombok.RequiredArgsConstructor
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional
 @RequiredArgsConstructor
 class FindCancelHoldSeatService(
     private val loadSeatLockPort: LoadSeatLockPort,
+    private val saveSeatLockPort: SaveSeatLockPort,
     private val eventPublisher: ApplicationEventPublisher,
 ) : CancelHoldConcertSeatUseCase {
 
@@ -25,6 +27,8 @@ class FindCancelHoldSeatService(
         val eventList = seatList.map { seat -> HoldConcertSeatEvent(seat.seatId, seat.userId) }
 
         eventPublisher.publishEvent(eventList);
+
+        saveSeatLockPort.deleteSeatLocks(seatList);
 
     }
 }
