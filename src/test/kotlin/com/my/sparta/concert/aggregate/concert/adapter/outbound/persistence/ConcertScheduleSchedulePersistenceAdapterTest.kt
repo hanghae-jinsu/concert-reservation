@@ -6,13 +6,13 @@ import com.my.sparta.concert.aggregate.concert.adapter.outbound.persistence.enti
 import com.my.sparta.concert.aggregate.concert.adapter.outbound.persistence.mapper.ConcertSchedulePersistenceMapper
 import com.my.sparta.concert.aggregate.concert.adapter.outbound.persistence.repository.ConcertScheduleJpaRepository
 import com.my.sparta.concert.aggregate.concert.application.domain.model.ConcertSchedule
-import io.mockk.every
-import io.mockk.mockk
-import org.junit.jupiter.api.Assertions.assertEquals
+import io.mockk.*
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 
 class ConcertScheduleSchedulePersistenceAdapterTest {
+
     private val concertScheduleRepository: ConcertScheduleJpaRepository = mockk()
     private val concertSchedulePersistenceMapper: ConcertSchedulePersistenceMapper = mockk()
     private val adapter =
@@ -36,6 +36,7 @@ class ConcertScheduleSchedulePersistenceAdapterTest {
                     notice = "Please arrive 30 minutes early.",
                     concert = concertEntity,
                     concertHall = concertHallEntity,
+                    finished = false
                 ),
                 ConcertScheduleEntity(
                     concertScheduleId = "schedule2",
@@ -46,6 +47,7 @@ class ConcertScheduleSchedulePersistenceAdapterTest {
                     notice = "Please bring your ticket.",
                     concert = concertEntity,
                     concertHall = concertHallEntity,
+                    finished = false
                 ),
             )
 

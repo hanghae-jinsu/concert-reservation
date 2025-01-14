@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: concert
+  profiles:
+    active: test
+  datasource:
+    name: HangHaePlusDataSource
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      maximum-pool-size: 3
+      connection-timeout: 10000
+      max-lifetime: 60000
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    open-in-view: false
+    generate-ddl: false
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.timezone.default_storage: NORMALIZE_UTC
+      hibernate.jdbc.time_zone: Asia/Seoul
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui
+
+
+---
+spring.config.activate.on-profile: test
+
+spring:
+  datasource:
+    url: jdbc:tc:mysql://localhost:3310/concert?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: users
+    password: password
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
