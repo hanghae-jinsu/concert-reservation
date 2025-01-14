@@ -4,5 +4,6 @@ import com.my.sparta.concert.aggregate.concert.application.domain.model.ConcertS
 
 interface SaveConcertSeatPort {
 
-    fun saveConcertSeat(domain: List<ConcertSeat>): List<ConcertSeat>
+    fun saveConcertSeat(domain: ConcertSeat): ConcertSeat
+    fun saveAllConcertSeat(seatInfoList: List<ConcertSeat>)
 }

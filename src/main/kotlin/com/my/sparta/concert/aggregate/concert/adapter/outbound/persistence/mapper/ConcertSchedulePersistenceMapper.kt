@@ -32,6 +32,7 @@ class ConcertSchedulePersistenceMapper {
             entity.userId,
             entity.concertScheduleId,
             entity.concertSeatId,
+            isActive = false
         )
     }
 }

@@ -19,7 +19,7 @@ class ConcertSeatPersistenceAdapter(
 ) : LoadConcertSeatPort, SaveConcertSeatPort {
 
     override fun getConcertSeatDetailInfo(
-        seatId: List<Int>,
+        seatId: Int,
         scheduleId: String,
     ) {
         concertSeatRepository.findByIdAndScheduleId(seatId = seatId, scheduleId).ifPresent {
@@ -27,8 +27,24 @@ class ConcertSeatPersistenceAdapter(
         }
     }
 
-    override fun saveConcertSeat(domain: List<ConcertSeat>) : List<ConcertSeat> {
-        val savedAllEntity = concertSeatRepository.saveAll(concertSeatPersistenceMapper.mapToEntities(domain))
-        return concertSeatPersistenceMapper.mapToDomainList(savedAllEntity);
+    override fun getConcertSeatInfoList(seatIdList: List<Int>): List<ConcertSeat> {
+
+        val seats = seatIdList.mapNotNull { id ->
+            concertSeatRepository.findById(id.toLong()).orElse(null)
+        }
+
+        return concertSeatPersistenceMapper.mapToDomainList(seats);
+
+    }
+
+    override fun saveConcertSeat(domain: ConcertSeat): ConcertSeat {
+        val savedAllEntity = concertSeatRepository.save(concertSeatPersistenceMapper.mapToEntity(domain))
+        return concertSeatPersistenceMapper.mapToDomain(savedAllEntity);
+    }
+
+    override fun saveAllConcertSeat(seatInfoList: List<ConcertSeat>) {
+
+        concertSeatRepository.saveAll(concertSeatPersistenceMapper.mapToEntities(seatInfoList))
+
     }
 }

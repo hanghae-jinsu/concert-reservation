@@ -16,9 +16,9 @@ class ReservationPersistenceAdapter(
 ) : SaveReservationPort {
 
     @Transactional
-    override fun saveReservationHistory(reservations: List<Reservation>): List<Reservation> {
-        val reservationEntity = reservationPersistenceMapper.mapToJpaEntities(reservations)
-        val savedEntity = reservationRepository.saveAll(reservationEntity)
-        return reservationPersistenceMapper.mapToDomainList(savedEntity)
+    override fun saveReservationHistory(reservation: Reservation): Reservation {
+        val reservationEntity = reservationPersistenceMapper.mapToJpaEntity(reservation)
+        val savedEntity = reservationRepository.save(reservationEntity)
+        return reservationPersistenceMapper.mapToDomain(savedEntity)
     }
 }

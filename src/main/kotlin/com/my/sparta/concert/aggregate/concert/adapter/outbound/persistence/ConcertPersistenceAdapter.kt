@@ -28,4 +28,14 @@ class ConcertPersistenceAdapter(
 
         return concertPersistenceMapper.mapToDomain(concertEntity)
     }
+
+
+    override fun getConcertInfoByName(name: String): Concert {
+
+        val concertEntity = concertRepository.findByConcertName(name).orElseThrow {
+            EntityNotFoundException("해당 $name 로는 entity를 찾을 수 없습니다.");
+        }
+
+        return concertPersistenceMapper.mapToDomain(concertEntity)
+    }
 }

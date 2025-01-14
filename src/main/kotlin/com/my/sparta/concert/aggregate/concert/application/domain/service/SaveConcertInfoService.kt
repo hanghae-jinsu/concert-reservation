@@ -2,6 +2,8 @@ package com.my.sparta.concert.aggregate.concert.application.domain.service
 
 import com.my.sparta.concert.aggregate.concert.application.domain.model.ConcertSeat
 import com.my.sparta.concert.aggregate.concert.application.port.inbound.SaveConcertInfoUseCase
+import com.my.sparta.concert.aggregate.concert.application.port.outbound.SaveSeatLockPort
+import com.my.sparta.concert.aggregate.reservation.application.domain.model.SeatLock
 import com.my.sparta.concert.aggregate.reservation.application.port.inbound.command.ConcertReservationCommand
 import com.my.sparta.concert.aggregate.reservation.application.port.outbound.LoadConcertSeatPort
 import com.my.sparta.concert.aggregate.reservation.application.port.outbound.SaveConcertSeatPort
@@ -9,6 +11,7 @@ import lombok.RequiredArgsConstructor
 import lombok.extern.slf4j.Slf4j
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
 
 @Slf4j
 @Service
@@ -16,17 +19,26 @@ import org.springframework.transaction.annotation.Transactional
 class SaveConcertInfoService(
     private val loadConcertSeatPort: LoadConcertSeatPort,
     private val saveConcertSeatPort: SaveConcertSeatPort,
+    private val saveSeatLockPort: SaveSeatLockPort,
 ) : SaveConcertInfoUseCase {
 
+    // 이벤트 사용하도록 리팩토링
     @Transactional
-    override fun saveConcertSeat(command: ConcertReservationCommand): List<ConcertSeat> {
+    override fun saveConcertSeat(command: ConcertReservationCommand): ConcertSeat {
+
         // 콘서트 자리 있는지 확인
         loadConcertSeatPort.getConcertSeatDetailInfo(command.concertSeatNumber, command.concertScheduleId);
 
-        val concertSeat =
-            command.concertSeatNumber.map { value ->
-                ConcertSeat(command.userId, command.concertScheduleId, value, false)
-            }
+        val concertSeat = ConcertSeat(
+            command.userId,
+            command.concertScheduleId,
+            command.concertSeatNumber,
+            ConcertSeat.SeatStatus.HOLD
+        )
+
+        val currentTime = LocalDateTime.now();
+        val seatLock = SeatLock(command.concertSeatNumber, currentTime, currentTime.plusMinutes(3), command.userId)
+
 
         return saveConcertSeatPort.saveConcertSeat(concertSeat)
 

@@ -5,6 +5,6 @@ import com.my.sparta.concert.aggregate.reservation.application.port.inbound.comm
 
 interface SaveConcertInfoUseCase {
 
-    fun saveConcertSeat(command: ConcertReservationCommand): List<ConcertSeat>
+    fun saveConcertSeat(command: ConcertReservationCommand): ConcertSeat
 
 }

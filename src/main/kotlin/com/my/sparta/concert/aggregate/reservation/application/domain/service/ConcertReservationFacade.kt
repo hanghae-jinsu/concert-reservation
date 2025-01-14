@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional
 @RequiredArgsConstructor
 class ConcertReservationFacade(
     private val loadConcertPort: LoadConcertPort,
-
     private val saveConcertInfoUseCase: SaveConcertInfoUseCase,
     private val buyIngTicketUserUseCase: BuyIngTicketUserUseCase,
     private val savePaymentInfoUseCase: SavePaymentInfoUseCase,
@@ -27,23 +26,21 @@ class ConcertReservationFacade(
 ) : ReserveConcertUseCase {
 
     @Transactional
-    override fun reserve(command: ConcertReservationCommand): List<Reservation> {
+    override fun reserve(command: ConcertReservationCommand): Reservation {
 
-        require(command.concertSeatNumber.size == command.count) {
-            "해당 요청은 요청하는 seat size ${command.concertSeatNumber.size} 와  count ${command.count}가 다릅니다."
+        require(command.concertSeatNumber == command.count) {
+            "해당 요청은 요청하는 seat size ${command.concertSeatNumber} 와  count ${command.count}가 다릅니다."
         }
 
         val concert = loadConcertPort.getConcertInfoById(command.concertId)
 
-        var savedConcertSeatList = saveConcertInfoUseCase.saveConcertSeat(command);
+        val savedConcertSeat = saveConcertInfoUseCase.saveConcertSeat(command);
 
         val userInfo = buyIngTicketUserUseCase.saveUser(command, concert);
-        var paymentInfo = savePaymentInfoUseCase.savePayment(userInfo, concert, command);
+        val paymentInfo = savePaymentInfoUseCase.savePayment(userInfo, concert, command);
 
-        val reservation =
-            savedConcertSeatList.map { values ->
-                Reservation.createReservation(concert, userInfo, values, command, paymentInfo)
-            }
+        val reservation =  Reservation.createReservation(concert, userInfo, savedConcertSeat, command, paymentInfo)
+
 
         return saveReservationPort.saveReservationHistory(reservation)
 

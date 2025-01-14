@@ -6,7 +6,7 @@ data class ConcertReservationCommand(
     val concertId: String,
     val userId: String,
     val concertScheduleId: String,
-    val concertSeatNumber: List<Int>,
+    val concertSeatNumber: Int,
     val count: Int,
     val paymentType: PaymentType,
 )
