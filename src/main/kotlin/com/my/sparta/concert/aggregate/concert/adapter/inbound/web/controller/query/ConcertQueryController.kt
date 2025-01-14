@@ -24,6 +24,7 @@ class ConcertQueryController(
     private val getConcertScheduleInfoPort: GetConcertScheduleInfoPort,
     private val concertScheduleWebMapper: ConcertScheduleWebMapper,
 ) {
+
     @Operation(
         operationId = "getReservableSeats",
         summary = "콘서트 예약 가능 목록 조회",
@@ -59,7 +60,9 @@ class ConcertQueryController(
     fun getReservableSeats(
         @PathVariable("concertId") concertId: String,
     ): ResponseEntity<ConcertScheduleResponse> {
+
         val concertScheduleList = getConcertScheduleInfoPort.getConcertScheduleById(concertId)
         return ResponseEntity.ok(concertScheduleWebMapper.mapToListResponse(concertScheduleList))
+
     }
 }

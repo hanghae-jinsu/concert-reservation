@@ -19,9 +19,10 @@ class ConcertSeatEntity(
 
     val userId: String,
 
-    @Column(name = "concert_schedule_id")
-    val concertScheduleId: String,
-
     @Enumerated(EnumType.STRING)
-    var seatStatus: SeatStatus
+    var seatStatus: SeatStatus,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    val concertSchedule: ConcertScheduleEntity
+
 )
