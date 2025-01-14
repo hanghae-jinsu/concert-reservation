@@ -20,9 +20,8 @@ import org.springframework.web.bind.annotation.RestController
 class UserQueryController(
     val generateTokenUseCase: GenerateTokenUseCase,
     val loadUserInfoPort: LoadUserInfoPort,
-    val userWebMapper: UserWebMapper
+    val userWebMapper: UserWebMapper,
 ) {
-
     @Operation(summary = "유저 토큰을 발급한다.", description = "유저 토큰을 발급한다.")
     @ApiResponses(
         value = [
@@ -50,10 +49,7 @@ class UserQueryController(
     fun findChargedMoney(
         @PathVariable("userId") userId: String,
     ): ResponseEntity<UserWalletInfoResponse> {
-
         val userInfoById = loadUserInfoPort.getUserInfoById(userId)
         return ResponseEntity.ok(userWebMapper.mapToResponse(userInfoById))
-
     }
-
 }

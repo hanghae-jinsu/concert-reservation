@@ -8,9 +8,8 @@ import org.springframework.stereotype.Component
 
 @Component
 class ConcertSchedulePersistenceMapper {
-
     fun mapToDomainList(concertScheduleList: List<ConcertScheduleEntity>): List<ConcertSchedule> {
-        return concertScheduleList.stream().map(this::mapToDomain).toList();
+        return concertScheduleList.stream().map(this::mapToDomain).toList()
     }
 
     private fun mapToDomain(entity: ConcertScheduleEntity): ConcertSchedule {
@@ -20,21 +19,20 @@ class ConcertSchedulePersistenceMapper {
             entity.startDateTime,
             entity.endDateTime,
             entity.runningTime,
-            entity.notice
+            entity.notice,
         )
     }
 
     private fun mapToSeatList(concertSeat: MutableList<ConcertSeatEntity>): List<ConcertSeat> {
-        return concertSeat.stream().map(this::mapToSeat).toList();
+        return concertSeat.stream().map(this::mapToSeat).toList()
     }
 
     private fun mapToSeat(entity: ConcertSeatEntity): ConcertSeat {
         return ConcertSeat(
             entity.userId,
             entity.concertScheduleId,
-            entity.concertSeatId
+            entity.concertSeatId,
+            isActive = false
         )
-
     }
-
 }

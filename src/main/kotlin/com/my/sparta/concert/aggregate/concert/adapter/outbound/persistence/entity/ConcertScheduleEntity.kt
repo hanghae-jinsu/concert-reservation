@@ -1,6 +1,5 @@
 package com.my.sparta.concert.aggregate.concert.adapter.outbound.persistence.entity
 
-import com.my.sparta.concert.aggregate.concert.application.domain.model.Concert
 import jakarta.persistence.*
 import lombok.AccessLevel
 import lombok.Getter
@@ -17,7 +16,6 @@ class ConcertScheduleEntity(
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "concert_schedule_id", nullable = false)
     var concertScheduleId: String,
-
     @Column(name = "concert_name")
     var concertName: String,
     @Column(name = "start_date_time")
@@ -28,15 +26,12 @@ class ConcertScheduleEntity(
     var runningTime: Int,
     @Column(name = "notice")
     var notice: String,
-
     @ManyToOne(fetch = FetchType.LAZY)
     var concert: ConcertEntity,
-
     @ManyToOne(fetch = FetchType.LAZY)
     var concertHall: ConcertHallEntity,
-
+    var finished: Boolean,
 ) {
-
 
     constructor(concertScheduleId: String) : this(
         concertScheduleId = concertScheduleId,
@@ -47,7 +42,6 @@ class ConcertScheduleEntity(
         notice = "",
         concert = ConcertEntity(),
         concertHall = ConcertHallEntity(),
+        finished = false,
     )
-
-
 }

@@ -6,12 +6,9 @@ import org.springframework.stereotype.Component
 
 @Component
 class ConcertScheduleWebMapper {
-
     fun mapToListResponse(concertScheduleList: List<ConcertSchedule>): ConcertScheduleResponse {
         return ConcertScheduleResponse(
-            concertScheduleList = concertScheduleList.toMutableList()
+            concertScheduleList = concertScheduleList.toMutableList(),
         )
-
     }
-
 }

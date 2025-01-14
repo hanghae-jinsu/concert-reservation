@@ -7,17 +7,14 @@ import com.my.sparta.concert.aggregate.user.application.domain.model.Payment
 import lombok.RequiredArgsConstructor
 import org.springframework.stereotype.Component
 
-
 @Component
 @RequiredArgsConstructor
 class PaymentPersistenceAdapter(
     private val paymentRepository: PaymentJpaRepository,
-    private val paymentPersistenceMapper: PaymentPersistenceMapper
+    private val paymentPersistenceMapper: PaymentPersistenceMapper,
 ) : SavePaymentHistoryPort {
-
     override fun savePaymentInfo(payment: Payment): Payment {
-
         val savedEntity = paymentRepository.save(paymentPersistenceMapper.mapToCreateJpaEntity(payment))
-        return paymentPersistenceMapper.mapToDomain(savedEntity);
+        return paymentPersistenceMapper.mapToDomain(savedEntity)
     }
 }

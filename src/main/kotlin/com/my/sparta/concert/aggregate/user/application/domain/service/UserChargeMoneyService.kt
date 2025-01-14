@@ -10,16 +10,18 @@ import lombok.extern.slf4j.Slf4j
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 class UserChargeMoneyService(
     private val saveMoneyPort: SaveMoneyPort,
-    private val loadUserInfoPort: LoadUserInfoPort
+    private val loadUserInfoPort: LoadUserInfoPort,
 ) : UserChargeMoneyUseCase {
-
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
+
+    @Transactional
     override fun chargeMoney(command: UserChargeCommand): Users {
 
         val userInfo = loadUserInfoPort.getUserInfoById(command.userId)
@@ -31,6 +33,5 @@ class UserChargeMoneyService(
         val user = saveMoneyPort.saveMoney(userInfo)
 
         return user
-
     }
 }

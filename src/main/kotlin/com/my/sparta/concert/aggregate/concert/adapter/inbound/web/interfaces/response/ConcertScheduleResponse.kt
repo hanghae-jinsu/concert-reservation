@@ -3,6 +3,5 @@ package com.my.sparta.concert.aggregate.concert.adapter.inbound.web.interfaces.r
 import com.my.sparta.concert.aggregate.concert.application.domain.model.ConcertSchedule
 
 class ConcertScheduleResponse(
-
-    val concertScheduleList: MutableList<ConcertSchedule>
+    val concertScheduleList: MutableList<ConcertSchedule>,
 )

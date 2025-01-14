@@ -3,11 +3,13 @@ package com.my.sparta.concert.common.util
 import java.util.concurrent.ConcurrentHashMap
 
 class TokenCache<K, V>(private val maxSize: Int) {
-
     private val cache = ConcurrentHashMap<K, V>()
     private val keys = ArrayDeque<K>()
 
-    fun put(key: K, value: V) {
+    fun put(
+        key: K,
+        value: V,
+    ) {
         synchronized(this) {
             // 캐시에 값 추가
             cache[key] = value

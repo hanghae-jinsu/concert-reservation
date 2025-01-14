@@ -4,6 +4,4 @@ import com.my.sparta.concert.aggregate.reservation.adapter.outbound.persistence.
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
-interface ReservationJpaRepository : JpaRepository<ReservationEntity, UUID> {
-
-}
+interface ReservationJpaRepository : JpaRepository<ReservationEntity, UUID>

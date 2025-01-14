@@ -4,9 +4,17 @@ import lombok.Getter
 
 @Getter
 class ConcertSeat(
-
     var userId: String,
     var concertScheduleId: String,
     var id: Int,
+    var seatStatus: SeatStatus
+) {
 
-)
+    fun statusUpdate() {
+        this.seatStatus = SeatStatus.AVAILABLE
+    }
+
+    enum class SeatStatus {
+        AVAILABLE, HOLD, RESERVED
+    }
+}
