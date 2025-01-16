@@ -16,10 +16,11 @@ class TestcontainersConfiguration {
     companion object {
 
         val mySqlContainer: MySQLContainer<*> =
-            MySQLContainer(DockerImageName.parse("mysql:8.0"))
+            MySQLContainer(DockerImageName.parse("mysql:latest"))
                 .withDatabaseName("concert")
                 .withUsername("users")
                 .withPassword("password")
+                .withInitScript("static/data/concert_script.sql")
                 .apply {
                     start()
                 }

@@ -18,7 +18,6 @@ class ConcertPersistenceAdapter(
     private val concertPersistenceMapper: ConcertPersistenceMapper,
 ) : LoadConcertPort {
 
-    @Lock(LockModeType.PESSIMISTIC_READ)
     override fun getConcertInfoById(concertId: String): Concert {
 
         val concertEntity =

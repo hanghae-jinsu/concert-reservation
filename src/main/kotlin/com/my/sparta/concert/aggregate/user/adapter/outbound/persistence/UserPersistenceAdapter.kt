@@ -5,7 +5,7 @@ import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.reposit
 import com.my.sparta.concert.aggregate.user.application.domain.model.Users
 import com.my.sparta.concert.aggregate.user.application.port.outbound.LoadUserInfoPort
 import com.my.sparta.concert.aggregate.user.application.port.outbound.SaveMoneyPort
-import jakarta.persistence.EntityNotFoundException
+import jakarta.persistence.*
 import org.springframework.stereotype.Component
 
 @Component
@@ -13,6 +13,7 @@ class UserPersistenceAdapter(
     val userRepository: UserJpaRepository,
     val userPersistenceMapper: UserPersistenceMapper,
 ) : LoadUserInfoPort, SaveMoneyPort {
+
     override fun getUserInfoById(userId: String): Users {
         val userInfo =
             userRepository.findById(userId).orElseThrow {
