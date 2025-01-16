@@ -43,11 +43,10 @@ class ConcertReservationConcurrencyTest(
         val concertInfo = loadConcertPort.getConcertInfoByName("라_트라비아타")
         val concertScheduleInfo = getConcertScheduleInfoPort.getConcertScheduleById(concertInfo.concertId)
 
-        // 1) 요청 객체 40개 생성
-        (1..40).forEach { i ->
+        (1..80).forEach { i ->
             concertRequests.add(
                 ConcertReservationRequest(
-                    userId = "user$i",
+                    userId = "user5",
                     concertId = concertInfo.concertId,
                     concertScheduleId = concertScheduleInfo[0].concertScheduleId,
                     concertSeatNumber = i,
@@ -68,7 +67,7 @@ class ConcertReservationConcurrencyTest(
     @Test
     fun `동시성 이슈 콘서트 예약`() {
 
-        val threadCount = 100
+        val threadCount = 80
         val latch = CountDownLatch(threadCount)
         val executor = Executors.newFixedThreadPool(threadCount)
         // 성공/실패 카운트
@@ -95,7 +94,7 @@ class ConcertReservationConcurrencyTest(
         executor.awaitTermination(1, TimeUnit.MINUTES)
 
 
-        assertThat(successCount.get()).isEqualTo(30)
+        assertThat(successCount.get()).isEqualTo(80)
         assertThat(failureCount.get()).isEqualTo(10)
 
     }

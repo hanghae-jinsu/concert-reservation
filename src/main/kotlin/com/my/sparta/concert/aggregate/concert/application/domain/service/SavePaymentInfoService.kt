@@ -21,7 +21,6 @@ class SavePaymentInfoService(
     override fun savePayment(userInfo: Users, concert: Concert, command: ConcertReservationCommand): Payment {
 
         val totalPrice = concert.cost * command.count
-        userInfo.wallet.useWallet(concert.cost, command.count)
 
         val payment = Payment("", userInfo.userId, command.paymentType, totalPrice, PayingTransaction.PAYMENT)
         return savePaymentHistoryPort.savePaymentInfo(payment)

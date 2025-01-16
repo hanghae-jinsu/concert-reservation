@@ -4,6 +4,7 @@ import com.my.sparta.concert.aggregate.user.application.domain.valueobject.Payme
 import com.my.sparta.concert.aggregate.user.application.domain.valueobject.Wallet
 import com.my.sparta.concert.aggregate.user.application.port.inbound.UserChargeMoneyUseCase
 import com.my.sparta.concert.aggregate.user.application.port.inbound.command.UserChargeCommand
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
@@ -45,5 +46,8 @@ class ChargeMoneyConcurrencyTest(
 
         executor.shutdown()
         executor.awaitTermination(5, TimeUnit.SECONDS)
+
+        assertEquals(1, successCount.get())
+        assertEquals(2, failureCount.get())
     }
 }

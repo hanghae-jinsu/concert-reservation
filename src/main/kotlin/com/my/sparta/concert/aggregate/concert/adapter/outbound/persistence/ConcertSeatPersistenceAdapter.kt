@@ -8,6 +8,7 @@ import com.my.sparta.concert.aggregate.reservation.application.port.outbound.Sav
 import jakarta.persistence.*
 import lombok.RequiredArgsConstructor
 import lombok.extern.slf4j.Slf4j
+import org.springframework.data.jpa.repository.Lock
 import org.springframework.stereotype.Component
 
 @Slf4j
@@ -18,6 +19,7 @@ class ConcertSeatPersistenceAdapter(
     private val concertSeatPersistenceMapper: ConcertSeatPersistenceMapper,
 ) : LoadConcertSeatPort, SaveConcertSeatPort {
 
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     override fun getConcertSeatDetailInfo(
         seatId: Int,
         scheduleId: String,

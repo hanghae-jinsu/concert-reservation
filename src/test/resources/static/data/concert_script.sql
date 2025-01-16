@@ -124,7 +124,9 @@ INSERT INTO concert.user_entity
 (age, money, user_id, user_name, payment_type)
 VALUES(10, 40000.0, "user1", 'jinsu', 'CARD'),
       (10, 40000.0, "user2", 'jane', 'CARD'),
-      (10, 40000.0, "user3", 'jisu', 'CARD');
+      (10, 40000.0, "user3", 'jisu', 'CARD'),
+      (10, 30000.0, "user4", 'jisuu', 'CARD'),
+      (10, 300000.0, "user5", 'jisuuz', 'CARD');
 
 
 --- concert Hall

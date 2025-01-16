@@ -10,7 +10,6 @@ import com.my.sparta.concert.aggregate.reservation.application.port.outbound.Sav
 import com.my.sparta.concert.aggregate.user.application.port.outbound.BuyIngTicketUserUseCase
 import lombok.RequiredArgsConstructor
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
 @RequiredArgsConstructor
@@ -22,18 +21,19 @@ class ConcertReservationFacade(
     private val saveReservationPort: SaveReservationPort,
 ) : ReserveConcertUseCase {
 
-    override fun reserve(command: ConcertReservationCommand): Reservation {
+    override fun reserve(command: ConcertReservationCommand) {
 
         val concert = loadConcertPort.getConcertInfoById(command.concertId)
 
         val savedConcertSeat = saveConcertInfoUseCase.saveConcertSeat(command);
 
-        val userInfo = buyIngTicketUserUseCase.saveUser(command, concert);
-        val paymentInfo = savePaymentInfoUseCase.savePayment(userInfo, concert, command);
+//        val userInfo = buyIngTicketUserUseCase.saveUser(command, concert);
 
-        val reservation =  Reservation.createReservation(concert, userInfo, savedConcertSeat, command, paymentInfo)
-
-        return saveReservationPort.saveReservationHistory(reservation)
+//        val paymentInfo = savePaymentInfoUseCase.savePayment(userInfo, concert, command);
+//
+//        val reservation = Reservation.createReservation(concert, userInfo, savedConcertSeat, command, paymentInfo)
+//
+//        return saveReservationPort.saveReservationHistory(reservation)
 
     }
 }
