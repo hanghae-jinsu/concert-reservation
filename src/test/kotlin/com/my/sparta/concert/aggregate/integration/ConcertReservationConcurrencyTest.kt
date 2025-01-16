@@ -74,7 +74,6 @@ class ConcertReservationConcurrencyTest(
         val successCount = AtomicInteger(0)
         val failureCount = AtomicInteger(0)
 
-
         (1..threadCount).forEach { i ->
             executor.submit {
                 try {
