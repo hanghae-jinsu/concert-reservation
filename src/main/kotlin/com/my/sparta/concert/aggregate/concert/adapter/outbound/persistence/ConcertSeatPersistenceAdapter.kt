@@ -19,7 +19,6 @@ class ConcertSeatPersistenceAdapter(
     private val concertSeatPersistenceMapper: ConcertSeatPersistenceMapper,
 ) : LoadConcertSeatPort, SaveConcertSeatPort {
 
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
     override fun getConcertSeatDetailInfo(
         seatId: Int,
         scheduleId: String,

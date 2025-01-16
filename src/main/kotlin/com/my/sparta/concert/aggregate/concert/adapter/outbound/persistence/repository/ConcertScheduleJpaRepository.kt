@@ -7,6 +7,6 @@ import java.util.*
 
 interface ConcertScheduleJpaRepository : JpaRepository<ConcertScheduleEntity, UUID> {
 
-    @Query("select t from ConcertScheduleEntity t where t.concertId = :concertId and t.finished != true")
+    @Query("select t from ConcertScheduleEntity t join fetch t.concertSeat where t.concertId = :concertId and t.finished != true")
     fun findByConcertId(concertId: String): List<ConcertScheduleEntity>
 }
