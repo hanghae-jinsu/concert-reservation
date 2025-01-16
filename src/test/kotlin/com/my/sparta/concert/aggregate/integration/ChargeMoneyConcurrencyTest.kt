@@ -50,5 +50,6 @@ class ChargeMoneyConcurrencyTest(
 
         assertEquals(1, successCount.get())
         assertEquals(2, failureCount.get())
+
     }
 }
