@@ -150,12 +150,14 @@ VALUES
 
 INSERT INTO concert.concert_schedule
 (finished,running_time, end_date_time, start_date_time, concert_id, concert_hall_id, concert_name, concert_schedule_id, notice)
-VALUES(false,120, '2025-01-10 16:00:00', '2025-01-10 18:00:00', 'concert1', 'hall1', '라_트라비아', UUID(), '조용');
+VALUES(false,120, '2025-01-10 16:00:00', '2025-01-10 18:00:00', 'concert1', 'hall1', '라_트라비아', 'concert_schedule_1', '조용');
 
 
 
 
-
+INSERT INTO concert.concert_seats
+(concert_seat_id, concert_schedule_id, user_id, seat_status)
+VALUES(1, 'concert_schedule_1', '', 'AVAILABLE');
 
 
 

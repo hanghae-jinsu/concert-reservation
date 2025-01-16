@@ -19,11 +19,13 @@ class ConcertScheduleSchedulePersistenceAdapterTest {
         ConcertScheduleSchedulePersistenceAdapter(concertScheduleRepository, concertSchedulePersistenceMapper)
 
     @Test
-    fun `getConcertScheduleById should return mapped concert schedules with relationships`() {
+    fun `getConcertScheduleById는 매핑된 콘서트 일정을 반환해야 한다`() {
         // Arrange
         val concertId = "concert123"
         val concertEntity = ConcertEntity(concertId = concertId)
         val concertHallEntity = ConcertHallEntity(hallId = "hall1")
+
+        val testDate = LocalDateTime.of(2025, 1, 11, 18, 0);
 
         val concertScheduleEntities =
             listOf(
@@ -62,16 +64,18 @@ class ConcertScheduleSchedulePersistenceAdapterTest {
                     notice = "Please arrive 30 minutes early.",
                     concertId = concertEntity.concertId,
                     hallId = "hall1",
+                    concertSeat = listOf()
                 ),
                 ConcertSchedule(
                     concertScheduleId = "schedule2",
                     concertName = "Amazing Concert",
-                    startDateTime = LocalDateTime.of(2025, 1, 11, 18, 0),
+                    startDateTime = testDate,
                     endDateTime = LocalDateTime.of(2025, 1, 11, 20, 0),
                     runningTime = 120,
                     notice = "Please bring your ticket.",
                     concertId = concertEntity.concertId,
                     hallId = "hall1",
+                    concertSeat = listOf()
                 ),
             )
 
@@ -85,5 +89,6 @@ class ConcertScheduleSchedulePersistenceAdapterTest {
         assertEquals(2, result.size)
         assertEquals("schedule1", result[0].concertScheduleId)
         assertEquals("schedule2", result[1].concertScheduleId)
+        assertEquals(testDate, result[1].startDateTime)
     }
 }

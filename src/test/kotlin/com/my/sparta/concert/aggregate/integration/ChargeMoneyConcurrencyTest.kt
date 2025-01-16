@@ -4,6 +4,7 @@ import com.my.sparta.concert.aggregate.user.application.domain.valueobject.Payme
 import com.my.sparta.concert.aggregate.user.application.domain.valueobject.Wallet
 import com.my.sparta.concert.aggregate.user.application.port.inbound.UserChargeMoneyUseCase
 import com.my.sparta.concert.aggregate.user.application.port.inbound.command.UserChargeCommand
+import com.my.sparta.concert.common.util.LockManager.LockAcquisitionException
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -37,7 +38,7 @@ class ChargeMoneyConcurrencyTest(
                     userChargeMoneyUseCase.chargeMoney(command)
                     successCount.incrementAndGet()
                     println("충전 성공")
-                } catch (e: IllegalStateException) {
+                } catch (e: LockAcquisitionException) {
                     println("중복 요청 차단: ${e.message}")
                     failureCount.incrementAndGet()
                 }
