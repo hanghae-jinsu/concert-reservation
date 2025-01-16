@@ -6,6 +6,7 @@ import com.my.sparta.concert.aggregate.user.application.domain.model.Users
 import com.my.sparta.concert.aggregate.user.application.port.outbound.LoadUserInfoPort
 import com.my.sparta.concert.aggregate.user.application.port.outbound.SaveMoneyPort
 import jakarta.persistence.*
+import org.springframework.data.jpa.repository.Lock
 import org.springframework.stereotype.Component
 
 @Component

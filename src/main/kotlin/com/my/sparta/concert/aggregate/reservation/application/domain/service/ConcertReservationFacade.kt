@@ -4,12 +4,13 @@ import com.my.sparta.concert.aggregate.concert.application.port.inbound.SaveConc
 import com.my.sparta.concert.aggregate.reservation.application.domain.model.Reservation
 import com.my.sparta.concert.aggregate.reservation.application.port.inbound.ReserveConcertUseCase
 import com.my.sparta.concert.aggregate.reservation.application.port.inbound.SavePaymentInfoUseCase
+import com.my.sparta.concert.aggregate.reservation.application.port.inbound.SaveReservationUseCase
 import com.my.sparta.concert.aggregate.reservation.application.port.inbound.command.ConcertReservationCommand
 import com.my.sparta.concert.aggregate.reservation.application.port.outbound.LoadConcertPort
-import com.my.sparta.concert.aggregate.reservation.application.port.outbound.SaveReservationPort
 import com.my.sparta.concert.aggregate.user.application.port.outbound.BuyIngTicketUserUseCase
 import lombok.RequiredArgsConstructor
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 @RequiredArgsConstructor
@@ -18,22 +19,23 @@ class ConcertReservationFacade(
     private val saveConcertInfoUseCase: SaveConcertInfoUseCase,
     private val buyIngTicketUserUseCase: BuyIngTicketUserUseCase,
     private val savePaymentInfoUseCase: SavePaymentInfoUseCase,
-    private val saveReservationPort: SaveReservationPort,
+    private val saveReservationUseCase: SaveReservationUseCase
 ) : ReserveConcertUseCase {
 
-    override fun reserve(command: ConcertReservationCommand) {
+    @Transactional
+    override fun reserve(command: ConcertReservationCommand): Reservation {
 
         val concert = loadConcertPort.getConcertInfoById(command.concertId)
 
         val savedConcertSeat = saveConcertInfoUseCase.saveConcertSeat(command);
 
-//        val userInfo = buyIngTicketUserUseCase.saveUser(command, concert);
+        val userInfo = buyIngTicketUserUseCase.saveUser(command, concert);
 
-//        val paymentInfo = savePaymentInfoUseCase.savePayment(userInfo, concert, command);
-//
-//        val reservation = Reservation.createReservation(concert, userInfo, savedConcertSeat, command, paymentInfo)
-//
-//        return saveReservationPort.saveReservationHistory(reservation)
+        val paymentInfo = savePaymentInfoUseCase.savePayment(userInfo, concert, command);
+
+        val reservation = Reservation.createReservation(concert, userInfo, savedConcertSeat, command, paymentInfo)
+
+        return saveReservationUseCase.saveConcertTicket(reservation);
 
     }
 }

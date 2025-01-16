@@ -43,13 +43,3 @@ class UserChargeMoneyService(
         }
     }
 }
-
-// val userInfo = loadUserInfoPort.getUserInfoById(command.userId)
-//
-//        userInfo.wallet.chargeMoney(command.wallet.money.toInt())
-//
-//        logger.info("info: ${userInfo.wallet.money}")
-//
-//        val user = saveMoneyPort.saveMoney(userInfo)
-//
-//        return user

@@ -24,7 +24,7 @@ class SeatLockPersistenceAdapter(
 
         logger.info("log for lock seat info : {}", seatLock)
 
-        val entity = seatLockPersistenceMapper.mapToJpaEntity(seatLock);
+        val entity = seatLockPersistenceMapper.mapToCreateJpaEntity(seatLock);
         seatLockJpaRepository.save(entity)
 
     }

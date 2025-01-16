@@ -22,7 +22,19 @@ class ConcertSchedulePersistenceMapper {
             entity.runningTime,
             entity.notice,
             entity.concertId,
-            entity.concertHallId
+            entity.concertHallId,
+            concertSeat = entity.concertSeat.map { seatEntity ->
+                mapConcertSeatToDomain(seatEntity)
+            }
+        )
+    }
+
+    private fun mapConcertSeatToDomain(seatEntity: ConcertSeatEntity): ConcertSeat {
+        return ConcertSeat(
+            id = seatEntity.concertSeatId,
+            userId = seatEntity.userId,
+            concertScheduleId = seatEntity.concertSchedule.concertScheduleId,
+            seatStatus = seatEntity.seatStatus
         )
     }
 

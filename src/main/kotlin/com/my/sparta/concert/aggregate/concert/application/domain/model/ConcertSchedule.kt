@@ -13,6 +13,7 @@ class ConcertSchedule(
     var runningTime: Int,
     var notice: String,
     var concertId: String,
-    var hallId: String
+    var hallId: String,
+    var concertSeat: List<ConcertSeat>
 
 )

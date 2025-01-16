@@ -7,10 +7,22 @@ import org.springframework.stereotype.Component
 @Component
 class SeatLockPersistenceMapper {
 
-    fun mapToJpaEntity(seatLock: SeatLock): SeatLockEntity {
+    fun mapToCreateJpaEntity(seatLock: SeatLock): SeatLockEntity {
 
         return SeatLockEntity(
             seatLockId = "",
+            seatId = seatLock.seatId,
+            startTime = seatLock.holdStartTime,
+            endTime = seatLock.holdEndTime,
+            userId = seatLock.userId
+        )
+
+    }
+
+    fun mapToJpaEntity(seatLock: SeatLock): SeatLockEntity {
+
+        return SeatLockEntity(
+            seatLockId = seatLock.seatLockId,
             seatId = seatLock.seatId,
             startTime = seatLock.holdStartTime,
             endTime = seatLock.holdEndTime,
