@@ -17,27 +17,29 @@ class GenerateTokenServiceTest {
     private val loadUserInfoPort: LoadUserInfoPort = mockk()
     private val saveUserTokenPort: SaveUserTokenPort = mockk()
     private val tokenUtilService: TokenUtilService = mockk()
-    private val service: GenerateTokenUseCase = GenerateTokenService(
-        loadUserInfoPort = loadUserInfoPort,
-        saveUserTokenPort = saveUserTokenPort,
-        tokenUtilService = tokenUtilService
-    )
+    private val service: GenerateTokenUseCase =
+        GenerateTokenService(
+            loadUserInfoPort = loadUserInfoPort,
+            saveUserTokenPort = saveUserTokenPort,
+            tokenUtilService = tokenUtilService,
+        )
 
     @Test
     fun `generateToken should load user info, generate token, and save it`() {
         // Arrange
         val userId = "user123"
-        val userInfo = Users(userId = userId,"username",10, mockk())
+        val userInfo = Users(userId = userId, "username", 10, mockk())
         val generatedToken = "generatedToken123"
         val savedTokenId = "savedTokenId123"
         every { loadUserInfoPort.getUserInfoById(userId) } returns userInfo
-        every { tokenUtilService.generateToken(userId) } returns UserToken(
-            tokenId = generatedToken,
-            userId = userId,
-            isActive = false,
-            createdAt = LocalDateTime.now(),
-            expiresAt = LocalDateTime.now().plusMinutes(5)
-        )
+        every { tokenUtilService.generateToken(userId) } returns
+            UserToken(
+                tokenId = generatedToken,
+                userId = userId,
+                isActive = false,
+                createdAt = LocalDateTime.now(),
+                expiresAt = LocalDateTime.now().plusMinutes(5),
+            )
         every { saveUserTokenPort.saveUserToken(any()) } returns savedTokenId
 
         // Act

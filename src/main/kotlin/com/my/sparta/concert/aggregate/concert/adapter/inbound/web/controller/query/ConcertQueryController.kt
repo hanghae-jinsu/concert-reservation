@@ -20,12 +20,10 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/concert")
-
 class ConcertQueryController(
     private val getConcertScheduleInfoPort: GetConcertScheduleInfoPort,
-    private val concertScheduleWebMapper: ConcertScheduleWebMapper
+    private val concertScheduleWebMapper: ConcertScheduleWebMapper,
 ) {
-
 
     @Operation(
         operationId = "getReservableSeats",
@@ -37,8 +35,8 @@ class ConcertQueryController(
                 `in` = ParameterIn.PATH,
                 required = true,
                 description = "concertId",
-                example = "concert12345"
-            )
+                example = "concert12345",
+            ),
         ],
         tags = ["Concert API"],
         responses = [
@@ -48,24 +46,22 @@ class ConcertQueryController(
                 content = [
                     Content(
                         mediaType = MediaType.APPLICATION_JSON_VALUE,
-                        schema = Schema(implementation = ConcertScheduleResponse::class)
-                    )
-                ]
+                        schema = Schema(implementation = ConcertScheduleResponse::class),
+                    ),
+                ],
             ),
             ApiResponse(responseCode = "400", description = "Bad Request"),
             ApiResponse(responseCode = "401", description = "Unauthorized"),
-            ApiResponse(responseCode = "500", description = "Internal Server Error")
-        ]
+            ApiResponse(responseCode = "500", description = "Internal Server Error"),
+        ],
     )
-// concertSchedule 50명 차면 인원 마감. case 생각
     @GetMapping("{concertId}/reserve")
     fun getReservableSeats(
         @PathVariable("concertId") concertId: String,
     ): ResponseEntity<ConcertScheduleResponse> {
 
-        val concertScheduleList = getConcertScheduleInfoPort.getConcertScheduleById(concertId);
+        val concertScheduleList = getConcertScheduleInfoPort.getConcertScheduleById(concertId)
         return ResponseEntity.ok(concertScheduleWebMapper.mapToListResponse(concertScheduleList))
 
     }
-
 }

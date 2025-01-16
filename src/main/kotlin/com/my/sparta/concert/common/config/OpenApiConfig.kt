@@ -20,10 +20,10 @@ import org.springframework.context.annotation.Configuration
             ),
         ),
     tags = [
-            Tag(name = "concert API", description = "concert API"),
-            Tag(name = "money", description = "money API"),
-            Tag(name = "user", description = "user API"),
-        ],
+        Tag(name = "concert API", description = "concert API"),
+        Tag(name = "money", description = "money API"),
+        Tag(name = "user", description = "user API"),
+    ],
 )
 @Configuration
 class OpenApiConfig

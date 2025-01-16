@@ -1,11 +1,11 @@
 package com.my.sparta.concert.aggregate.concert.adapter.outbound.persistence.entity
 
-import com.my.sparta.concert.aggregate.concert.application.domain.model.Concert
 import jakarta.persistence.*
 import lombok.AccessLevel
 import lombok.Getter
 import lombok.NoArgsConstructor
 import java.time.LocalDateTime
+import java.util.*
 
 @Getter
 @Entity
@@ -29,14 +29,16 @@ class ConcertScheduleEntity(
     @Column(name = "notice")
     var notice: String,
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    var concert: ConcertEntity,
+    @Column(name = "concert_id")
+    var concertId: String,
+    @Column(name = "concert_hall_id")
+    var concertHallId: String,
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    var concertHall: ConcertHallEntity,
+    @OneToMany(mappedBy = "concertSchedule")
+    val concertSeat: MutableList<ConcertSeatEntity> = mutableListOf(),
 
+    var finished: Boolean,
 ) {
-
 
     constructor(concertScheduleId: String) : this(
         concertScheduleId = concertScheduleId,
@@ -45,9 +47,9 @@ class ConcertScheduleEntity(
         endDateTime = LocalDateTime.now(),
         runningTime = 0,
         notice = "",
-        concert = ConcertEntity(),
-        concertHall = ConcertHallEntity(),
+        concertId = "",
+        concertHallId = "",
+        concertSeat = mutableListOf(),
+        finished = false
     )
-
-
 }

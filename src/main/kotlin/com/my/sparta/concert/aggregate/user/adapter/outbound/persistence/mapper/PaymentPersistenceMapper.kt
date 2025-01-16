@@ -7,14 +7,13 @@ import org.springframework.stereotype.Component
 
 @Component
 class PaymentPersistenceMapper {
-
     fun mapToCreateJpaEntity(payment: Payment): PaymentEntity {
         return PaymentEntity(
             payment.paymentId,
             payment.amount,
             payment.paymentType,
             payment.transaction,
-            UserEntity(payment.userId)
+            UserEntity(payment.userId),
         )
     }
 
@@ -27,5 +26,4 @@ class PaymentPersistenceMapper {
             entity.transaction,
         )
     }
-
 }

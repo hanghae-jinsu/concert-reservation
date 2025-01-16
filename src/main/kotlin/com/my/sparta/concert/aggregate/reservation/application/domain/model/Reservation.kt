@@ -12,13 +12,11 @@ import com.my.sparta.concert.aggregate.user.application.domain.model.Users
 import java.util.*
 
 class Reservation(
-
     var reservationId: String,
     var chargeInfo: ChargeInfo,
     var concertInfo: ConcertInfo,
     var buyerInfo: BuyerInfo,
-
-    ) {
+) {
 
     companion object {
 
@@ -27,27 +25,29 @@ class Reservation(
             userInfo: Users,
             concertSeat: ConcertSeat,
             command: ConcertReservationCommand,
-            payment: Payment,
-            totalPrice: Double,
+            payment: Payment
         ): Reservation {
             return Reservation(
                 reservationId = UUID.randomUUID().toString(),
-                chargeInfo = ChargeInfo(
+                chargeInfo =
+                ChargeInfo(
                     payment.paymentId,
-                    payment.paymentType
+                    payment.paymentType,
                 ),
-                concertInfo = ConcertInfo(
+                concertInfo =
+                ConcertInfo(
                     concert.concertId,
                     concert.concertName,
                     SeatInfo(concertSeat.id),
-                    concert.runningTime
+                    concert.runningTime,
                 ),
-                buyerInfo = BuyerInfo(
+                buyerInfo =
+                BuyerInfo(
                     userInfo.userId,
-                    totalPrice,
+                    concert.cost * command.count,
                     command.count,
-                    concert.targetAge
-                )
+                    concert.targetAge,
+                ),
             )
         }
     }

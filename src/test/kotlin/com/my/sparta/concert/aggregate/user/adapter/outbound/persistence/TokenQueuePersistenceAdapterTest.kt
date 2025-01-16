@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 
 class TokenQueuePersistenceAdapterTest() {
-
     private val tokenPersistenceMapper: TokenPersistenceMapper = mockk()
     private val tokenQueueJpaRepository: TokenQueueJpaRepository = mockk()
     private val adapter = TokenQueuePersistenceAdapter(tokenPersistenceMapper, tokenQueueJpaRepository)
@@ -30,16 +29,15 @@ class TokenQueuePersistenceAdapterTest() {
         assertEquals("token1", result)
     }
 
-
-
     @Test
     fun `loadExpiredTargetTokens should retrieve expired tokens`() {
         // Arrange
         val dateTime = LocalDateTime.of(2025, 1, 9, 21, 3, 20)
-        val tokenList = listOf(
-            UserTokenEntity("token1", "user1", false, dateTime.minusMinutes(20), dateTime.minusMinutes(10)),
-            UserTokenEntity("token2", "user2", false, dateTime.minusMinutes(25), dateTime.minusMinutes(5))
-        )
+        val tokenList =
+            listOf(
+                UserTokenEntity("token1", "user1", false, dateTime.minusMinutes(20), dateTime.minusMinutes(10)),
+                UserTokenEntity("token2", "user2", false, dateTime.minusMinutes(25), dateTime.minusMinutes(5)),
+            )
         every { tokenQueueJpaRepository.findByExpiredTargetToken(any()) } returns tokenList
 
         // Act
@@ -51,18 +49,17 @@ class TokenQueuePersistenceAdapterTest() {
         assertEquals("token2", result[1].tokenId)
     }
 
-
     @Test
     fun `deleteTokens should delete a list of tokens`() {
         // Arrange
-        val tokens = listOf(
-            UserTokenEntity("token1", "user1", false, LocalDateTime.now(), LocalDateTime.now().plusMinutes(10)),
-            UserTokenEntity("token2", "user2", false, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15))
-        )
+        val tokens =
+            listOf(
+                UserTokenEntity("token1", "user1", false, LocalDateTime.now(), LocalDateTime.now().plusMinutes(10)),
+                UserTokenEntity("token2", "user2", false, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15)),
+            )
         every { tokenQueueJpaRepository.deleteAll(tokens) } just Runs
 
         // Act
         adapter.deleteTokens(tokens)
-
     }
 }

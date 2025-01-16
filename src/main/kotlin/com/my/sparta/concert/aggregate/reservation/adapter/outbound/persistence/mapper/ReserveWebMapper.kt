@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component
 
 @Component
 class ReserveWebMapper {
-
     fun mapToCommand(request: ConcertReservationRequest): ConcertReservationCommand {
         return ConcertReservationCommand(
             request.concertId,
@@ -18,5 +17,4 @@ class ReserveWebMapper {
             PaymentType.valueOf(request.paymentType),
         )
     }
-
 }

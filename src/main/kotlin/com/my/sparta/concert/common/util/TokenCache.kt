@@ -7,7 +7,10 @@ class TokenCache<K, V>(private val maxSize: Int) {
     private val cache = ConcurrentHashMap<K, V>()
     private val keys = ArrayDeque<K>()
 
-    fun put(key: K, value: V) {
+    fun put(
+        key: K,
+        value: V,
+    ) {
         synchronized(this) {
             // 캐시에 값 추가
             cache[key] = value
@@ -23,6 +26,10 @@ class TokenCache<K, V>(private val maxSize: Int) {
 
     fun get(key: K): V? {
         return cache[key]
+    }
+
+    fun getAllTokens(): Set<K> {
+        return cache.keys;
     }
 
     fun containsKey(key: K): Boolean {

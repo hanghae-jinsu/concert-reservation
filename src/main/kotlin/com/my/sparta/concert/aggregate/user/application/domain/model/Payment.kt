@@ -6,10 +6,9 @@ import lombok.Getter
 
 @Getter
 class Payment(
-
     val paymentId: String,
     val userId: String,
     val paymentType: PaymentType,
     val amount: Double,
-    val transaction: PayingTransaction
+    val transaction: PayingTransaction,
 )

@@ -4,10 +4,7 @@ import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.entity.
 import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.mapper.TokenPersistenceMapper
 import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.repository.TokenQueueJpaRepository
 import com.my.sparta.concert.aggregate.user.application.domain.model.UserToken
-import com.my.sparta.concert.aggregate.user.application.port.outbound.DeleteQueueingTokenPort
-import com.my.sparta.concert.aggregate.user.application.port.outbound.LoadQueueingTokenPort
-import com.my.sparta.concert.aggregate.user.application.port.outbound.SaveQueueingTokenPort
-import com.my.sparta.concert.aggregate.user.application.port.outbound.SaveUserTokenPort
+import com.my.sparta.concert.aggregate.user.application.port.outbound.*
 import lombok.RequiredArgsConstructor
 import lombok.extern.slf4j.Slf4j
 import org.slf4j.Logger
@@ -22,7 +19,8 @@ import java.time.LocalDateTime
 class TokenQueuePersistenceAdapter(
     private val tokenPersistenceMapper: TokenPersistenceMapper,
     private val tokenQueueJpaRepository: TokenQueueJpaRepository,
-) : SaveUserTokenPort, SaveQueueingTokenPort, LoadQueueingTokenPort, DeleteQueueingTokenPort {
+) : SaveUserTokenPort, SaveQueueingTokenPort, LoadQueueingTokenPort, DeleteQueueingTokenPort,
+    LoadNonExpiredTokenPort {
 
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
@@ -34,32 +32,32 @@ class TokenQueuePersistenceAdapter(
     }
 
     override fun loadActivatableTokens(): List<UserTokenEntity> {
-
-
-        val dateTime = LocalDateTime.now();
+        val dateTime = LocalDateTime.now()
         val pageable = PageRequest.of(0, 50)
 
         logger.info("$dateTime : loadActivatableTokens ")
 
-        return tokenQueueJpaRepository.findByTokenNonExpired(dateTime, pageable);
-
+        return tokenQueueJpaRepository.findByTokenNonExpired(dateTime, pageable)
     }
 
     override fun loadExpiredTargetTokens(): List<UserTokenEntity> {
-        val dateTime = LocalDateTime.now();
+        val dateTime = LocalDateTime.now()
 
         logger.info("$dateTime : loadExpiredTargetTokens")
-        return tokenQueueJpaRepository.findByExpiredTargetToken(dateTime);
+        return tokenQueueJpaRepository.findByExpiredTargetToken(dateTime)
+    }
+
+    override fun validateActiveTokens(tokenString: Set<String>): Set<String> {
+
+        return tokenQueueJpaRepository.findByUsedTokens(tokenString);
 
     }
 
     override fun saveTokens(tokens: List<UserTokenEntity>) {
-
-        tokenQueueJpaRepository.saveAll(tokens);
+        tokenQueueJpaRepository.saveAll(tokens)
     }
 
     override fun deleteTokens(tokens: List<UserTokenEntity>) {
-
-        tokenQueueJpaRepository.deleteAll(tokens);
+        tokenQueueJpaRepository.deleteAll(tokens)
     }
 }

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component
 class ConcertSchedulePersistenceMapper {
 
     fun mapToDomainList(concertScheduleList: List<ConcertScheduleEntity>): List<ConcertSchedule> {
-        return concertScheduleList.stream().map(this::mapToDomain).toList();
+        return concertScheduleList.stream().map(this::mapToDomain).toList()
     }
 
     private fun mapToDomain(entity: ConcertScheduleEntity): ConcertSchedule {
@@ -20,21 +20,34 @@ class ConcertSchedulePersistenceMapper {
             entity.startDateTime,
             entity.endDateTime,
             entity.runningTime,
-            entity.notice
+            entity.notice,
+            entity.concertId,
+            entity.concertHallId,
+            concertSeat = entity.concertSeat.map { seatEntity ->
+                mapConcertSeatToDomain(seatEntity)
+            }
+        )
+    }
+
+    private fun mapConcertSeatToDomain(seatEntity: ConcertSeatEntity): ConcertSeat {
+        return ConcertSeat(
+            id = seatEntity.concertSeatId,
+            userId = seatEntity.userId,
+            concertScheduleId = seatEntity.concertSchedule.concertScheduleId,
+            seatStatus = seatEntity.seatStatus
         )
     }
 
     private fun mapToSeatList(concertSeat: MutableList<ConcertSeatEntity>): List<ConcertSeat> {
-        return concertSeat.stream().map(this::mapToSeat).toList();
+        return concertSeat.stream().map(this::mapToSeat).toList()
     }
 
     private fun mapToSeat(entity: ConcertSeatEntity): ConcertSeat {
         return ConcertSeat(
+            entity.concertSeatId,
             entity.userId,
-            entity.concertScheduleId,
-            entity.concertSeatId
+            entity.concertSchedule.concertScheduleId,
+            entity.seatStatus
         )
-
     }
-
 }

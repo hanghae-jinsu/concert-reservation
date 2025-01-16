@@ -1,6 +1,6 @@
 package com.my.sparta.concert.aggregate.concert.adapter.outbound.persistence.entity
 
-import com.my.sparta.concert.aggregate.concert.application.domain.model.ConcertSchedule
+import com.my.sparta.concert.aggregate.concert.application.domain.model.ConcertSeat.SeatStatus
 import jakarta.persistence.*
 import lombok.AccessLevel
 import lombok.Getter
@@ -19,8 +19,11 @@ class ConcertSeatEntity(
 
     val userId: String,
 
-    @Column(name = "concert_schedule_id")
-    val concertScheduleId: String
+    @Enumerated(EnumType.STRING)
+    var seatStatus: SeatStatus,
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "concert_schedule_id", nullable = false)
+    val concertSchedule: ConcertScheduleEntity
 
 )
