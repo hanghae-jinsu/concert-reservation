@@ -29,10 +29,6 @@ class ConcertReservationConcurrencyTest(
 
     @Autowired private val loadConcertPort: LoadConcertPort,
     @Autowired private val getConcertScheduleInfoPort: GetConcertScheduleInfoPort,
-    @Autowired private val saveConcertInfoUseCase: SaveConcertInfoUseCase,
-    @Autowired private val buyIngTicketUserUseCase: BuyIngTicketUserUseCase,
-    @Autowired private val savePaymentInfoUseCase: SavePaymentInfoUseCase,
-    @Autowired private val saveReservationPort: SaveReservationPort,
     @Autowired private val reserveConcertUseCase: ReserveConcertUseCase,
     @Autowired private val reserveWebMapper: ReserveWebMapper,
 ) {
@@ -43,7 +39,8 @@ class ConcertReservationConcurrencyTest(
 
     @BeforeEach
     fun setUp() {
-        val concertInfo = loadConcertPort.getConcertInfoByName("해리포터와 불의 잔")
+
+        val concertInfo = loadConcertPort.getConcertInfoByName("라_트라비아타")
         val concertScheduleInfo = getConcertScheduleInfoPort.getConcertScheduleById(concertInfo.concertId)
 
         // 1) 요청 객체 40개 생성
@@ -71,7 +68,7 @@ class ConcertReservationConcurrencyTest(
     @Test
     fun `동시성 이슈 콘서트 예약`() {
 
-        val threadCount = 40
+        val threadCount = 100
         val latch = CountDownLatch(threadCount)
         val executor = Executors.newFixedThreadPool(threadCount)
         // 성공/실패 카운트

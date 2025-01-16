@@ -34,21 +34,21 @@ class ConcertScheduleSchedulePersistenceAdapterTest {
                     endDateTime = LocalDateTime.of(2025, 1, 10, 20, 0),
                     runningTime = 120,
                     notice = "Please arrive 30 minutes early.",
-                    concert = concertEntity,
-                    concertHall = concertHallEntity,
+                    concertId = concertEntity.concertId,
+                    concertHallId = "hall1",
                     finished = false
                 ),
                 ConcertScheduleEntity(
                     concertScheduleId = "schedule2",
                     concertName = "Amazing Concert",
-                    startDateTime = LocalDateTime.of(2025, 1, 11, 18, 0),
-                    endDateTime = LocalDateTime.of(2025, 1, 11, 20, 0),
+                    startDateTime = LocalDateTime.of(2025, 1, 10, 18, 0),
+                    endDateTime = LocalDateTime.of(2025, 1, 10, 20, 0),
                     runningTime = 120,
-                    notice = "Please bring your ticket.",
-                    concert = concertEntity,
-                    concertHall = concertHallEntity,
+                    notice = "Please arrive 30 minutes early.",
+                    concertId = concertEntity.concertId,
+                    concertHallId = "hall1",
                     finished = false
-                ),
+                )
             )
 
         val concertSchedules =
@@ -60,6 +60,8 @@ class ConcertScheduleSchedulePersistenceAdapterTest {
                     endDateTime = LocalDateTime.of(2025, 1, 10, 20, 0),
                     runningTime = 120,
                     notice = "Please arrive 30 minutes early.",
+                    concertId = concertEntity.concertId,
+                    hallId = "hall1",
                 ),
                 ConcertSchedule(
                     concertScheduleId = "schedule2",
@@ -68,6 +70,8 @@ class ConcertScheduleSchedulePersistenceAdapterTest {
                     endDateTime = LocalDateTime.of(2025, 1, 11, 20, 0),
                     runningTime = 120,
                     notice = "Please bring your ticket.",
+                    concertId = concertEntity.concertId,
+                    hallId = "hall1",
                 ),
             )
 

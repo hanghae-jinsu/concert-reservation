@@ -6,15 +6,18 @@ import com.my.sparta.concert.aggregate.user.application.domain.valueobject.Walle
 import com.my.sparta.concert.aggregate.user.application.port.inbound.command.UserChargeCommand
 import com.my.sparta.concert.aggregate.user.application.port.outbound.LoadUserInfoPort
 import com.my.sparta.concert.aggregate.user.application.port.outbound.SaveMoneyPort
-import io.mockk.every
-import io.mockk.mockk
+import com.my.sparta.concert.common.util.LockManager
+import io.mockk.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-class UserChargeMoneyServiceTest {
+class UserChargeMoneyServiceTest(
+) {
+
     private val saveMoneyPort: SaveMoneyPort = mockk()
     private val loadUserInfoPort: LoadUserInfoPort = mockk()
-    private val service = UserChargeMoneyService(saveMoneyPort, loadUserInfoPort)
+    private val lockManager: LockManager = mockk()
+    private val service = UserChargeMoneyService(saveMoneyPort, loadUserInfoPort, lockManager)
 
     @Test
     fun `chargeMoney should load user info, charge money, and save user`() {
