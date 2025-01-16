@@ -34,8 +34,8 @@ class ConcertScheduleEntity(
     @Column(name = "concert_hall_id")
     var concertHallId: String,
 
-    @OneToMany(mappedBy = "concertSchedule", cascade = [CascadeType.ALL], orphanRemoval = true)
-    val concertSeat: MutableList<ConcertSeatEntity>,
+    @OneToMany(mappedBy = "concertSchedule")
+    val concertSeat: MutableList<ConcertSeatEntity> = mutableListOf(),
 
     var finished: Boolean,
 ) {

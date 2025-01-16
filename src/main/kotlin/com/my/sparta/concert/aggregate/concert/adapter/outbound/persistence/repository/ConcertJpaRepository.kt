@@ -8,6 +8,6 @@ import java.util.*
 
 interface ConcertJpaRepository : JpaRepository<ConcertEntity, String> {
 
-    @Query("select con from ConcertEntity con where con.concertName = : name")
+    @Query("select con from ConcertEntity con where con.concertName = :name")
     fun findByConcertName(@Param("name") name: String): Optional<ConcertEntity>
 }

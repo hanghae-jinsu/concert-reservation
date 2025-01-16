@@ -9,7 +9,6 @@ import com.my.sparta.concert.aggregate.reservation.application.port.outbound.Loa
 import com.my.sparta.concert.aggregate.reservation.application.port.outbound.SaveConcertSeatPort
 import lombok.RequiredArgsConstructor
 import lombok.extern.slf4j.Slf4j
-import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
@@ -23,7 +22,6 @@ class SaveConcertInfoService(
     private val saveSeatLockPort: SaveSeatLockPort
 ) : SaveConcertInfoUseCase {
 
-    // 이벤트 사용하도록 리팩토링
     @Transactional
     override fun saveConcertSeat(command: ConcertReservationCommand): ConcertSeat {
 

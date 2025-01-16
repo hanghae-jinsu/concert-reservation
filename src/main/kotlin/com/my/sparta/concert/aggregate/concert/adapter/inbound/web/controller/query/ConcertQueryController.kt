@@ -55,7 +55,6 @@ class ConcertQueryController(
             ApiResponse(responseCode = "500", description = "Internal Server Error"),
         ],
     )
-// concertSchedule 50명 차면 인원 마감. case 생각
     @GetMapping("{concertId}/reserve")
     fun getReservableSeats(
         @PathVariable("concertId") concertId: String,

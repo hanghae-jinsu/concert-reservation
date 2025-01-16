@@ -22,12 +22,7 @@ class ConcertReservationFacade(
     private val saveReservationPort: SaveReservationPort,
 ) : ReserveConcertUseCase {
 
-    @Transactional
     override fun reserve(command: ConcertReservationCommand): Reservation {
-
-        require(command.concertSeatNumber == command.count) {
-            "해당 요청은 요청하는 seat size ${command.concertSeatNumber} 와  count ${command.count}가 다릅니다."
-        }
 
         val concert = loadConcertPort.getConcertInfoById(command.concertId)
 

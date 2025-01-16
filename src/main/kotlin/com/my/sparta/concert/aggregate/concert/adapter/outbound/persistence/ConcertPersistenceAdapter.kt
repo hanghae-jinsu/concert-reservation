@@ -7,7 +7,6 @@ import com.my.sparta.concert.aggregate.reservation.application.port.outbound.Loa
 import jakarta.persistence.*
 import lombok.RequiredArgsConstructor
 import lombok.extern.slf4j.Slf4j
-import org.springframework.data.jpa.repository.Lock
 import org.springframework.stereotype.Component
 
 @Slf4j
@@ -18,7 +17,6 @@ class ConcertPersistenceAdapter(
     private val concertPersistenceMapper: ConcertPersistenceMapper,
 ) : LoadConcertPort {
 
-    @Lock(LockModeType.PESSIMISTIC_READ)
     override fun getConcertInfoById(concertId: String): Concert {
 
         val concertEntity =
