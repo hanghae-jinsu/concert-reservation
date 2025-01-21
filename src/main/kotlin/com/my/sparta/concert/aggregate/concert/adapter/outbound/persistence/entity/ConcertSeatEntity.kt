@@ -20,7 +20,7 @@ class ConcertSeatEntity(
     val userId: String,
 
     @Enumerated(EnumType.STRING)
-    var seatStatus: SeatStatus,
+    val seatStatus: SeatStatus,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "concert_schedule_id", nullable = false)

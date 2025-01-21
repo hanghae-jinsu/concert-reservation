@@ -23,6 +23,11 @@ class SaveConcertInfoService(
 ) : SaveConcertInfoUseCase {
 
     @Transactional
+//    @Retryable(
+//        value = [LockTimeoutException::class, DeadlockLoserDataAccessException::class],
+//        maxAttempts = 3,
+//        backoff = Backoff(delay = 500, multiplier = 2.0)
+//    )
     override fun saveConcertSeat(command: ConcertReservationCommand): ConcertSeat {
 
         // 콘서트 자리 있는지 확인

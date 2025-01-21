@@ -5,6 +5,7 @@ import jakarta.persistence.*
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Lock
 import org.springframework.data.jpa.repository.Query
+import org.springframework.data.jpa.repository.QueryHints
 import org.springframework.data.repository.query.Param
 import java.util.*
 
@@ -19,6 +20,12 @@ interface ConcertSeatJpaRepository : JpaRepository<ConcertSeatEntity, Long> {
       and cs.concertSchedule.concertScheduleId = :scheduleId
 """,
     )
+//    @QueryHints(
+//        QueryHint(
+//            name = "jakarta.persistence.lock.timeout",
+//            value = "1500"
+//        )
+//    )
     fun findByIdAndScheduleId(
         @Param("seatId") seatId: Int,
         @Param("scheduleId") scheduleId: String,

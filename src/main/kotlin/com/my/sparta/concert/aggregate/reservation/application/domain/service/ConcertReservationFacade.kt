@@ -9,8 +9,9 @@ import com.my.sparta.concert.aggregate.reservation.application.port.inbound.comm
 import com.my.sparta.concert.aggregate.reservation.application.port.outbound.LoadConcertPort
 import com.my.sparta.concert.aggregate.user.application.port.outbound.BuyIngTicketUserUseCase
 import lombok.RequiredArgsConstructor
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
 @RequiredArgsConstructor
@@ -22,20 +23,22 @@ class ConcertReservationFacade(
     private val saveReservationUseCase: SaveReservationUseCase
 ) : ReserveConcertUseCase {
 
-    @Transactional
+    // lock 을 건게 순서를 보장할 순 없다. ..
+    private val logger: Logger = LoggerFactory.getLogger(javaClass)
+
     override fun reserve(command: ConcertReservationCommand): Reservation {
 
-        val concert = loadConcertPort.getConcertInfoById(command.concertId)
-
-        val savedConcertSeat = saveConcertInfoUseCase.saveConcertSeat(command);
-
-        val userInfo = buyIngTicketUserUseCase.saveUser(command, concert);
-
-        val paymentInfo = savePaymentInfoUseCase.savePayment(userInfo, concert, command);
-
+        val concert = loadConcertPort.getConcertInfoById(command.concertId) // 1
+        logger.info("[ reserve ] :  1")
+        val userInfo = buyIngTicketUserUseCase.saveUser(command, concert); //2
+        logger.info("[ reserve ] :  2")
+        val paymentInfo = savePaymentInfoUseCase.savePayment(userInfo, concert, command); //3
+        logger.info("[ reserve ] :  3")
+        val savedConcertSeat = saveConcertInfoUseCase.saveConcertSeat(command); // 4
+        logger.info("[ reserve ] :  4")
         val reservation = Reservation.createReservation(concert, userInfo, savedConcertSeat, command, paymentInfo)
-
-        return saveReservationUseCase.saveConcertTicket(reservation);
+        logger.info("[ reserve ] :  5")
+        return saveReservationUseCase.saveConcertTicket(reservation); // 5
 
     }
 }

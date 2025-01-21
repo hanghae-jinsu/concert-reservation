@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import java.time.LocalDateTime
 
+
 interface SeatLockJpaRepository : JpaRepository<SeatLockEntity, String> {
 
     @Query("select e from SeatLockEntity e where e.endTime < :currentTime")

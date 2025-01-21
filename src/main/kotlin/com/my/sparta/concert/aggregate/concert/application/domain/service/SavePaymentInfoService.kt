@@ -1,21 +1,15 @@
 package com.my.sparta.concert.aggregate.concert.application.domain.service
 
 import com.my.sparta.concert.aggregate.concert.application.domain.model.Concert
-import com.my.sparta.concert.aggregate.payment.adapter.inbound.interfaces.PaymentRequest
-import com.my.sparta.concert.aggregate.payment.adapter.inbound.interfaces.PaymentResponse
 import com.my.sparta.concert.aggregate.reservation.application.port.inbound.SavePaymentInfoUseCase
 import com.my.sparta.concert.aggregate.reservation.application.port.inbound.command.ConcertReservationCommand
 import com.my.sparta.concert.aggregate.reservation.application.port.outbound.SavePaymentHistoryPort
 import com.my.sparta.concert.aggregate.user.application.domain.model.Payment
 import com.my.sparta.concert.aggregate.user.application.domain.model.Users
 import com.my.sparta.concert.aggregate.user.application.domain.valueobject.PayingTransaction
-import com.my.sparta.concert.aggregate.user.application.domain.valueobject.PaymentType
 import lombok.RequiredArgsConstructor
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpHeaders
-import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.client.RestTemplate
