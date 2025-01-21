@@ -15,15 +15,16 @@ import org.springframework.stereotype.Component
 @RequiredArgsConstructor
 class ConcertScheduleSchedulePersistenceAdapter(
     private val concertScheduleRepository: ConcertScheduleJpaRepository,
-    private val concertSchedulePersistenceMapper: ConcertSchedulePersistenceMapper
+    private val concertSchedulePersistenceMapper: ConcertSchedulePersistenceMapper,
 ) : GetConcertScheduleInfoPort {
 
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
-
     override fun getConcertScheduleById(concertId: String): List<ConcertSchedule> {
-        val concertScheduleList = concertScheduleRepository.findByConcertId(concertId);
 
-        return concertSchedulePersistenceMapper.mapToDomainList(concertScheduleList);
+        val concertScheduleList = concertScheduleRepository.findByConcertId(concertId)
+
+        return concertSchedulePersistenceMapper.mapToDomainList(concertScheduleList)
+
     }
 }

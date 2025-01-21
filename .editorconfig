@@ -9,3 +9,4 @@ insert_final_newline = true
 [*.{kt,kts}]
 indent_size = 4
 tab_width = 4
+ij_kotlin_packages_to_use_import_on_demand = java.util.*,jakarta.persistence.*,org.junit.jupiter.api.Assertions.*,io.mockk.*

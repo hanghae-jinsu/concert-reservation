@@ -6,19 +6,19 @@ import com.my.sparta.concert.aggregate.reservation.application.domain.model.Rese
 import com.my.sparta.concert.aggregate.reservation.application.port.outbound.SaveReservationPort
 import lombok.RequiredArgsConstructor
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
 @RequiredArgsConstructor
 class ReservationPersistenceAdapter(
     private val reservationRepository: ReservationJpaRepository,
-    private val reservationPersistenceMapper: ReservationPersistenceMapper
+    private val reservationPersistenceMapper: ReservationPersistenceMapper,
 ) : SaveReservationPort {
 
-    override fun SaveReservationHistory(reservations: List<Reservation>): List<Reservation> {
-
-        val reservationEntity = reservationPersistenceMapper.mapToJpaEntities(reservations);
-        val savedEntity = reservationRepository.saveAll(reservationEntity);
-        return reservationPersistenceMapper.mapToDomainList(savedEntity);
-
+    @Transactional
+    override fun saveReservationHistory(reservation: Reservation): Reservation {
+        val reservationEntity = reservationPersistenceMapper.mapToJpaEntity(reservation)
+        val savedEntity = reservationRepository.save(reservationEntity)
+        return reservationPersistenceMapper.mapToDomain(savedEntity)
     }
 }

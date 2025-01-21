@@ -8,16 +8,16 @@ import org.springframework.stereotype.Component
 
 @Component
 class UserPersistenceMapper {
-
     fun mapToDomain(userInfo: UserEntity): Users {
         return Users(
             userInfo.userId,
             userInfo.userName,
             userInfo.age,
-            wallet = Wallet(
-                userInfo.walletValueObject.paymentType,
-                userInfo.walletValueObject.money,
-            ),
+            wallet =
+                Wallet(
+                    userInfo.walletValueObject.paymentType,
+                    userInfo.walletValueObject.money,
+                ),
         )
     }
 
@@ -26,7 +26,7 @@ class UserPersistenceMapper {
             user.userId,
             user.username,
             user.age,
-            WalletValueObject(user.wallet.paymentType, user.wallet.money)
+            WalletValueObject(user.wallet.paymentType, user.wallet.money),
         )
     }
 }

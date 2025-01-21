@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component
 
 @Component
 class ConcertPersistenceMapper {
-
     fun mapToDomain(entity: ConcertEntity): Concert {
         return Concert(
             entity.concertId,
@@ -14,8 +13,7 @@ class ConcertPersistenceMapper {
             entity.runningTime,
             entity.targetAge,
             entity.notice,
-            entity.cost
+            entity.cost,
         )
     }
-
 }

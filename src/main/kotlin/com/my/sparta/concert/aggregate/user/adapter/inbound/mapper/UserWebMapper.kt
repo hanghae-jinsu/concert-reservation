@@ -10,20 +10,17 @@ import org.springframework.stereotype.Component
 
 @Component
 class UserWebMapper {
-
     fun mapToCommand(request: UserChargeMoneyRequest): UserChargeCommand {
         return UserChargeCommand(
             request.userId,
-            Wallet(PaymentType.valueOf(request.paymentType), request.money)
-
+            Wallet(PaymentType.valueOf(request.paymentType), request.money),
         )
     }
 
     fun mapToResponse(domain: Users): UserWalletInfoResponse {
         return UserWalletInfoResponse(
             domain.userId,
-            domain.wallet.money
+            domain.wallet.money,
         )
     }
-
 }

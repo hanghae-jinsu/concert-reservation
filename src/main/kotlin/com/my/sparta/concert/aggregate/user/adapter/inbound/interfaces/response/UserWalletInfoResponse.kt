@@ -5,5 +5,5 @@ import lombok.Data
 @Data
 class UserWalletInfoResponse(
     val userId: String,
-    val money: Double
+    val money: Double,
 )

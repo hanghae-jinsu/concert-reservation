@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 class UserEntity(
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     val userId: String,
@@ -21,16 +20,15 @@ class UserEntity(
     val age: Int,
     @Embedded
     val walletValueObject: WalletValueObject,
-
-    ) {
-
+) {
     constructor(userId: String) : this(
         userId = userId,
         userName = "",
         age = 0,
-        walletValueObject = WalletValueObject(
-            PaymentType.CARD,
-            0.0
-        )
+        walletValueObject =
+            WalletValueObject(
+                PaymentType.CARD,
+                0.0,
+            ),
     )
 }
