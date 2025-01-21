@@ -11,17 +11,13 @@ import lombok.NoArgsConstructor
 @Table(name = "concert_hall")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 class ConcertHallEntity(
-
     @Id
     @Column(name = "hall_id")
     var hallId: String,
-
     @Column(name = "hall_name")
     var hallName: String,
-
     @Enumerated(EnumType.STRING)
     var hallType: HallType,
-
     @Column(name = "hall_capacity")
     var hallCapacity: Int,
 ) {
@@ -29,13 +25,13 @@ class ConcertHallEntity(
         hallId = hallId,
         hallName = "",
         hallType = HallType.COMMON,
-        hallCapacity = 0
+        hallCapacity = 0,
     )
 
     constructor() : this(
         hallId = "",
         hallName = "",
         hallType = HallType.COMMON,
-        hallCapacity = 0
+        hallCapacity = 0,
     )
 }

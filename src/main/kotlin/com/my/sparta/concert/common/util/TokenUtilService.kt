@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 
 @Component
 class TokenUtilService(
-    private val tokenRepository: TokenQueueJpaRepository
+    private val tokenRepository: TokenQueueJpaRepository,
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
@@ -23,7 +23,7 @@ class TokenUtilService(
     fun generateToken(userId: String): UserToken {
         val tokenString = StringBuilder(userId + platform).toString()
         val tokenId = hashString(tokenString)
-        val currentTime = LocalDateTime.now();
+        val currentTime = LocalDateTime.now()
 
         return UserToken(
             tokenId = tokenId,
@@ -39,13 +39,11 @@ class TokenUtilService(
         return bytes.joinToString("") { "%02x".format(it) }
     }
 
-
     // 토큰 조회 및 검증
     fun validateToken(token: String): Boolean {
-
         // 캐시에서 확인
         if (tokenCache.containsKey(token)) {
-            println("Token found in cache: $token")
+            logger.info("Token found in cache: $token")
             return true
         }
 
@@ -56,13 +54,13 @@ class TokenUtilService(
 
             // 만료 시간 확인
             if (tokenData.expiresAt.isBefore(LocalDateTime.now())) {
-                println("Token is expired: $token")
+                logger.info("Token is expired: $token")
                 return false
             }
 
             // 유효한 토큰이면 캐시에 추가
             tokenCache.put(token, true)
-            println("Token added to cache: $token")
+            logger.info("Token added to cache: $token")
             return true
         }
         return false
@@ -77,5 +75,16 @@ class TokenUtilService(
         }
     }
 
+    fun loadCurrentTokens(): Set<String> {
 
+        logger.info("Loading tokens from tokenCache... $tokenCache.size()")
+        return tokenCache.getAllTokens();
+
+    }
+
+    fun sinkCurrentTokens(tokenList: Set<String>) {
+        tokenList.stream().forEach { token ->
+            this.tokenCache.put(token, true);
+        }
+    }
 }

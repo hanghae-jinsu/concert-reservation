@@ -10,12 +10,10 @@ import lombok.NoArgsConstructor
 @Table(name = "concert_entity")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 class ConcertEntity(
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "concert_id")
     var concertId: String,
-
     @Column(name = "concert_name")
     var concertName: String,
     @Column(name = "running_time")
@@ -24,12 +22,9 @@ class ConcertEntity(
     var targetAge: Int,
     @Column(name = "notice")
     var notice: String,
-
     @Column(name = "cost")
     var cost: Double,
-
-    ) {
-
+) {
     constructor(concertId: String) :
         this(
             concertId = concertId,
@@ -49,5 +44,4 @@ class ConcertEntity(
             notice = "",
             cost = 0.0,
         )
-
 }

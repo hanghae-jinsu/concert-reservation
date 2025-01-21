@@ -4,9 +4,7 @@ import lombok.Data
 
 @Data
 class UserChargeMoneyRequest(
-
-     val userId: String,
-     val money: Double,
-     val paymentType: String
-
+    val userId: String,
+    val money: Double,
+    val paymentType: String,
 )

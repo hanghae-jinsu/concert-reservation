@@ -12,21 +12,15 @@ import lombok.NoArgsConstructor
 @Table(name = "payment")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 class PaymentEntity(
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "payment_id")
     val paymentId: String,
-
     val amount: Double,
-
     @Enumerated(EnumType.STRING)
     val paymentType: PaymentType,
-
     @Enumerated(EnumType.STRING)
     val transaction: PayingTransaction,
-
     @ManyToOne(fetch = FetchType.LAZY)
-    val userEntity: UserEntity
-
+    val userEntity: UserEntity,
 )

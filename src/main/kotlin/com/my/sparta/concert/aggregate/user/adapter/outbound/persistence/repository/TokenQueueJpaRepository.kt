@@ -15,11 +15,19 @@ interface TokenQueueJpaRepository : JpaRepository<UserTokenEntity, String> {
     from UserTokenEntity as ut 
     where ut.expiresAt >= :time and ut.isActive = false 
     order by ut.createdAt asc
-    """
+    """,
     )
-    fun findByTokenNonExpired(@Param("time") time: LocalDateTime, pageable: Pageable): List<UserTokenEntity>
+    fun findByTokenNonExpired(
+        @Param("time") time: LocalDateTime,
+        pageable: Pageable,
+    ): List<UserTokenEntity>
 
     @Query("select t from UserTokenEntity as t where t.expiresAt < :time and t.isActive = true ")
-    fun findByExpiredTargetToken(@Param("time") time: LocalDateTime): List<UserTokenEntity>
+    fun findByExpiredTargetToken(
+        @Param("time") time: LocalDateTime,
+    ): List<UserTokenEntity>
+
+    @Query("select t.tokenId from UserTokenEntity t where t.tokenId in :tokenString and t.isActive = true")
+    fun findByUsedTokens(@Param("tokenString") tokenString: Set<String>): Set<String>
 
 }

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component
 
 @Component
 class ReservationPersistenceMapper {
-
     fun mapToJpaEntity(reservation: Reservation): ReservationEntity {
         return ReservationEntity(
             reservationId = reservation.reservationId,
@@ -23,7 +22,7 @@ class ReservationPersistenceMapper {
             userId = reservation.buyerInfo.userId,
             cost = reservation.buyerInfo.cost,
             count = reservation.buyerInfo.count,
-            targetAge = reservation.buyerInfo.targetAge
+            targetAge = reservation.buyerInfo.targetAge,
         )
     }
 
@@ -31,22 +30,22 @@ class ReservationPersistenceMapper {
         return Reservation(
             entity.reservationId,
             chargeInfo = ChargeInfo(entity.paymentId, entity.paymentType),
-            concertInfo = ConcertInfo(
-                entity.concertId,
-                entity.concertName,
-                SeatInfo(entity.seatId),
-                entity.runningTime
-            ),
+            concertInfo =
+                ConcertInfo(
+                    entity.concertId,
+                    entity.concertName,
+                    SeatInfo(entity.seatId),
+                    entity.runningTime,
+                ),
             buyerInfo = BuyerInfo(entity.userId, entity.cost, entity.count, entity.targetAge),
         )
     }
 
     fun mapToJpaEntities(reservations: List<Reservation>): List<ReservationEntity> {
-        return reservations.stream().map(this::mapToJpaEntity).toList();
+        return reservations.stream().map(this::mapToJpaEntity).toList()
     }
 
     fun mapToDomainList(savedEntity: List<ReservationEntity>): List<Reservation> {
-        return savedEntity.stream().map(this::mapToDomain).toList();
+        return savedEntity.stream().map(this::mapToDomain).toList()
     }
-
 }
