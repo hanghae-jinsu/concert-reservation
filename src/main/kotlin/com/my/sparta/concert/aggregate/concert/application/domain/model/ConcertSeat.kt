@@ -15,6 +15,6 @@ class ConcertSeat(
     }
 
     enum class SeatStatus {
-        AVAILABLE, HOLD, RESERVED
+        AVAILABLE, HOLD
     }
 }

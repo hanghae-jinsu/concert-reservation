@@ -1,6 +1,8 @@
 package com.my.sparta.concert.aggregate.concert.adapter.outbound.persistence.repository
 
 import com.my.sparta.concert.aggregate.concert.adapter.outbound.persistence.entity.ConcertSeatEntity
+import com.my.sparta.concert.aggregate.concert.application.domain.model.ConcertSchedule
+import com.my.sparta.concert.aggregate.concert.application.domain.model.ConcertSeat
 import jakarta.persistence.*
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Lock
@@ -18,6 +20,7 @@ interface ConcertSeatJpaRepository : JpaRepository<ConcertSeatEntity, Long> {
     from ConcertSeatEntity as cs 
     where cs.concertSeatId IN :seatId 
       and cs.concertSchedule.concertScheduleId = :scheduleId
+      and cs.seatStatus = :seatStatus
 """,
     )
 //    @QueryHints(
@@ -29,6 +32,7 @@ interface ConcertSeatJpaRepository : JpaRepository<ConcertSeatEntity, Long> {
     fun findByIdAndScheduleId(
         @Param("seatId") seatId: Int,
         @Param("scheduleId") scheduleId: String,
+        @Param("seatStatus") seatStatus: ConcertSeat.SeatStatus
     ): Optional<ConcertSeatEntity>
 
 }

@@ -42,7 +42,7 @@ class SaveConcertInfoService(
 
         val currentTime = LocalDateTime.now();
         val seatLock = SeatLock("", command.concertSeatNumber, currentTime, currentTime.plusMinutes(3), command.userId)
-
+//
         saveSeatLockPort.saveHoldSeatInfo(seatLock);
 
         return saveConcertSeatPort.saveConcertSeat(concertSeat)

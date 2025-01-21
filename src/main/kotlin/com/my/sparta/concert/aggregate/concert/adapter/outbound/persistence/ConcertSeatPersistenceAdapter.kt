@@ -8,7 +8,6 @@ import com.my.sparta.concert.aggregate.reservation.application.port.outbound.Sav
 import jakarta.persistence.*
 import lombok.RequiredArgsConstructor
 import lombok.extern.slf4j.Slf4j
-import org.springframework.data.jpa.repository.Lock
 import org.springframework.stereotype.Component
 
 @Slf4j
@@ -23,7 +22,10 @@ class ConcertSeatPersistenceAdapter(
         seatId: Int,
         scheduleId: String,
     ) {
-        concertSeatRepository.findByIdAndScheduleId(seatId = seatId, scheduleId).ifPresent {
+
+        val status = ConcertSeat.SeatStatus.AVAILABLE;
+
+        concertSeatRepository.findByIdAndScheduleId(seatId = seatId, scheduleId, status).ifPresent {
             throw EntityExistsException("해당하는 id $seatId 는 이미 예약된 좌석 입니다.")
         }
     }

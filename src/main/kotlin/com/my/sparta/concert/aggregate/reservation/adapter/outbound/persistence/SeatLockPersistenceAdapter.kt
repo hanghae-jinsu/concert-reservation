@@ -20,6 +20,7 @@ class SeatLockPersistenceAdapter(
 ) : SaveSeatLockPort, LoadSeatLockPort {
 
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
+
     override fun saveHoldSeatInfo(seatLock: SeatLock) {
 
         logger.info("log for lock seat info : {}", seatLock)
