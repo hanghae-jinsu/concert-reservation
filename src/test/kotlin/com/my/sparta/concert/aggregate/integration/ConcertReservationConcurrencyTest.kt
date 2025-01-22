@@ -8,8 +8,7 @@ import com.my.sparta.concert.aggregate.reservation.application.port.inbound.Rese
 import com.my.sparta.concert.aggregate.reservation.application.port.inbound.SavePaymentInfoUseCase
 import com.my.sparta.concert.aggregate.reservation.application.port.inbound.command.ConcertReservationCommand
 import com.my.sparta.concert.aggregate.reservation.application.port.outbound.LoadConcertPort
-import com.my.sparta.concert.aggregate.reservation.application.port.outbound.SaveReservationPort
-import com.my.sparta.concert.aggregate.user.application.port.outbound.BuyIngTicketUserUseCase
+import com.my.sparta.concert.aggregate.user.application.port.outbound.LoadUserInfoPort
 import jakarta.persistence.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
@@ -31,6 +30,7 @@ import java.util.concurrent.atomic.AtomicInteger
 class ConcertReservationConcurrencyTest(
 
     @Autowired private val loadConcertPort: LoadConcertPort,
+    @Autowired private val loadUserInfoPort: LoadUserInfoPort,
     @Autowired private val getConcertScheduleInfoPort: GetConcertScheduleInfoPort,
     @Autowired private val reserveConcertUseCase: ReserveConcertUseCase,
     @Autowired private val reserveWebMapper: ReserveWebMapper,
