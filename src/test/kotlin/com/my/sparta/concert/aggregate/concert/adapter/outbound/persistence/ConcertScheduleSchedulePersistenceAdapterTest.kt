@@ -6,6 +6,7 @@ import com.my.sparta.concert.aggregate.concert.adapter.outbound.persistence.enti
 import com.my.sparta.concert.aggregate.concert.adapter.outbound.persistence.mapper.ConcertSchedulePersistenceMapper
 import com.my.sparta.concert.aggregate.concert.adapter.outbound.persistence.repository.ConcertScheduleJpaRepository
 import com.my.sparta.concert.aggregate.concert.application.domain.model.ConcertSchedule
+import com.my.sparta.concert.aggregate.concert.application.domain.model.ConcertSeat
 import io.mockk.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -79,7 +80,7 @@ class ConcertScheduleSchedulePersistenceAdapterTest {
                 ),
             )
 
-        every { concertScheduleRepository.findByConcertId(concertId) } returns concertScheduleEntities
+        every { concertScheduleRepository.findByConcertId(concertId,ConcertSeat.SeatStatus.AVAILABLE) } returns concertScheduleEntities
         every { concertSchedulePersistenceMapper.mapToDomainList(concertScheduleEntities) } returns concertSchedules
 
         // Act

@@ -8,6 +8,8 @@ import com.my.sparta.concert.aggregate.reservation.application.port.outbound.Sav
 import jakarta.persistence.*
 import lombok.RequiredArgsConstructor
 import lombok.extern.slf4j.Slf4j
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 
 @Slf4j
@@ -18,13 +20,15 @@ class ConcertSeatPersistenceAdapter(
     private val concertSeatPersistenceMapper: ConcertSeatPersistenceMapper,
 ) : LoadConcertSeatPort, SaveConcertSeatPort {
 
+    private val logger: Logger = LoggerFactory.getLogger(javaClass)
+
     override fun getConcertSeatDetailInfo(
         seatId: Int,
         scheduleId: String,
     ) {
 
-        val status = ConcertSeat.SeatStatus.AVAILABLE;
-
+        val status = listOf(ConcertSeat.SeatStatus.RESERVED,ConcertSeat.SeatStatus.HOLD)
+        logger.info("@@@ 예약된 좌석 여부 확인 @@@")
         concertSeatRepository.findByIdAndScheduleId(seatId = seatId, scheduleId, status).ifPresent {
             throw EntityExistsException("해당하는 id $seatId 는 이미 예약된 좌석 입니다.")
         }
@@ -32,8 +36,9 @@ class ConcertSeatPersistenceAdapter(
 
     override fun getConcertSeatInfoList(seatIdList: List<Int>): List<ConcertSeat> {
 
+        val status = ConcertSeat.SeatStatus.HOLD;
         val seats = seatIdList.mapNotNull { id ->
-            concertSeatRepository.findById(id.toLong()).orElse(null)
+            concertSeatRepository.findByIdWithStatus(id.toLong(), status)
         }
 
         return concertSeatPersistenceMapper.mapToDomainList(seats);

@@ -23,11 +23,6 @@ class SaveConcertInfoService(
 ) : SaveConcertInfoUseCase {
 
     @Transactional
-//    @Retryable(
-//        value = [LockTimeoutException::class, DeadlockLoserDataAccessException::class],
-//        maxAttempts = 3,
-//        backoff = Backoff(delay = 500, multiplier = 2.0)
-//    )
     override fun saveConcertSeat(command: ConcertReservationCommand): ConcertSeat {
 
         // 콘서트 자리 있는지 확인
@@ -42,7 +37,7 @@ class SaveConcertInfoService(
 
         val currentTime = LocalDateTime.now();
         val seatLock = SeatLock("", command.concertSeatNumber, currentTime, currentTime.plusMinutes(3), command.userId)
-//
+
         saveSeatLockPort.saveHoldSeatInfo(seatLock);
 
         return saveConcertSeatPort.saveConcertSeat(concertSeat)

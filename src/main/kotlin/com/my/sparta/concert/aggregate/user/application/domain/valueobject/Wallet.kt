@@ -27,4 +27,14 @@ class Wallet(
         }
         this.money -= totalCost
     }
+
+    fun useWallet(
+        totalCost : Double,
+    ) {
+
+        require(totalCost < this.money) {
+            "지갑에 돈이 없어서 해당 영화비를 낼 수 없습니다."
+        }
+        this.money -= totalCost
+    }
 }

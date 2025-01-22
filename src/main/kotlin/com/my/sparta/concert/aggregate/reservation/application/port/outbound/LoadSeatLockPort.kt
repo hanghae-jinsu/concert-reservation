@@ -4,6 +4,6 @@ import com.my.sparta.concert.aggregate.reservation.application.domain.model.Seat
 
 interface LoadSeatLockPort {
 
-    fun getSeatLockByExpired(): List<SeatLock>;
-
+    fun getSeatLockByExpired(): List<SeatLock>
+    fun getChooseHoldSeat(seatId: Int)
 }

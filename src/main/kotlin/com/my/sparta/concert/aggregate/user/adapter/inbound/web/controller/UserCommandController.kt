@@ -1,8 +1,8 @@
-package com.my.sparta.concert.aggregate.user.adapter.inbound.controller
+package com.my.sparta.concert.aggregate.user.adapter.inbound.web.controller
 
-import com.my.sparta.concert.aggregate.user.adapter.inbound.interfaces.request.UserChargeMoneyRequest
-import com.my.sparta.concert.aggregate.user.adapter.inbound.interfaces.response.UserWalletInfoResponse
-import com.my.sparta.concert.aggregate.user.adapter.inbound.mapper.UserWebMapper
+import com.my.sparta.concert.aggregate.user.adapter.inbound.web.interfaces.request.UserChargeMoneyRequest
+import com.my.sparta.concert.aggregate.user.adapter.inbound.web.interfaces.response.UserWalletInfoResponse
+import com.my.sparta.concert.aggregate.user.adapter.inbound.web.mapper.UserWebMapper
 import com.my.sparta.concert.aggregate.user.application.port.inbound.UserChargeMoneyUseCase
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
