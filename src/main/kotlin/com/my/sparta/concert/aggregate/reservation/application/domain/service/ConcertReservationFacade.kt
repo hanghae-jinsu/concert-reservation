@@ -7,7 +7,6 @@ import com.my.sparta.concert.aggregate.reservation.application.port.inbound.Save
 import com.my.sparta.concert.aggregate.reservation.application.port.inbound.SaveReservationUseCase
 import com.my.sparta.concert.aggregate.reservation.application.port.inbound.command.ConcertReservationCommand
 import com.my.sparta.concert.aggregate.reservation.application.port.outbound.LoadConcertPort
-import com.my.sparta.concert.aggregate.user.application.port.outbound.BuyIngTicketUserUseCase
 import com.my.sparta.concert.aggregate.user.application.port.outbound.LoadUserInfoPort
 import lombok.RequiredArgsConstructor
 import org.slf4j.Logger
@@ -20,7 +19,6 @@ class ConcertReservationFacade(
     private val loadConcertPort: LoadConcertPort,
     private val loadUserInfoPort: LoadUserInfoPort,
     private val saveConcertInfoUseCase: SaveConcertInfoUseCase,
-    private val buyIngTicketUserUseCase: BuyIngTicketUserUseCase,
     private val savePaymentInfoUseCase: SavePaymentInfoUseCase,
     private val saveReservationUseCase: SaveReservationUseCase
 ) : ReserveConcertUseCase {
