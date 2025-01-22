@@ -1,6 +1,7 @@
 package com.my.sparta.concert.aggregate.concert.application.domain.service
 
 import com.my.sparta.concert.aggregate.concert.application.domain.model.Concert
+import com.my.sparta.concert.aggregate.payment.adapter.inbound.interfaces.PaymentResponse
 import com.my.sparta.concert.aggregate.reservation.application.port.inbound.SavePaymentInfoUseCase
 import com.my.sparta.concert.aggregate.reservation.application.port.inbound.command.ConcertReservationCommand
 import com.my.sparta.concert.aggregate.reservation.application.port.outbound.SavePaymentHistoryPort
@@ -28,20 +29,24 @@ class SavePaymentInfoService(
 
         val totalPrice = concert.cost * command.count
 
-//        val response = requestPayment(userInfo.userId)
+        val response = requestPayment(userInfo.userId)
+        require(response.message != null) {
+            "결제가 실패하였습니다."
+        }
 
-//        require(response.message != null) {
-//                 "결제가 실패하였습니다."
-//        }
-//
-//        logger.info("$response.message")
+        logger.info("$response.message")
 
         val payment = Payment("", userInfo.userId, command.paymentType, totalPrice, PayingTransaction.PAYMENT)
         return savePaymentHistoryPort.savePaymentInfo(payment)
 
     }
 
-//    private fun requestPayment(userId: String): PaymentResponse {
+    private fun requestPayment(userId: String): PaymentResponse {
+        return PaymentResponse(
+            200,
+            userId + " 해당 유저는 결제 하였습니다."
+        )
+    }
 //        val url = "https://localhost:8080/payment"
 //
 //        val headers = HttpHeaders()
