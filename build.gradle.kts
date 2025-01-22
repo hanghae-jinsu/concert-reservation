@@ -51,6 +51,10 @@ dependencies {
     // DB
     runtimeOnly("com.mysql:mysql-connector-j")
 
+    // redis
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    implementation("org.redisson:redisson-spring-boot-starter:3.18.0")
+
     // swagger
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
 

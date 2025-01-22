@@ -37,3 +37,10 @@ spring:
     username: users
     password: password
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+      timeout: 1000

@@ -35,3 +35,10 @@ spring:
     url: jdbc:mysql://localhost:3310/concert?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
     username: users
     password: password
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+      timeout: 1000
