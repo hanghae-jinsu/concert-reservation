@@ -1,7 +1,8 @@
 package com.my.sparta.concert.aggregate.user.adapter.inbound.controller
 
-import com.my.sparta.concert.aggregate.user.adapter.inbound.interfaces.response.UserWalletInfoResponse
-import com.my.sparta.concert.aggregate.user.adapter.inbound.mapper.UserWebMapper
+import com.my.sparta.concert.aggregate.user.adapter.inbound.web.interfaces.response.UserWalletInfoResponse
+import com.my.sparta.concert.aggregate.user.adapter.inbound.web.mapper.UserWebMapper
+import com.my.sparta.concert.aggregate.user.adapter.inbound.web.controller.UserQueryController
 import com.my.sparta.concert.aggregate.user.application.domain.model.Users
 import com.my.sparta.concert.aggregate.user.application.domain.valueobject.PaymentType
 import com.my.sparta.concert.aggregate.user.application.domain.valueobject.Wallet
