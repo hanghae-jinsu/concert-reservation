@@ -5,6 +5,7 @@ import com.my.sparta.concert.aggregate.reservation.adapter.outbound.persistence.
 import com.my.sparta.concert.aggregate.reservation.adapter.outbound.persistence.repository.SeatLockJpaRepository
 import com.my.sparta.concert.aggregate.reservation.application.domain.model.SeatLock
 import com.my.sparta.concert.aggregate.reservation.application.port.outbound.LoadSeatLockPort
+import jakarta.persistence.*
 import lombok.RequiredArgsConstructor
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -36,6 +37,13 @@ class SeatLockPersistenceAdapter(
 
         val entities = seatLockPersistenceMapper.mapToEntities(seatList);
         seatLockJpaRepository.deleteAll(entities);
+    }
+
+    // hold 상태로 만료시간이 지나면 안됨.
+    override fun getChooseHoldSeat(seatId: Int) {
+
+        val currentTime = LocalDateTime.now()
+        seatLockJpaRepository.findBySeatIdWithCurrentTime(seatId,currentTime).orElseThrow { throw EntityNotFoundException("예약하려는 임시좌석을 찾을수 없습니다.") };
     }
 
     override fun getSeatLockByExpired(): List<SeatLock> {

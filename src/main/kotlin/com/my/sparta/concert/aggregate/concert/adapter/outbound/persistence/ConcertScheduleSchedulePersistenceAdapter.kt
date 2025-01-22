@@ -3,6 +3,7 @@ package com.my.sparta.concert.aggregate.concert.adapter.outbound.persistence
 import com.my.sparta.concert.aggregate.concert.adapter.outbound.persistence.mapper.ConcertSchedulePersistenceMapper
 import com.my.sparta.concert.aggregate.concert.adapter.outbound.persistence.repository.ConcertScheduleJpaRepository
 import com.my.sparta.concert.aggregate.concert.application.domain.model.ConcertSchedule
+import com.my.sparta.concert.aggregate.concert.application.domain.model.ConcertSeat
 import com.my.sparta.concert.aggregate.concert.application.port.outbound.GetConcertScheduleInfoPort
 import lombok.RequiredArgsConstructor
 import lombok.extern.slf4j.Slf4j
@@ -22,7 +23,8 @@ class ConcertScheduleSchedulePersistenceAdapter(
 
     override fun getConcertScheduleById(concertId: String): List<ConcertSchedule> {
 
-        val concertScheduleList = concertScheduleRepository.findByConcertId(concertId)
+        val status = ConcertSeat.SeatStatus.AVAILABLE;
+        val concertScheduleList = concertScheduleRepository.findByConcertId(concertId,status)
 
         return concertSchedulePersistenceMapper.mapToDomainList(concertScheduleList)
 

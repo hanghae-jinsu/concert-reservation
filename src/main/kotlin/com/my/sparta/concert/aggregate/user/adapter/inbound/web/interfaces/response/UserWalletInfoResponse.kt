@@ -1,4 +1,4 @@
-package com.my.sparta.concert.aggregate.user.adapter.inbound.interfaces.response
+package com.my.sparta.concert.aggregate.user.adapter.inbound.web.interfaces.response
 
 import lombok.Data
 

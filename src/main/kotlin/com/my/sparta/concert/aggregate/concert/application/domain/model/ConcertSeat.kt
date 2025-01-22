@@ -1,20 +1,25 @@
 package com.my.sparta.concert.aggregate.concert.application.domain.model
 
 import lombok.Getter
+import java.time.LocalDateTime
 
 @Getter
 class ConcertSeat(
     var id: Int,
     var userId: String,
     var concertScheduleId: String,
-    var seatStatus: SeatStatus
+    var seatStatus: SeatStatus,
 ) {
+
+    fun statusUpdateReservation() {
+        this.seatStatus = SeatStatus.RESERVED
+    }
 
     fun statusUpdate() {
         this.seatStatus = SeatStatus.AVAILABLE
     }
 
     enum class SeatStatus {
-        AVAILABLE, HOLD
+        AVAILABLE, HOLD, RESERVED
     }
 }

@@ -2,6 +2,7 @@ package com.my.sparta.concert.aggregate.reservation.application.domain.service
 
 import com.my.sparta.concert.aggregate.reservation.application.domain.model.Reservation
 import com.my.sparta.concert.aggregate.reservation.application.domain.model.event.ChangeStatusUseSeatEvent
+import com.my.sparta.concert.aggregate.reservation.application.domain.model.event.UseUserPointEvent
 import com.my.sparta.concert.aggregate.reservation.application.port.inbound.SaveReservationUseCase
 import com.my.sparta.concert.aggregate.reservation.application.port.outbound.SaveReservationPort
 import lombok.RequiredArgsConstructor
@@ -19,11 +20,17 @@ class SaveConcertReservationService(
     @Transactional
     override fun saveConcertTicket(reservation: Reservation): Reservation {
 
-        val event = ChangeStatusUseSeatEvent(
+        val seatEvent = ChangeStatusUseSeatEvent(
             reservation.concertInfo.seatInfo.id,
             reservation.buyerInfo.userId
         )
-        eventPublisher.publishEvent(event);
+        var useEvent = UseUserPointEvent(
+            reservation.buyerInfo.userId,
+            reservation.buyerInfo.cost
+        )
+
+        eventPublisher.publishEvent(seatEvent);
+        eventPublisher.publishEvent(useEvent)
 
         return saveReservationPort.saveReservationHistory(reservation);
     }

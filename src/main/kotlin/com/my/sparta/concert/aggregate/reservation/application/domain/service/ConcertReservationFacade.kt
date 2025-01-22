@@ -8,6 +8,7 @@ import com.my.sparta.concert.aggregate.reservation.application.port.inbound.Save
 import com.my.sparta.concert.aggregate.reservation.application.port.inbound.command.ConcertReservationCommand
 import com.my.sparta.concert.aggregate.reservation.application.port.outbound.LoadConcertPort
 import com.my.sparta.concert.aggregate.user.application.port.outbound.BuyIngTicketUserUseCase
+import com.my.sparta.concert.aggregate.user.application.port.outbound.LoadUserInfoPort
 import lombok.RequiredArgsConstructor
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service
 @RequiredArgsConstructor
 class ConcertReservationFacade(
     private val loadConcertPort: LoadConcertPort,
+    private val loadUserInfoPort: LoadUserInfoPort,
     private val saveConcertInfoUseCase: SaveConcertInfoUseCase,
     private val buyIngTicketUserUseCase: BuyIngTicketUserUseCase,
     private val savePaymentInfoUseCase: SavePaymentInfoUseCase,
@@ -30,11 +32,11 @@ class ConcertReservationFacade(
 
         val concert = loadConcertPort.getConcertInfoById(command.concertId) // 1
         logger.info("[ reserve ] :  1")
-        val userInfo = buyIngTicketUserUseCase.saveUser(command, concert); //2
+        val userInfo = loadUserInfoPort.getUserInfoById(command.userId)
         logger.info("[ reserve ] :  2")
-        val paymentInfo = savePaymentInfoUseCase.savePayment(userInfo, concert, command); //3
+        val savedConcertSeat = saveConcertInfoUseCase.saveConcertSeat(command); // 3
         logger.info("[ reserve ] :  3")
-        val savedConcertSeat = saveConcertInfoUseCase.saveConcertSeat(command); // 4
+        val paymentInfo = savePaymentInfoUseCase.savePayment(userInfo, concert, command); //4
         logger.info("[ reserve ] :  4")
         val reservation = Reservation.createReservation(concert, userInfo, savedConcertSeat, command, paymentInfo)
         logger.info("[ reserve ] :  5")
