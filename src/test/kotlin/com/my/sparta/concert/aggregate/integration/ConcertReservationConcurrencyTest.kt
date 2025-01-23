@@ -1,14 +1,11 @@
 package com.my.sparta.concert.aggregate.integration
 
-import com.my.sparta.concert.aggregate.concert.application.port.inbound.SaveConcertInfoUseCase
 import com.my.sparta.concert.aggregate.concert.application.port.outbound.GetConcertScheduleInfoPort
 import com.my.sparta.concert.aggregate.reservation.adapter.inbound.web.interfaces.ConcertReservationRequest
 import com.my.sparta.concert.aggregate.reservation.adapter.outbound.persistence.mapper.ReserveWebMapper
 import com.my.sparta.concert.aggregate.reservation.application.port.inbound.ReserveConcertUseCase
-import com.my.sparta.concert.aggregate.reservation.application.port.inbound.SavePaymentInfoUseCase
 import com.my.sparta.concert.aggregate.reservation.application.port.inbound.command.ConcertReservationCommand
 import com.my.sparta.concert.aggregate.reservation.application.port.outbound.LoadConcertPort
-import com.my.sparta.concert.aggregate.user.application.port.outbound.LoadUserInfoPort
 import jakarta.persistence.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
@@ -18,6 +15,7 @@ import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 import org.testcontainers.junit.jupiter.Testcontainers
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
@@ -25,12 +23,12 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 
 @SpringBootTest
+@ActiveProfiles("test")
 @Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class ConcertReservationConcurrencyTest(
 
     @Autowired private val loadConcertPort: LoadConcertPort,
-    @Autowired private val loadUserInfoPort: LoadUserInfoPort,
     @Autowired private val getConcertScheduleInfoPort: GetConcertScheduleInfoPort,
     @Autowired private val reserveConcertUseCase: ReserveConcertUseCase,
     @Autowired private val reserveWebMapper: ReserveWebMapper,
@@ -43,7 +41,7 @@ class ConcertReservationConcurrencyTest(
     @BeforeEach
     fun setUp() {
 
-        val concertInfo = loadConcertPort.getConcertInfoByName("라_트라비아타")
+        val concertInfo = loadConcertPort.getConcertInfoByName("해리포터와 마법사의 돌")
         val concertScheduleInfo = getConcertScheduleInfoPort.getConcertScheduleById(concertInfo.concertId)
 
         (1..50).forEach { i ->
@@ -59,7 +57,6 @@ class ConcertReservationConcurrencyTest(
             )
         }
 
-        // 2) concertRequests -> command 리스트 변환 후, addAll()로 채우기
         commandRequest.addAll(
             concertRequests.map { request ->
                 reserveWebMapper.mapToCommand(request)
