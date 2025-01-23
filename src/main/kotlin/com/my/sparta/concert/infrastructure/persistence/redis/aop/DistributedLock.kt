@@ -1,4 +1,4 @@
-package com.my.sparta.concert.infrastructure.persistence.redis.config
+package com.my.sparta.concert.infrastructure.persistence.redis.aop
 
 import java.util.concurrent.TimeUnit
 

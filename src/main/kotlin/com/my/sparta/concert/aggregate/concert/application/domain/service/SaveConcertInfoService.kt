@@ -7,6 +7,7 @@ import com.my.sparta.concert.aggregate.reservation.application.domain.model.Seat
 import com.my.sparta.concert.aggregate.reservation.application.port.inbound.command.ConcertReservationCommand
 import com.my.sparta.concert.aggregate.reservation.application.port.outbound.LoadConcertSeatPort
 import com.my.sparta.concert.aggregate.reservation.application.port.outbound.SaveConcertSeatPort
+import com.my.sparta.concert.infrastructure.persistence.redis.aop.DistributedLock
 import lombok.RequiredArgsConstructor
 import lombok.extern.slf4j.Slf4j
 import org.springframework.stereotype.Service
@@ -23,6 +24,7 @@ class SaveConcertInfoService(
 ) : SaveConcertInfoUseCase {
 
     @Transactional
+    @DistributedLock(key ="#command.userId + '-' +#command.concertSeatNumber")
     override fun saveConcertSeat(command: ConcertReservationCommand): ConcertSeat {
 
         // 콘서트 자리 있는지 확인

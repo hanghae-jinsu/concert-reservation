@@ -1,13 +1,18 @@
 package com.my.sparta.concert.infrastructure.persistence.redis.aop
 
-import com.my.sparta.concert.infrastructure.persistence.redis.config.DistributedLock
+import lombok.RequiredArgsConstructor
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
+import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.reflect.MethodSignature
 import org.redisson.api.RLock
 import org.redisson.api.RedissonClient
 import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Component
 
+@Aspect
+@Component
+@RequiredArgsConstructor
 class DistributedLockAop(
     private val redissonClient: RedissonClient,
     private val aopForTransaction: AopForTransaction
@@ -16,7 +21,7 @@ class DistributedLockAop(
     private val redisLockPrefix = "LOCK:"
     private val log = LoggerFactory.getLogger(DistributedLockAop::class.java)
 
-    @Around("@annotation(com.my.sparta.concert.infrastructure.persistence.redis.aop)")
+    @Around("@annotation(DistributedLock)")
     @Throws(Throwable::class)
     fun lock(joinPoint: ProceedingJoinPoint): Any? {
 

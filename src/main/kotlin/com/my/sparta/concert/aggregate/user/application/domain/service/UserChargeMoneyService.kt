@@ -42,4 +42,17 @@ class UserChargeMoneyService(
             user
         }
     }
+
+    @Transactional
+    override fun chargeMoneyNoneDistributedLock(command: UserChargeCommand): Users {
+        val userInfo = loadUserInfoPort.getUserInfoById(command.userId)
+
+        userInfo.wallet.chargeMoney(command.wallet.money.toInt())
+
+        logger.info("User ${command.userId} wallet balance: ${userInfo.wallet.money}")
+
+        val user = saveMoneyPort.saveMoney(userInfo)
+
+        return user
+    }
 }
