@@ -43,7 +43,8 @@ class SeatLockPersistenceAdapter(
     override fun getChooseHoldSeat(seatId: Int) {
 
         val currentTime = LocalDateTime.now()
-        seatLockJpaRepository.findBySeatIdWithCurrentTime(seatId,currentTime).orElseThrow { throw EntityNotFoundException("예약하려는 임시좌석을 찾을수 없습니다.") };
+        seatLockJpaRepository.findBySeatIdWithCurrentTime(seatId,currentTime).orElseThrow {
+            throw EntityNotFoundException("예약하려는 임시좌석을 찾을수 없습니다.") };
     }
 
     override fun getSeatLockByExpired(): List<SeatLock> {

@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor
 class ConcertSeatEntity(
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "concert_seat_id", nullable = false, unique = true)
     val concertSeatId: Int,
 

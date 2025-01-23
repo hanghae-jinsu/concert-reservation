@@ -19,7 +19,7 @@ class ConcertSeatPersistenceMapper {
 
     fun mapToEntity(domain: ConcertSeat): ConcertSeatEntity {
         return ConcertSeatEntity(
-            domain.id,
+            concertSeatId = domain.id,
             domain.userId,
             domain.seatStatus,
             ConcertScheduleEntity(

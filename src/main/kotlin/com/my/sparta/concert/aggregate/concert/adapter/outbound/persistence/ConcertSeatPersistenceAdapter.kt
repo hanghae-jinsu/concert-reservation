@@ -46,8 +46,8 @@ class ConcertSeatPersistenceAdapter(
     }
 
     override fun saveConcertSeat(domain: ConcertSeat): ConcertSeat {
-        val savedAllEntity = concertSeatRepository.save(concertSeatPersistenceMapper.mapToEntity(domain))
-        return concertSeatPersistenceMapper.mapToDomain(savedAllEntity);
+        val savedEntity = concertSeatRepository.save(concertSeatPersistenceMapper.mapToEntity(domain))
+        return concertSeatPersistenceMapper.mapToDomain(savedEntity);
     }
 
     override fun saveAllConcertSeat(seatInfoList: List<ConcertSeat>) {
