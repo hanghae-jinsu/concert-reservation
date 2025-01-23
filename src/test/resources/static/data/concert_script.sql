@@ -97,14 +97,14 @@ CREATE TABLE `user_token_entity` (
 -- concert.concert_seats definition
 
 CREATE TABLE `concert_seats` (
-                                 `concert_seat_id` int NOT NULL AUTO_INCREMENT,
+                                 `concert_seat_id` int NOT NULL ,
                                  `concert_schedule_id` varchar(255) NOT NULL,
                                  `user_id` varchar(255) DEFAULT NULL,
                                  `seat_status` enum('AVAILABLE','HOLD','RESERVED') DEFAULT NULL,
                                  PRIMARY KEY (`concert_seat_id`),
                                  KEY `FKh7n8i0adj0m9nf0fr5sjumsl9` (`concert_schedule_id`),
                                  CONSTRAINT `FKh7n8i0adj0m9nf0fr5sjumsl9` FOREIGN KEY (`concert_schedule_id`) REFERENCES `concert_schedule` (`concert_schedule_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 -- concert.payment definition
@@ -157,7 +157,7 @@ VALUES(false,120, '2025-01-10 16:00:00', '2025-01-10 18:00:00', 'concert1', 'hal
 
 INSERT INTO concert.concert_seats
 (concert_seat_id, concert_schedule_id, user_id, seat_status)
-VALUES(1, 'concert_schedule_1', '', 'AVAILABLE');
+VALUES(1, 'concert_schedule_1', 'user5', 'AVAILABLE');
 
 
 

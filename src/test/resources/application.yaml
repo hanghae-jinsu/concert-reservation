@@ -7,7 +7,7 @@ spring:
     name: HangHaePlusDataSource
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
-      maximum-pool-size: 3
+      maximum-pool-size: 50
       connection-timeout: 10000
       max-lifetime: 60000
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -19,7 +19,7 @@ spring:
       ddl-auto: update
     properties:
       hibernate.timezone.default_storage: NORMALIZE_UTC
-      hibernate.jdbc.time_zone: Asia/Seoul
+      hibernate.jdbc.time_zone: UTC
 
 springdoc:
   api-docs:
@@ -33,7 +33,7 @@ spring.config.activate.on-profile: test
 
 spring:
   datasource:
-    url: jdbc:tc:mysql://localhost:3310/concert?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    url: jdbc:tc:mysql:8.0.33:///concert?TC_INITSCRIPT=static/data/concert_script.sql&characterEncoding=UTF-8&serverTimezone=UTC
     username: users
     password: password
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
