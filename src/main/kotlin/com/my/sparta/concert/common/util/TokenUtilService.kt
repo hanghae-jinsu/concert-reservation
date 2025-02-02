@@ -1,6 +1,6 @@
 package com.my.sparta.concert.common.util
 
-import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.repository.TokenQueueJpaRepository
+import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.jpa.repository.TokenQueueJpaRepository
 import com.my.sparta.concert.aggregate.user.application.domain.model.UserToken
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

@@ -1,8 +1,9 @@
 package com.my.sparta.concert.aggregate.user.adapter.outbound.persistence
 
-import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.entity.UserTokenEntity
-import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.mapper.TokenPersistenceMapper
-import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.repository.TokenQueueJpaRepository
+import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.redis.repository.TokenQueueRedisRepository
+import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.jpa.entity.UserTokenEntity
+import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.jpa.mapper.TokenPersistenceMapper
+import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.jpa.repository.TokenQueueJpaRepository
 import com.my.sparta.concert.aggregate.user.application.domain.model.UserToken
 import com.my.sparta.concert.aggregate.user.application.port.outbound.DeleteQueueingTokenPort
 import com.my.sparta.concert.aggregate.user.application.port.outbound.LoadNonExpiredTokenPort
@@ -23,6 +24,7 @@ import java.time.LocalDateTime
 class TokenQueuePersistenceAdapter(
     private val tokenPersistenceMapper: TokenPersistenceMapper,
     private val tokenQueueJpaRepository: TokenQueueJpaRepository,
+    private val tokenQueueRedisRepository: TokenQueueRedisRepository
 ) : SaveUserTokenPort,
     SaveQueueingTokenPort,
     LoadQueueingTokenPort,

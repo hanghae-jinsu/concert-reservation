@@ -1,7 +1,7 @@
 package com.my.sparta.concert.aggregate.user.adapter.outbound.persistence
 
-import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.mapper.UserPersistenceMapper
-import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.repository.UserJpaRepository
+import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.jpa.mapper.UserPersistenceMapper
+import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.jpa.repository.UserJpaRepository
 import com.my.sparta.concert.aggregate.user.application.domain.model.Users
 import com.my.sparta.concert.aggregate.user.application.port.outbound.LoadUserInfoPort
 import com.my.sparta.concert.aggregate.user.application.port.outbound.SaveMoneyPort

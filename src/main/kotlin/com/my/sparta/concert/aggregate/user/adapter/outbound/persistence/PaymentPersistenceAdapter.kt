@@ -1,8 +1,8 @@
 package com.my.sparta.concert.aggregate.user.adapter.outbound.persistence
 
 import com.my.sparta.concert.aggregate.reservation.application.port.outbound.SavePaymentHistoryPort
-import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.mapper.PaymentPersistenceMapper
-import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.repository.PaymentJpaRepository
+import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.jpa.mapper.PaymentPersistenceMapper
+import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.jpa.repository.PaymentJpaRepository
 import com.my.sparta.concert.aggregate.user.application.domain.model.Payment
 import jakarta.persistence.*
 import lombok.RequiredArgsConstructor
