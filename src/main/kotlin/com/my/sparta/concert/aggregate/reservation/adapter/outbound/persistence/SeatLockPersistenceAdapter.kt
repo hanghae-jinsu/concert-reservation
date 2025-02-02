@@ -12,45 +12,39 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 
-
 @Component
 @RequiredArgsConstructor
 class SeatLockPersistenceAdapter(
     private val seatLockPersistenceMapper: SeatLockPersistenceMapper,
-    private val seatLockJpaRepository: SeatLockJpaRepository
+    private val seatLockJpaRepository: SeatLockJpaRepository,
 ) : SaveSeatLockPort, LoadSeatLockPort {
-
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     override fun saveHoldSeatInfo(seatLock: SeatLock) {
-
         logger.info("log for lock seat info : {}", seatLock)
 
-        val entity = seatLockPersistenceMapper.mapToCreateJpaEntity(seatLock);
+        val entity = seatLockPersistenceMapper.mapToCreateJpaEntity(seatLock)
         seatLockJpaRepository.save(entity)
-
     }
 
     override fun deleteSeatLocks(seatList: List<SeatLock>) {
+        logger.info("log deleteSeatLocks : {}", seatList)
 
-        logger.info("log deleteSeatLocks : {}", seatList);
-
-        val entities = seatLockPersistenceMapper.mapToEntities(seatList);
-        seatLockJpaRepository.deleteAll(entities);
+        val entities = seatLockPersistenceMapper.mapToEntities(seatList)
+        seatLockJpaRepository.deleteAll(entities)
     }
 
     // hold 상태로 만료시간이 지나면 안됨.
     override fun getChooseHoldSeat(seatId: Int) {
-
         val currentTime = LocalDateTime.now()
-        seatLockJpaRepository.findBySeatIdWithCurrentTime(seatId,currentTime).orElseThrow {
-            throw EntityNotFoundException("예약하려는 임시좌석을 찾을수 없습니다.") };
+        seatLockJpaRepository.findBySeatIdWithCurrentTime(seatId, currentTime).orElseThrow {
+            throw EntityNotFoundException("예약하려는 임시좌석을 찾을수 없습니다.")
+        }
     }
 
     override fun getSeatLockByExpired(): List<SeatLock> {
-
-        val now = LocalDateTime.now();
-        val seatList = seatLockJpaRepository.findByExpiredLockList(now);
-        return seatLockPersistenceMapper.mapToDomainList(seatList);
+        val now = LocalDateTime.now()
+        val seatList = seatLockJpaRepository.findByExpiredLockList(now)
+        return seatLockPersistenceMapper.mapToDomainList(seatList)
     }
 }

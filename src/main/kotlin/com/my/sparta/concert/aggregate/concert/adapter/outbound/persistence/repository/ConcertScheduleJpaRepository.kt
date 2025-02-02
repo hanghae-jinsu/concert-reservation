@@ -7,7 +7,12 @@ import org.springframework.data.jpa.repository.Query
 import java.util.*
 
 interface ConcertScheduleJpaRepository : JpaRepository<ConcertScheduleEntity, UUID> {
-
-    @Query("select t from ConcertScheduleEntity t join fetch t.concertSeat as cs where t.concertId = :concertId and t.finished != true and cs.seatStatus = :seatStatus")
-    fun findByConcertId(concertId: String, seatStatus: ConcertSeat.SeatStatus): List<ConcertScheduleEntity>
+    @Query(
+        "select t from ConcertScheduleEntity t join fetch t.concertSeat as cs where t.concertId = :concertId and t.finished" +
+            " != true and cs.seatStatus = :seatStatus",
+    )
+    fun findByConcertId(
+        concertId: String,
+        seatStatus: ConcertSeat.SeatStatus,
+    ): List<ConcertScheduleEntity>
 }

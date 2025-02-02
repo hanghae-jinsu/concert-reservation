@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component
 
 @Component
 class ConcertScheduleWebMapper {
-
     fun mapToListResponse(concertScheduleList: List<ConcertSchedule>): ConcertScheduleResponse {
         return ConcertScheduleResponse(
             concertScheduleList = mapToScheduleResponse(concertScheduleList),
@@ -24,7 +23,7 @@ class ConcertScheduleWebMapper {
                 startDateTime = concertSchedule.startDateTime,
                 endDateTime = concertSchedule.endDateTime,
                 runningTime = concertSchedule.runningTime,
-                concertSeat = mapToConcertSeat(concertSchedule)
+                concertSeat = mapToConcertSeat(concertSchedule),
             )
         }
     }
@@ -36,8 +35,7 @@ class ConcertScheduleWebMapper {
             }
             .map { seat ->
                 ConcertSeatResponse(
-                    seat.id
+                    seat.id,
                 )
             }
-
 }

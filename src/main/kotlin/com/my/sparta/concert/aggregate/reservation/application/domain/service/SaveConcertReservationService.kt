@@ -16,22 +16,22 @@ class SaveConcertReservationService(
     private val saveReservationPort: SaveReservationPort,
     private val eventPublisher: ApplicationEventPublisher,
 ) : SaveReservationUseCase {
-
     @Transactional
     override fun saveConcertTicket(reservation: Reservation): Reservation {
+        val seatEvent =
+            ChangeStatusUseSeatEvent(
+                reservation.concertInfo.seatInfo.id,
+                reservation.buyerInfo.userId,
+            )
+        var useEvent =
+            UseUserPointEvent(
+                reservation.buyerInfo.userId,
+                reservation.buyerInfo.cost,
+            )
 
-        val seatEvent = ChangeStatusUseSeatEvent(
-            reservation.concertInfo.seatInfo.id,
-            reservation.buyerInfo.userId
-        )
-        var useEvent = UseUserPointEvent(
-            reservation.buyerInfo.userId,
-            reservation.buyerInfo.cost
-        )
-
-        eventPublisher.publishEvent(seatEvent);
+        eventPublisher.publishEvent(seatEvent)
         eventPublisher.publishEvent(useEvent)
 
-        return saveReservationPort.saveReservationHistory(reservation);
+        return saveReservationPort.saveReservationHistory(reservation)
     }
 }

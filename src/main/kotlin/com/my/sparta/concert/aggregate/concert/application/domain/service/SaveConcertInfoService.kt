@@ -20,29 +20,28 @@ import java.time.LocalDateTime
 class SaveConcertInfoService(
     private val loadConcertSeatPort: LoadConcertSeatPort,
     private val saveConcertSeatPort: SaveConcertSeatPort,
-    private val saveSeatLockPort: SaveSeatLockPort
+    private val saveSeatLockPort: SaveSeatLockPort,
 ) : SaveConcertInfoUseCase {
 
     @Transactional
-    @DistributedLock(key ="#command.userId + '-' +#command.concertSeatNumber")
+    @DistributedLock(key = "#command.userId + '-' +#command.concertSeatNumber")
     override fun saveConcertSeat(command: ConcertReservationCommand): ConcertSeat {
-
         // 콘서트 자리 있는지 확인
-        loadConcertSeatPort.getConcertSeatDetailInfo(command.concertSeatNumber, command.concertScheduleId);
+        loadConcertSeatPort.getConcertSeatDetailInfo(command.concertSeatNumber, command.concertScheduleId)
 
-        val concertSeat = ConcertSeat(
-            command.concertSeatNumber,
-            command.userId,
-            command.concertScheduleId,
-            ConcertSeat.SeatStatus.HOLD
-        )
+        val concertSeat =
+            ConcertSeat(
+                command.concertSeatNumber,
+                command.userId,
+                command.concertScheduleId,
+                ConcertSeat.SeatStatus.HOLD,
+            )
 
-        val currentTime = LocalDateTime.now();
+        val currentTime = LocalDateTime.now()
         val seatLock = SeatLock("", command.concertSeatNumber, currentTime, currentTime.plusMinutes(3), command.userId)
 
-        saveSeatLockPort.saveHoldSeatInfo(seatLock);
+        saveSeatLockPort.saveHoldSeatInfo(seatLock)
 
         return saveConcertSeatPort.saveConcertSeat(concertSeat)
-
     }
 }

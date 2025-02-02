@@ -6,37 +6,32 @@ import org.springframework.stereotype.Component
 
 @Component
 class SeatLockPersistenceMapper {
-
     fun mapToCreateJpaEntity(seatLock: SeatLock): SeatLockEntity {
-
         return SeatLockEntity(
             seatLockId = "",
             seatId = seatLock.seatId,
             startTime = seatLock.holdStartTime,
             endTime = seatLock.holdEndTime,
-            userId = seatLock.userId
+            userId = seatLock.userId,
         )
-
     }
 
     fun mapToJpaEntity(seatLock: SeatLock): SeatLockEntity {
-
         return SeatLockEntity(
             seatLockId = seatLock.seatLockId,
             seatId = seatLock.seatId,
             startTime = seatLock.holdStartTime,
             endTime = seatLock.holdEndTime,
-            userId = seatLock.userId
+            userId = seatLock.userId,
         )
-
     }
 
     fun mapToEntities(seatLocks: List<SeatLock>): List<SeatLockEntity> {
-        return seatLocks.stream().map(this::mapToJpaEntity).toList();
+        return seatLocks.stream().map(this::mapToJpaEntity).toList()
     }
 
     fun mapToDomainList(seatList: List<SeatLockEntity>): List<SeatLock> {
-        return seatList.stream().map(this::mapToDomain).toList();
+        return seatList.stream().map(this::mapToDomain).toList()
     }
 
     fun mapToDomain(entity: SeatLockEntity): SeatLock {
@@ -45,8 +40,7 @@ class SeatLockPersistenceMapper {
             entity.seatId,
             entity.startTime,
             entity.endTime,
-            entity.userId
+            entity.userId,
         )
     }
-
 }

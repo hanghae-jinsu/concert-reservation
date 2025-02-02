@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class RedissonConfig {
-
     @Value("\${spring.data.redis.host}")
     private lateinit var redisHost: String
 
@@ -20,9 +19,10 @@ class RedissonConfig {
 
     @Bean
     fun redissonClient(): RedissonClient {
-        val config = Config().apply {
-            useSingleServer().address = "$redisHostPrefix$redisHost:$redisPort"
-        }
+        val config =
+            Config().apply {
+                useSingleServer().address = "$redisHostPrefix$redisHost:$redisPort"
+            }
         return Redisson.create(config)
     }
 }

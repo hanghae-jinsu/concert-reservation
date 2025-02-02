@@ -17,37 +17,35 @@ class Reservation(
     var concertInfo: ConcertInfo,
     var buyerInfo: BuyerInfo,
 ) {
-
     companion object {
-
         fun createReservation(
             concert: Concert,
             userInfo: Users,
             concertSeat: ConcertSeat,
             command: ConcertReservationCommand,
-            payment: Payment
+            payment: Payment,
         ): Reservation {
             return Reservation(
                 reservationId = UUID.randomUUID().toString(),
                 chargeInfo =
-                ChargeInfo(
-                    payment.paymentId,
-                    payment.paymentType,
-                ),
+                    ChargeInfo(
+                        payment.paymentId,
+                        payment.paymentType,
+                    ),
                 concertInfo =
-                ConcertInfo(
-                    concert.concertId,
-                    concert.concertName,
-                    SeatInfo(concertSeat.id),
-                    concert.runningTime,
-                ),
+                    ConcertInfo(
+                        concert.concertId,
+                        concert.concertName,
+                        SeatInfo(concertSeat.id),
+                        concert.runningTime,
+                    ),
                 buyerInfo =
-                BuyerInfo(
-                    userInfo.userId,
-                    concert.cost * command.count,
-                    command.count,
-                    concert.targetAge,
-                ),
+                    BuyerInfo(
+                        userInfo.userId,
+                        concert.cost * command.count,
+                        command.count,
+                        concert.targetAge,
+                    ),
             )
         }
     }

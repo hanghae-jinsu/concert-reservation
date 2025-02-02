@@ -19,15 +19,13 @@ class ConcertSeatPersistenceAdapter(
     private val concertSeatRepository: ConcertSeatJpaRepository,
     private val concertSeatPersistenceMapper: ConcertSeatPersistenceMapper,
 ) : LoadConcertSeatPort, SaveConcertSeatPort {
-
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     override fun getConcertSeatDetailInfo(
         seatId: Int,
         scheduleId: String,
     ) {
-
-        val status = listOf(ConcertSeat.SeatStatus.RESERVED,ConcertSeat.SeatStatus.HOLD)
+        val status = listOf(ConcertSeat.SeatStatus.RESERVED, ConcertSeat.SeatStatus.HOLD)
         logger.info("@@@ 예약된 좌석 여부 확인 @@@")
         concertSeatRepository.findByIdAndScheduleId(seatId = seatId, scheduleId, status).ifPresent {
             throw EntityExistsException("해당하는 id $seatId 는 이미 예약된 좌석 입니다.")
@@ -35,24 +33,21 @@ class ConcertSeatPersistenceAdapter(
     }
 
     override fun getConcertSeatInfoList(seatIdList: List<Int>): List<ConcertSeat> {
+        val status = ConcertSeat.SeatStatus.HOLD
+        val seats =
+            seatIdList.mapNotNull { id ->
+                concertSeatRepository.findByIdWithStatus(id.toLong(), status)
+            }
 
-        val status = ConcertSeat.SeatStatus.HOLD;
-        val seats = seatIdList.mapNotNull { id ->
-            concertSeatRepository.findByIdWithStatus(id.toLong(), status)
-        }
-
-        return concertSeatPersistenceMapper.mapToDomainList(seats);
-
+        return concertSeatPersistenceMapper.mapToDomainList(seats)
     }
 
     override fun saveConcertSeat(domain: ConcertSeat): ConcertSeat {
         val savedEntity = concertSeatRepository.save(concertSeatPersistenceMapper.mapToEntity(domain))
-        return concertSeatPersistenceMapper.mapToDomain(savedEntity);
+        return concertSeatPersistenceMapper.mapToDomain(savedEntity)
     }
 
     override fun saveAllConcertSeat(seatInfoList: List<ConcertSeat>) {
-
         concertSeatRepository.saveAll(concertSeatPersistenceMapper.mapToEntities(seatInfoList))
-
     }
 }

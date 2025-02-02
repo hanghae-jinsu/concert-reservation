@@ -5,5 +5,6 @@ import com.my.sparta.concert.aggregate.user.application.port.inbound.command.Use
 
 interface UserChargeMoneyUseCase {
     fun chargeMoney(command: UserChargeCommand): Users
-    fun chargeMoneyNoneDistributedLock(command: UserChargeCommand): Users
+
+    fun chargeMoneyNoneReentrantLock(command: UserChargeCommand): Users
 }

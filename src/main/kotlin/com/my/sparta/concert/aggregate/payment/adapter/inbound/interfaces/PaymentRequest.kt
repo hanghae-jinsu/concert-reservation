@@ -4,5 +4,5 @@ import com.my.sparta.concert.aggregate.user.application.domain.valueobject.Payme
 
 data class PaymentRequest(
     val userId: String,
-    val paymentType: PaymentType
+    val paymentType: PaymentType,
 )

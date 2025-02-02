@@ -4,7 +4,5 @@ import com.my.sparta.concert.aggregate.concert.application.domain.model.ConcertS
 import com.my.sparta.concert.aggregate.reservation.application.port.inbound.command.ConcertReservationCommand
 
 interface SaveConcertInfoUseCase {
-
     fun saveConcertSeat(command: ConcertReservationCommand): ConcertSeat
-
 }

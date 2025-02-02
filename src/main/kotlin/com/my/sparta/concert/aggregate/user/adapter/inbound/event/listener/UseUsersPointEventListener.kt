@@ -8,21 +8,22 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import org.springframework.transaction.event.TransactionPhase
 import org.springframework.transaction.event.TransactionalEventListener
+import java.math.BigDecimal
 
 @Component
 class UseUsersPointEventListener(
     private val loadUserInfoPort: LoadUserInfoPort,
-    private val saveMoneyPort: SaveMoneyPort
+    private val saveMoneyPort: SaveMoneyPort,
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
     fun useUserPoint(event: UseUserPointEvent) {
-
         logger.info("돈 나간다!")
+
         val userInfo = loadUserInfoPort.getUserInfoById(event.userId)
-        userInfo.wallet.useWallet(event.totalPrice)
+        userInfo.wallet.useMoney(BigDecimal(event.totalPrice))
         saveMoneyPort.saveMoney(userInfo)
 
     }

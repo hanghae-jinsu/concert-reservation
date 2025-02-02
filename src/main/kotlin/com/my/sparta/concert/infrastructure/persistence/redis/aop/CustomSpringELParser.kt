@@ -7,8 +7,11 @@ import org.springframework.expression.spel.support.StandardEvaluationContext
 
 @NoArgsConstructor
 object CustomSpringELParser {
-
-    fun getDynamicValue(parameterNames: Array<String>, args: Array<Any>, key: String): Any? {
+    fun getDynamicValue(
+        parameterNames: Array<String>,
+        args: Array<Any>,
+        key: String,
+    ): Any? {
         val parser: ExpressionParser = SpelExpressionParser()
         val context = StandardEvaluationContext()
 

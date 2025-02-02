@@ -4,10 +4,11 @@ import com.my.sparta.concert.aggregate.user.application.domain.valueobject.Payme
 import jakarta.persistence.Embeddable
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
+import java.math.BigDecimal
 
 @Embeddable
 class WalletValueObject(
     @Enumerated(EnumType.STRING)
     val paymentType: PaymentType,
-    val money: Double,
+    val money: BigDecimal,
 )

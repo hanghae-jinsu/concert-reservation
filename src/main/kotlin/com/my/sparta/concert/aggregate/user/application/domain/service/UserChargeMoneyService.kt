@@ -20,17 +20,17 @@ import java.util.concurrent.TimeUnit
 class UserChargeMoneyService(
     private val saveMoneyPort: SaveMoneyPort,
     private val loadUserInfoPort: LoadUserInfoPort,
-    private val lockManager: LockManager
+    private val lockManager: LockManager,
 ) : UserChargeMoneyUseCase {
 
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     @Transactional
     override fun chargeMoney(command: UserChargeCommand): Users {
-        val lockKey = command.userId
+
+        val lockKey = command.userId + command.wallet.money.toString();
 
         return lockManager.withLock(lockKey, 0, TimeUnit.SECONDS, lockManager) {
-
             val userInfo = loadUserInfoPort.getUserInfoById(command.userId)
 
             userInfo.wallet.chargeMoney(command.wallet.money.toInt())
@@ -44,14 +44,18 @@ class UserChargeMoneyService(
     }
 
     @Transactional
-    override fun chargeMoneyNoneDistributedLock(command: UserChargeCommand): Users {
+    override fun chargeMoneyNoneReentrantLock(command: UserChargeCommand): Users {
         val userInfo = loadUserInfoPort.getUserInfoById(command.userId)
 
         userInfo.wallet.chargeMoney(command.wallet.money.toInt())
 
-        logger.info("User ${command.userId} wallet balance: ${userInfo.wallet.money}")
+        logger.info("NoneReentrantLock User ${command.userId} wallet balance: ${userInfo.wallet.money}")
 
         val user = saveMoneyPort.saveMoney(userInfo)
+
+        val findUserInfo = loadUserInfoPort.getUserInfoById(user.userId)
+
+        logger.info("saved user ${findUserInfo.userId} wallet balance: ${findUserInfo.wallet.money}")
 
         return user
     }

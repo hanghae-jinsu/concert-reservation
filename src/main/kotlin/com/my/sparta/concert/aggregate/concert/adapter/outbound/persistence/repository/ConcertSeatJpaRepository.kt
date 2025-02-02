@@ -11,7 +11,6 @@ import org.springframework.data.repository.query.Param
 import java.util.*
 
 interface ConcertSeatJpaRepository : JpaRepository<ConcertSeatEntity, Long> {
-
     @Query(
         """
     select cs 
@@ -24,16 +23,18 @@ interface ConcertSeatJpaRepository : JpaRepository<ConcertSeatEntity, Long> {
     @QueryHints(
         QueryHint(
             name = "jakarta.persistence.lock.timeout",
-            value = "1500"
-        )
+            value = "1500",
+        ),
     )
     fun findByIdAndScheduleId(
         @Param("seatId") seatId: Int,
         @Param("scheduleId") scheduleId: String,
-        @Param("seatStatus") seatStatus: List<ConcertSeat.SeatStatus>
+        @Param("seatStatus") seatStatus: List<ConcertSeat.SeatStatus>,
     ): Optional<ConcertSeatEntity>
 
-
     @Query("select cs from ConcertSeatEntity cs where cs.concertSeatId = :seatId and cs.seatStatus = :status")
-    fun findByIdWithStatus(seatId: Long, status: ConcertSeat.SeatStatus): ConcertSeatEntity
+    fun findByIdWithStatus(
+        seatId: Long,
+        status: ConcertSeat.SeatStatus,
+    ): ConcertSeatEntity
 }

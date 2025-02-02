@@ -7,7 +7,8 @@ import org.springframework.data.repository.query.Param
 import java.util.*
 
 interface ConcertJpaRepository : JpaRepository<ConcertEntity, String> {
-
     @Query("select con from ConcertEntity con where con.concertName = :name")
-    fun findByConcertName(@Param("name") name: String): Optional<ConcertEntity>
+    fun findByConcertName(
+        @Param("name") name: String,
+    ): Optional<ConcertEntity>
 }

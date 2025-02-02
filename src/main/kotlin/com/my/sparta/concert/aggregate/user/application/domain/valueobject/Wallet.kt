@@ -1,22 +1,24 @@
 package com.my.sparta.concert.aggregate.user.application.domain.valueobject
 
 import lombok.Getter
+import java.math.BigDecimal
 
 @Getter
 class Wallet(
     var paymentType: PaymentType,
-    var money: Double,
+    var money: BigDecimal,
 ) {
+
     fun chargeMoney(amount: Int) {
         require(amount > 0) { "충전 금액은 0보다 커야 합니다." }
-        this.money += amount
+        this.money += BigDecimal(amount)
     }
 
-    fun useWallet(
-        cost: Double,
+    fun useMoney(
+        cost: BigDecimal,
         count: Int,
     ) {
-        val totalCost = count * cost
+        val totalCost = cost.multiply(BigDecimal(count))
 
         require(count > 0) {
             "사람 인원 수는 0보다 작을수 없습니다. "
@@ -28,10 +30,7 @@ class Wallet(
         this.money -= totalCost
     }
 
-    fun useWallet(
-        totalCost : Double,
-    ) {
-
+    fun useMoney(totalCost: BigDecimal) {
         require(totalCost < this.money) {
             "지갑에 돈이 없어서 해당 영화비를 낼 수 없습니다."
         }
