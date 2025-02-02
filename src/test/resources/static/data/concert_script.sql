@@ -1,6 +1,4 @@
-
-
--- concert.concert_entity definition
+USE concert;
 
 CREATE TABLE `concert_entity` (
                                   `cost` double DEFAULT NULL,
@@ -24,19 +22,29 @@ CREATE TABLE `concert_hall` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- concert.concert_schedule definition
+-- concert.concert_seats definition
 
 CREATE TABLE `concert_schedule` (
-                                    `finished` bit(1) NOT NULL,
-                                    `running_time` int DEFAULT NULL,
-                                    `end_date_time` datetime(6) DEFAULT NULL,
-                                    `start_date_time` datetime(6) DEFAULT NULL,
+                                    `concert_schedule_id` varchar(255) NOT NULL,
                                     `concert_hall_id` varchar(255) DEFAULT NULL,
                                     `concert_id` varchar(255) DEFAULT NULL,
                                     `concert_name` varchar(255) DEFAULT NULL,
-                                    `concert_schedule_id` varchar(255) NOT NULL,
+                                    `end_date_time` datetime(6) DEFAULT NULL,
+                                    `finished` bit(1) NOT NULL,
                                     `notice` varchar(255) DEFAULT NULL,
+                                    `running_time` int DEFAULT NULL,
+                                    `start_date_time` datetime(6) DEFAULT NULL,
                                     PRIMARY KEY (`concert_schedule_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `concert_seats` (
+                                 `concert_seat_id` int NOT NULL,
+                                 `concert_schedule_id` varchar(255) NOT NULL,
+                                 `user_id` varchar(255) DEFAULT NULL,
+                                 `seat_status` enum('AVAILABLE','HOLD','RESERVED') DEFAULT NULL,
+                                 PRIMARY KEY (`concert_seat_id`),
+                                 KEY `FKh7n8i0adj0m9nf0fr5sjumsl9` (`concert_schedule_id`),
+                                 CONSTRAINT `FKh7n8i0adj0m9nf0fr5sjumsl9` FOREIGN KEY (`concert_schedule_id`) REFERENCES `concert_schedule` (`concert_schedule_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
@@ -94,17 +102,6 @@ CREATE TABLE `user_token_entity` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- concert.concert_seats definition
-
-CREATE TABLE `concert_seats` (
-                                 `concert_seat_id` int NOT NULL ,
-                                 `concert_schedule_id` varchar(255) NOT NULL,
-                                 `user_id` varchar(255) DEFAULT NULL,
-                                 `seat_status` enum('AVAILABLE','HOLD','RESERVED') DEFAULT NULL,
-                                 PRIMARY KEY (`concert_seat_id`),
-                                 KEY `FKh7n8i0adj0m9nf0fr5sjumsl9` (`concert_schedule_id`),
-                                 CONSTRAINT `FKh7n8i0adj0m9nf0fr5sjumsl9` FOREIGN KEY (`concert_schedule_id`) REFERENCES `concert_schedule` (`concert_schedule_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 -- concert.payment definition
@@ -119,6 +116,8 @@ CREATE TABLE `payment` (
                            KEY `FKo78vyim1m80sldgdllr3o1m1y` (`user_entity_user_id`),
                            CONSTRAINT `FKo78vyim1m80sldgdllr3o1m1y` FOREIGN KEY (`user_entity_user_id`) REFERENCES `user_entity` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
 
 INSERT INTO concert.user_entity
 (age, money, user_id, user_name, payment_type)
@@ -150,7 +149,7 @@ VALUES
 
 INSERT INTO concert.concert_schedule
 (finished,running_time, end_date_time, start_date_time, concert_id, concert_hall_id, concert_name, concert_schedule_id, notice)
-VALUES(false,120, '2025-01-10 16:00:00', '2025-01-10 18:00:00', 'concert1', 'hall1', '라_트라비아', 'concert_schedule_1', '조용');
+VALUES(false,120, '2025-01-10 16:00:00', '2025-01-10 18:00:00', 'concert1', 'hall1', '라_트라비아타', 'concert_schedule_1', '조용');
 
 
 
@@ -158,6 +157,4 @@ VALUES(false,120, '2025-01-10 16:00:00', '2025-01-10 18:00:00', 'concert1', 'hal
 INSERT INTO concert.concert_seats
 (concert_seat_id, concert_schedule_id, user_id, seat_status)
 VALUES(1, 'concert_schedule_1', 'user5', 'AVAILABLE');
-
-
 
