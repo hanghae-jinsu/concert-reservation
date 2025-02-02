@@ -8,13 +8,11 @@ import org.springframework.transaction.annotation.Transactional
 
 @Component
 class AopForTransaction {
-
     private val log = LoggerFactory.getLogger(AopForTransaction::class.java)
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Throws(Throwable::class)
     fun proceed(joinPoint: ProceedingJoinPoint): Any? {
-
         val methodName = joinPoint.signature.toShortString()
 
         log.info("Transaction started: {}", methodName)
@@ -30,5 +28,4 @@ class AopForTransaction {
             log.info("Transaction finished: {}", methodName)
         }
     }
-
 }
