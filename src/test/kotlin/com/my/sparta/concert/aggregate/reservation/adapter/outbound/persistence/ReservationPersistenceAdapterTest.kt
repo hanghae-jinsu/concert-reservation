@@ -1,18 +1,19 @@
-//package com.my.sparta.concert.aggregate.reservation.adapter.outbound.persistence
+package com.my.sparta.concert.aggregate.reservation.adapter.outbound.persistence
+
 //
-//import com.my.sparta.concert.aggregate.reservation.adapter.outbound.persistence.entity.ReservationEntity
-//import com.my.sparta.concert.aggregate.reservation.adapter.outbound.persistence.mapper.ReservationPersistenceMapper
-//import com.my.sparta.concert.aggregate.reservation.adapter.outbound.persistence.repository.ReservationJpaRepository
-//import com.my.sparta.concert.aggregate.reservation.application.domain.model.Reservation
-//import com.my.sparta.concert.aggregate.reservation.application.domain.model.valueobject.BuyerInfo
-//import com.my.sparta.concert.aggregate.reservation.application.domain.model.valueobject.ChargeInfo
-//import com.my.sparta.concert.aggregate.reservation.application.domain.model.valueobject.ConcertInfo
-//import com.my.sparta.concert.aggregate.user.application.domain.valueobject.PaymentType
-//import io.mockk.*
-//import org.junit.jupiter.api.Assertions.*
-//import org.junit.jupiter.api.Test
+// import com.my.sparta.concert.aggregate.reservation.adapter.outbound.persistence.entity.ReservationEntity
+// import com.my.sparta.concert.aggregate.reservation.adapter.outbound.persistence.mapper.ReservationPersistenceMapper
+// import com.my.sparta.concert.aggregate.reservation.adapter.outbound.persistence.repository.ReservationJpaRepository
+// import com.my.sparta.concert.aggregate.reservation.application.domain.model.Reservation
+// import com.my.sparta.concert.aggregate.reservation.application.domain.model.valueobject.BuyerInfo
+// import com.my.sparta.concert.aggregate.reservation.application.domain.model.valueobject.ChargeInfo
+// import com.my.sparta.concert.aggregate.reservation.application.domain.model.valueobject.ConcertInfo
+// import com.my.sparta.concert.aggregate.user.application.domain.valueobject.PaymentType
+// import io.mockk.*
+// import org.junit.jupiter.api.Assertions.*
+// import org.junit.jupiter.api.Test
 //
-//class ReservationPersistenceAdapterTest {
+class ReservationPersistenceAdapterTest
 //    private val reservationRepository: ReservationJpaRepository = mockk()
 //    private val reservationPersistenceMapper: ReservationPersistenceMapper = mockk()
 //    private val adapter = ReservationPersistenceAdapter(reservationRepository, reservationPersistenceMapper)
@@ -99,4 +100,4 @@
 //        assertEquals(2, result[0].buyerInfo.count)
 //        assertEquals(18, result[0].buyerInfo.targetAge)
 //    }
-//}
+// }

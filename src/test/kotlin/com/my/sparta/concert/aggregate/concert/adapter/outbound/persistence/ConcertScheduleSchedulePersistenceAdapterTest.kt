@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 
 class ConcertScheduleSchedulePersistenceAdapterTest {
-
     private val concertScheduleRepository: ConcertScheduleJpaRepository = mockk()
     private val concertSchedulePersistenceMapper: ConcertSchedulePersistenceMapper = mockk()
     private val adapter =
@@ -26,7 +25,7 @@ class ConcertScheduleSchedulePersistenceAdapterTest {
         val concertEntity = ConcertEntity(concertId = concertId)
         val concertHallEntity = ConcertHallEntity(hallId = "hall1")
 
-        val testDate = LocalDateTime.of(2025, 1, 11, 18, 0);
+        val testDate = LocalDateTime.of(2025, 1, 11, 18, 0)
 
         val concertScheduleEntities =
             listOf(
@@ -39,7 +38,7 @@ class ConcertScheduleSchedulePersistenceAdapterTest {
                     notice = "Please arrive 30 minutes early.",
                     concertId = concertEntity.concertId,
                     concertHallId = "hall1",
-                    finished = false
+                    finished = false,
                 ),
                 ConcertScheduleEntity(
                     concertScheduleId = "schedule2",
@@ -50,8 +49,8 @@ class ConcertScheduleSchedulePersistenceAdapterTest {
                     notice = "Please arrive 30 minutes early.",
                     concertId = concertEntity.concertId,
                     concertHallId = "hall1",
-                    finished = false
-                )
+                    finished = false,
+                ),
             )
 
         val concertSchedules =
@@ -65,7 +64,7 @@ class ConcertScheduleSchedulePersistenceAdapterTest {
                     notice = "Please arrive 30 minutes early.",
                     concertId = concertEntity.concertId,
                     hallId = "hall1",
-                    concertSeat = listOf()
+                    concertSeat = listOf(),
                 ),
                 ConcertSchedule(
                     concertScheduleId = "schedule2",
@@ -76,11 +75,11 @@ class ConcertScheduleSchedulePersistenceAdapterTest {
                     notice = "Please bring your ticket.",
                     concertId = concertEntity.concertId,
                     hallId = "hall1",
-                    concertSeat = listOf()
+                    concertSeat = listOf(),
                 ),
             )
 
-        every { concertScheduleRepository.findByConcertId(concertId,ConcertSeat.SeatStatus.AVAILABLE) } returns concertScheduleEntities
+        every { concertScheduleRepository.findByConcertId(concertId, ConcertSeat.SeatStatus.AVAILABLE) } returns concertScheduleEntities
         every { concertSchedulePersistenceMapper.mapToDomainList(concertScheduleEntities) } returns concertSchedules
 
         // Act
