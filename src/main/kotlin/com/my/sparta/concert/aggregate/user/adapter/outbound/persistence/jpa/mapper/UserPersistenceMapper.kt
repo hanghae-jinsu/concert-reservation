@@ -1,7 +1,7 @@
-package com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.mapper
+package com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.jpa.mapper
 
-import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.entity.UserEntity
-import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.entity.valueobject.WalletValueObject
+import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.jpa.entity.UserEntity
+import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.jpa.entity.valueobject.WalletValueObject
 import com.my.sparta.concert.aggregate.user.application.domain.model.Users
 import com.my.sparta.concert.aggregate.user.application.domain.valueobject.Wallet
 import org.springframework.stereotype.Component

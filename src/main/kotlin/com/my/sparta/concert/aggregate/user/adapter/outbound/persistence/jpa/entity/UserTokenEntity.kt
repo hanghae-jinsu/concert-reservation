@@ -1,4 +1,4 @@
-package com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.entity
+package com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.jpa.entity
 
 import jakarta.persistence.Entity
 import jakarta.persistence.Id

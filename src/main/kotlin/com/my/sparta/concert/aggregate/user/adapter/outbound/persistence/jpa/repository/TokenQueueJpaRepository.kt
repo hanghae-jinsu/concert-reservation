@@ -1,6 +1,6 @@
-package com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.repository
+package com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.jpa.repository
 
-import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.entity.UserTokenEntity
+import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.jpa.entity.UserTokenEntity
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query

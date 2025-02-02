@@ -1,6 +1,6 @@
-package com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.mapper
+package com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.jpa.mapper
 
-import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.entity.UserTokenEntity
+import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.jpa.entity.UserTokenEntity
 import com.my.sparta.concert.aggregate.user.application.domain.model.UserToken
 import org.springframework.stereotype.Component
 

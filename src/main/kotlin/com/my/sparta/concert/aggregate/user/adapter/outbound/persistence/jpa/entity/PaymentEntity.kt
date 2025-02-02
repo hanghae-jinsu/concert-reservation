@@ -1,4 +1,4 @@
-package com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.entity
+package com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.jpa.entity
 
 import com.my.sparta.concert.aggregate.user.application.domain.valueobject.PayingTransaction
 import com.my.sparta.concert.aggregate.user.application.domain.valueobject.PaymentType
