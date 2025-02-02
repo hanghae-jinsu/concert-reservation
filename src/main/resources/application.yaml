@@ -1,13 +1,11 @@
 spring:
   application:
     name: concert
-  profiles:
-    active: local
   datasource:
     name: HangHaePlusDataSource
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
-      maximum-pool-size: 3
+      maximum-pool-size: 50
       connection-timeout: 10000
       max-lifetime: 60000
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -20,6 +18,8 @@ spring:
     properties:
       hibernate.timezone.default_storage: NORMALIZE_UTC
       hibernate.jdbc.time_zone: UTC
+  profiles:
+    active: local
 
 springdoc:
   api-docs:
@@ -28,7 +28,7 @@ springdoc:
     path: /swagger-ui
 
 ---
-spring.config.activate.on-profile: local, test
+spring.config.activate.on-profile: local,test
 
 spring:
   datasource:
@@ -42,7 +42,3 @@ spring:
       port: 6379
       password:
       timeout: 1000
-
-
-
-
