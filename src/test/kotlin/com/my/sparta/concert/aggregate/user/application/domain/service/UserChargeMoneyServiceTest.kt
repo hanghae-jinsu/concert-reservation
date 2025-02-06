@@ -10,10 +10,9 @@ import com.my.sparta.concert.common.util.LockManager
 import io.mockk.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import java.math.BigDecimal
 
-class UserChargeMoneyServiceTest(
-) {
-
+class UserChargeMoneyServiceTest() {
     private val saveMoneyPort: SaveMoneyPort = mockk()
     private val loadUserInfoPort: LoadUserInfoPort = mockk()
     private val lockManager: LockManager = mockk()
@@ -28,7 +27,7 @@ class UserChargeMoneyServiceTest(
         val command =
             UserChargeCommand(
                 userId = userId,
-                wallet = Wallet(PaymentType.CARD, money = 1000.0),
+                wallet = Wallet(PaymentType.CARD, money = BigDecimal(1000.0)),
             )
 
         val userInfo =
@@ -36,7 +35,7 @@ class UserChargeMoneyServiceTest(
                 userId = userId,
                 username = "Test User",
                 age = 12,
-                wallet = Wallet(PaymentType.CARD, money = 1000.0),
+                wallet = Wallet(PaymentType.CARD, money = BigDecimal(1000.0)),
             )
 
         val updatedUserInfo =
@@ -44,7 +43,7 @@ class UserChargeMoneyServiceTest(
                 userId = userId,
                 username = "Test User",
                 age = 15,
-                wallet = Wallet(PaymentType.CARD, money = 2000.0),
+                wallet = Wallet(PaymentType.CARD, money = BigDecimal(2000.0)),
             )
 
         every { loadUserInfoPort.getUserInfoById(userId) } returns userInfo

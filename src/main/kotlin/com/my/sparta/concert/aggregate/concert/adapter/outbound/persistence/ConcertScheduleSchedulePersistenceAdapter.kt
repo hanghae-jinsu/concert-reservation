@@ -18,15 +18,12 @@ class ConcertScheduleSchedulePersistenceAdapter(
     private val concertScheduleRepository: ConcertScheduleJpaRepository,
     private val concertSchedulePersistenceMapper: ConcertSchedulePersistenceMapper,
 ) : GetConcertScheduleInfoPort {
-
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     override fun getConcertScheduleById(concertId: String): List<ConcertSchedule> {
-
-        val status = ConcertSeat.SeatStatus.AVAILABLE;
-        val concertScheduleList = concertScheduleRepository.findByConcertId(concertId,status)
+        val status = ConcertSeat.SeatStatus.AVAILABLE
+        val concertScheduleList = concertScheduleRepository.findByConcertId(concertId, status)
 
         return concertSchedulePersistenceMapper.mapToDomainList(concertScheduleList)
-
     }
 }

@@ -9,10 +9,34 @@ services:
       - MYSQL_USER=users
       - MYSQL_PASSWORD=password
       - MYSQL_DATABASE=concert
-      - TZ= Asia/Seoul
+      - TZ= UTC
     volumes:
       - ./data/mysql/:/var/lib/mysql
       - ./my.cnf:/etc/mysql/conf.d/my.cnf
+    networks:
+      - default
+  redis-container:
+    image: redis:latest
+    container_name: redis-container
+    ports:
+      - "6379:6379"
+    command: [ "redis-server" ]
+    volumes:
+      - ./data/redis:/data
+      - ./data/redis/conf:/usr/local/conf/redis.conf
+    networks:
+      - default
+  local-redis-insight:
+    image: redislabs/redisinsight:latest
+    container_name: redis-insight
+    restart: always
+    ports:
+      - "5540:5540"
+    volumes:
+      - ./data/redis:/data
+    networks:
+      - default
+
 
 networks:
   default:

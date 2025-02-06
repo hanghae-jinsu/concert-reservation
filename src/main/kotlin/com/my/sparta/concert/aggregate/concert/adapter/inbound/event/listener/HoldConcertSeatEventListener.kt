@@ -12,25 +12,20 @@ import org.springframework.transaction.event.TransactionalEventListener
 @Service
 class HoldConcertSeatEventListener(
     private val loadConcertSeatPort: LoadConcertSeatPort,
-    private val saveConcertSeatPort: SaveConcertSeatPort
+    private val saveConcertSeatPort: SaveConcertSeatPort,
 ) {
-
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
     fun changeAvaliableConcertSeat(event: HoldConcertSeatEvent) {
-
         logger.info(" changeAvaliableConcertSeat execute ")
 
         val concertSeats = loadConcertSeatPort.getConcertSeatInfoList(listOf(event.seatId))
 
         concertSeats.forEach { concertSeat ->
 
-            concertSeat.statusUpdate();
-
+            concertSeat.statusUpdate()
         }
         saveConcertSeatPort.saveAllConcertSeat(concertSeats)
-
     }
-
 }

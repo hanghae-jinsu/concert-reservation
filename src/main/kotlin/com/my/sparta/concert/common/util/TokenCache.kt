@@ -3,7 +3,6 @@ package com.my.sparta.concert.common.util
 import java.util.concurrent.ConcurrentHashMap
 
 class TokenCache<K, V>(private val maxSize: Int) {
-
     private val cache = ConcurrentHashMap<K, V>()
     private val keys = ArrayDeque<K>()
 
@@ -29,7 +28,7 @@ class TokenCache<K, V>(private val maxSize: Int) {
     }
 
     fun getAllTokens(): Set<K> {
-        return cache.keys;
+        return cache.keys
     }
 
     fun containsKey(key: K): Boolean {

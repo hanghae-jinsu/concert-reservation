@@ -12,7 +12,6 @@ import java.time.LocalDateTime
 class TokenUtilService(
     private val tokenRepository: TokenQueueJpaRepository,
 ) {
-
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     private val algorithm = "SHA-256"
@@ -76,15 +75,13 @@ class TokenUtilService(
     }
 
     fun loadCurrentTokens(): Set<String> {
-
         logger.info("Loading tokens from tokenCache... $tokenCache.size()")
-        return tokenCache.getAllTokens();
-
+        return tokenCache.getAllTokens()
     }
 
     fun sinkCurrentTokens(tokenList: Set<String>) {
         tokenList.stream().forEach { token ->
-            this.tokenCache.put(token, true);
+            this.tokenCache.put(token, true)
         }
     }
 }

@@ -13,17 +13,12 @@ import lombok.NoArgsConstructor
 class ConcertSeatEntity(
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "concert_seat_id", nullable = false, unique = true)
     val concertSeatId: Int,
-
     val userId: String,
-
     @Enumerated(EnumType.STRING)
     val seatStatus: SeatStatus,
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "concert_schedule_id", nullable = false)
-    val concertSchedule: ConcertScheduleEntity
-
+    val concertSchedule: ConcertScheduleEntity,
 )

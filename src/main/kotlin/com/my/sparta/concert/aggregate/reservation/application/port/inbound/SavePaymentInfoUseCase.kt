@@ -6,7 +6,9 @@ import com.my.sparta.concert.aggregate.user.application.domain.model.Payment
 import com.my.sparta.concert.aggregate.user.application.domain.model.Users
 
 interface SavePaymentInfoUseCase {
-
-    fun savePayment(userInfo: Users, concert: Concert, command: ConcertReservationCommand): Payment
-
+    fun savePayment(
+        userInfo: Users,
+        concert: Concert,
+        command: ConcertReservationCommand,
+    ): Payment
 }

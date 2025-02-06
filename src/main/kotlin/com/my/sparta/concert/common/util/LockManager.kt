@@ -7,15 +7,16 @@ import java.util.concurrent.locks.ReentrantLock
 
 @Component
 class LockManager {
-
     private val locks = ConcurrentHashMap<String, ReentrantLock>()
 
-    fun tryLock(lockKey: String, timeout: Long): ReentrantLock? {
+    fun tryLock(
+        lockKey: String,
+        timeout: Long,
+    ): ReentrantLock? {
         val lock = locks.computeIfAbsent(lockKey) { ReentrantLock() }
         return if (lock.tryLock(timeout, java.util.concurrent.TimeUnit.SECONDS)) {
             lock
         } else {
-
             null
         }
     }
@@ -31,13 +32,12 @@ class LockManager {
         }
     }
 
-
     fun <T> withLock(
         lockKey: String,
         timeout: Long = 1,
         unit: TimeUnit = TimeUnit.SECONDS,
         lockManager: LockManager,
-        block: () -> T
+        block: () -> T,
     ): T {
         if (lockManager.tryLock(lockKey, timeout) == null) {
             throw LockAcquisitionException("Duplicate request for key: $lockKey")

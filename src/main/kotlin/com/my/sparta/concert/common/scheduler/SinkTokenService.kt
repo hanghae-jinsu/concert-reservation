@@ -9,17 +9,14 @@ import org.springframework.stereotype.Component
 @Component
 class SinkTokenService(
     private val tokenUtilService: TokenUtilService,
-    private val loadNonExpiredTokenPort: LoadNonExpiredTokenPort
+    private val loadNonExpiredTokenPort: LoadNonExpiredTokenPort,
 ) : TokenCacheSinkUseCase {
-
     @Scheduled(cron = "0 */3 * * * ?")
     override fun deleteExpiredToken() {
+        val tokens = tokenUtilService.loadCurrentTokens()
 
-        val tokens = tokenUtilService.loadCurrentTokens();
+        val useTokens = loadNonExpiredTokenPort.validateActiveTokens(tokens)
 
-        val useTokens = loadNonExpiredTokenPort.validateActiveTokens(tokens);
-
-        tokenUtilService.sinkCurrentTokens(useTokens);
-
+        tokenUtilService.sinkCurrentTokens(useTokens)
     }
 }

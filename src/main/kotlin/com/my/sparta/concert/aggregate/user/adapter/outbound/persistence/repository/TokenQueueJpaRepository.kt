@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param
 import java.time.LocalDateTime
 
 interface TokenQueueJpaRepository : JpaRepository<UserTokenEntity, String> {
-
     @Query(
         """
     select ut 
@@ -28,6 +27,7 @@ interface TokenQueueJpaRepository : JpaRepository<UserTokenEntity, String> {
     ): List<UserTokenEntity>
 
     @Query("select t.tokenId from UserTokenEntity t where t.tokenId in :tokenString and t.isActive = true")
-    fun findByUsedTokens(@Param("tokenString") tokenString: Set<String>): Set<String>
-
+    fun findByUsedTokens(
+        @Param("tokenString") tokenString: Set<String>,
+    ): Set<String>
 }

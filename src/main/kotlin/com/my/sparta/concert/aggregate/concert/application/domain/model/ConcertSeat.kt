@@ -1,7 +1,6 @@
 package com.my.sparta.concert.aggregate.concert.application.domain.model
 
 import lombok.Getter
-import java.time.LocalDateTime
 
 @Getter
 class ConcertSeat(
@@ -10,7 +9,6 @@ class ConcertSeat(
     var concertScheduleId: String,
     var seatStatus: SeatStatus,
 ) {
-
     fun statusUpdateReservation() {
         this.seatStatus = SeatStatus.RESERVED
     }
@@ -20,6 +18,8 @@ class ConcertSeat(
     }
 
     enum class SeatStatus {
-        AVAILABLE, HOLD, RESERVED
+        AVAILABLE,
+        HOLD,
+        RESERVED,
     }
 }

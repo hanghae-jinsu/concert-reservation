@@ -19,14 +19,16 @@ import org.springframework.web.client.RestTemplate
 @RequiredArgsConstructor
 class SavePaymentInfoService(
     private val savePaymentHistoryPort: SavePaymentHistoryPort,
-    private val restTemplate: RestTemplate
+    private val restTemplate: RestTemplate,
 ) : SavePaymentInfoUseCase {
-
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     @Transactional
-    override fun savePayment(userInfo: Users, concert: Concert, command: ConcertReservationCommand): Payment {
-
+    override fun savePayment(
+        userInfo: Users,
+        concert: Concert,
+        command: ConcertReservationCommand,
+    ): Payment {
         val totalPrice = concert.cost * command.count
 
         val response = requestPayment(userInfo.userId)
@@ -38,13 +40,12 @@ class SavePaymentInfoService(
 
         val payment = Payment("", userInfo.userId, command.paymentType, totalPrice, PayingTransaction.PAYMENT)
         return savePaymentHistoryPort.savePaymentInfo(payment)
-
     }
 
     private fun requestPayment(userId: String): PaymentResponse {
         return PaymentResponse(
             200,
-            userId + " 해당 유저는 결제 하였습니다."
+            userId + " 해당 유저는 결제 하였습니다.",
         )
     }
 //        val url = "https://localhost:8080/payment"

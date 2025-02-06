@@ -7,6 +7,7 @@ import lombok.AccessLevel
 import lombok.Builder
 import lombok.Getter
 import lombok.NoArgsConstructor
+import java.math.BigDecimal
 
 @Getter
 @Entity
@@ -18,8 +19,10 @@ class UserEntity(
     val userId: String,
     val userName: String,
     val age: Int,
+
     @Embedded
     val walletValueObject: WalletValueObject,
+
 ) {
     constructor(userId: String) : this(
         userId = userId,
@@ -28,7 +31,7 @@ class UserEntity(
         walletValueObject =
             WalletValueObject(
                 PaymentType.CARD,
-                0.0,
+                BigDecimal(0),
             ),
     )
 }

@@ -3,5 +3,4 @@ package com.my.sparta.concert.aggregate.reservation.application.domain.model.eve
 data class UseUserPointEvent(
     val userId: String,
     val totalPrice: Double,
-) {
-}
+)

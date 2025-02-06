@@ -17,18 +17,15 @@ class FindCancelHoldSeatService(
     private val saveSeatLockPort: SaveSeatLockPort,
     private val eventPublisher: ApplicationEventPublisher,
 ) : CancelHoldConcertSeatUseCase {
-
-    @Scheduled(cron = "0 0/1 * * * ?")
+    @Scheduled(cron = "0 0/3 * * * ?")
     @Transactional
     override fun changeAvailableSeat() {
-
-        val seatList = loadSeatLockPort.getSeatLockByExpired();
+        val seatList = loadSeatLockPort.getSeatLockByExpired()
 
         val eventList = seatList.map { seat -> HoldConcertSeatEvent(seat.seatId, seat.userId) }
 
-        eventPublisher.publishEvent(eventList);
+        eventPublisher.publishEvent(eventList)
 
-        saveSeatLockPort.deleteSeatLocks(seatList);
-
+        saveSeatLockPort.deleteSeatLocks(seatList)
     }
 }

@@ -5,7 +5,6 @@ import java.time.LocalDateTime
 
 @Getter
 class ConcertSchedule(
-
     var concertScheduleId: String,
     var concertName: String,
     var startDateTime: LocalDateTime,
@@ -14,6 +13,5 @@ class ConcertSchedule(
     var notice: String,
     var concertId: String,
     var hallId: String,
-    var concertSeat: List<ConcertSeat>
-
+    var concertSeat: List<ConcertSeat>,
 )
