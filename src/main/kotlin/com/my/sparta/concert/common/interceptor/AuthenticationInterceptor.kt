@@ -15,11 +15,6 @@ class AuthenticationInterceptor(
 ) : HandlerInterceptor {
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
-    @PostConstruct
-    fun init() {
-        tokenUtilService.loadInitialTokens()
-    }
-
     override fun preHandle(
         request: HttpServletRequest,
         response: HttpServletResponse,

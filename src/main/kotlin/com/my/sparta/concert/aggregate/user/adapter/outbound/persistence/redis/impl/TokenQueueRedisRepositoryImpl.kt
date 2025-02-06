@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Repository
 import java.time.Instant
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 @Repository
 class TokenQueueRedisRepositoryImpl(
@@ -23,7 +25,7 @@ class TokenQueueRedisRepositoryImpl(
     private val TTL_MILLIS = 3 * 60 * 1000L // 3분
 
     override fun saveToken(token: UserToken): String {
-        val now = System.currentTimeMillis()
+        val now = ZonedDateTime.now(ZoneId.of("UTC")).toInstant().toEpochMilli();
 
         // 만료된 토큰 정리 후 추가
         cleanupExpiredTokens(now)
