@@ -18,12 +18,14 @@ class GenerateTokenService(
     val saveUserTokenPort: SaveUserTokenPort,
     val tokenUtilService: TokenUtilService,
 ) : GenerateTokenUseCase {
+
     @Transactional
     override fun generateToken(userId: String): String {
+
         val userInfo = loadUserInfoPort.getUserInfoById(userId)
 
         val generateToken = tokenUtilService.generateToken(userInfo.userId)
 
-        return saveUserTokenPort.saveUserToken(generateToken)
+        return saveUserTokenPort.saveToken(generateToken)
     }
 }
