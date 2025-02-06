@@ -3,6 +3,7 @@ package com.my.sparta.concert.aggregate.user.adapter.outbound.persistence
 import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.entity.UserTokenEntity
 import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.mapper.TokenPersistenceMapper
 import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.repository.TokenQueueJpaRepository
+import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.repository.TokenQueueRedisRepository
 import com.my.sparta.concert.aggregate.user.application.domain.model.UserToken
 import io.mockk.*
 import org.junit.jupiter.api.Assertions.*
@@ -10,15 +11,19 @@ import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 
 class TokenQueuePersistenceAdapterTest() {
+
     private val tokenPersistenceMapper: TokenPersistenceMapper = mockk()
     private val tokenQueueJpaRepository: TokenQueueJpaRepository = mockk()
-    private val adapter = TokenQueuePersistenceAdapter(tokenPersistenceMapper, tokenQueueJpaRepository)
+    private val tokenQueueRedisRepository: TokenQueueRedisRepository = mockk()
+    private val adapter =
+        TokenQueuePersistenceAdapter(tokenPersistenceMapper, tokenQueueJpaRepository, tokenQueueRedisRepository)
 
     @Test
     fun `saveUserToken should map and save token`() {
         // Arrange
         val userToken = UserToken("token1", "user1", false, LocalDateTime.now(), LocalDateTime.now().plusMinutes(10))
-        val userTokenEntity = UserTokenEntity("token1", "user1", false, LocalDateTime.now(), LocalDateTime.now().plusMinutes(10))
+        val userTokenEntity =
+            UserTokenEntity("token1", "user1", false, LocalDateTime.now(), LocalDateTime.now().plusMinutes(10))
         every { tokenPersistenceMapper.mapToJpaEntity(userToken) } returns userTokenEntity
         every { tokenQueueJpaRepository.save(userTokenEntity) } returns userTokenEntity
 
