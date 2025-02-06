@@ -1,15 +1,9 @@
 package com.my.sparta.concert.aggregate.user.adapter.outbound.persistence
 
-import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.redis.repository.TokenQueueRedisRepository
-import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.jpa.entity.UserTokenEntity
 import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.jpa.mapper.TokenPersistenceMapper
 import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.jpa.repository.TokenQueueJpaRepository
 import com.my.sparta.concert.aggregate.user.application.domain.model.UserToken
-import com.my.sparta.concert.aggregate.user.application.port.outbound.DeleteQueueingTokenPort
-import com.my.sparta.concert.aggregate.user.application.port.outbound.LoadNonExpiredTokenPort
-import com.my.sparta.concert.aggregate.user.application.port.outbound.LoadQueueingTokenPort
-import com.my.sparta.concert.aggregate.user.application.port.outbound.SaveQueueingTokenPort
-import com.my.sparta.concert.aggregate.user.application.port.outbound.SaveUserTokenPort
+import com.my.sparta.concert.aggregate.user.application.port.outbound.*
 import lombok.RequiredArgsConstructor
 import lombok.extern.slf4j.Slf4j
 import org.slf4j.Logger
@@ -19,17 +13,17 @@ import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 
 @Slf4j
-@Component
+//@Component
 @RequiredArgsConstructor
 class TokenQueuePersistenceAdapter(
     private val tokenPersistenceMapper: TokenPersistenceMapper,
     private val tokenQueueJpaRepository: TokenQueueJpaRepository,
-    private val tokenQueueRedisRepository: TokenQueueRedisRepository
 ) : SaveUserTokenPort,
     SaveQueueingTokenPort,
     LoadQueueingTokenPort,
     DeleteQueueingTokenPort,
     LoadNonExpiredTokenPort {
+
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     override fun saveUserToken(token: UserToken): String {
@@ -39,31 +33,37 @@ class TokenQueuePersistenceAdapter(
         return savedToken.tokenId
     }
 
-    override fun loadActivatableTokens(): List<UserTokenEntity> {
+    override fun loadActivatableTokens(): List<UserToken> {
         val dateTime = LocalDateTime.now()
         val pageable = PageRequest.of(0, 50)
 
         logger.info("$dateTime : loadActivatableTokens ")
+        val loadUnExpiredToken = tokenQueueJpaRepository.findByTokenNonExpired(dateTime, pageable);
 
-        return tokenQueueJpaRepository.findByTokenNonExpired(dateTime, pageable)
+        return tokenPersistenceMapper.mapToDomainList(loadUnExpiredToken);
     }
 
-    override fun loadExpiredTargetTokens(): List<UserTokenEntity> {
+    override fun loadExpiredTargetTokens(): List<UserToken> {
         val dateTime = LocalDateTime.now()
 
         logger.info("$dateTime : loadExpiredTargetTokens")
-        return tokenQueueJpaRepository.findByExpiredTargetToken(dateTime)
+
+        val expiredTokenList = tokenQueueJpaRepository.findByExpiredTargetToken(dateTime);
+
+        return tokenPersistenceMapper.mapToDomainList(expiredTokenList)
     }
 
     override fun validateActiveTokens(tokenString: Set<String>): Set<String> {
         return tokenQueueJpaRepository.findByUsedTokens(tokenString)
     }
 
-    override fun saveTokens(tokens: List<UserTokenEntity>) {
+    override fun saveTokens(tokens: List<UserToken>) {
+        val tokens = tokenPersistenceMapper.mapToJpaEntities(tokens);
         tokenQueueJpaRepository.saveAll(tokens)
     }
 
-    override fun deleteTokens(tokens: List<UserTokenEntity>) {
+    override fun deleteTokens(tokens: List<UserToken>) {
+        val tokens = tokenPersistenceMapper.mapToJpaEntities(tokens);
         tokenQueueJpaRepository.deleteAll(tokens)
     }
 }

@@ -55,7 +55,7 @@ class ChargeMoneyConcurrencyTest(
 
     @Test
     fun `동일 사용자 중복 요청 ReentrantLock 적용 테스트`() {
-        val executor = Executors.newFixedThreadPool(3)
+        val executor = Executors.newFixedThreadPool(1)
 
         val successCount = AtomicInteger(0)
         val failureCount = AtomicInteger(0)

@@ -1,6 +1,5 @@
 package com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.redis
 
-import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.jpa.entity.UserTokenEntity
 import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.redis.repository.TokenQueueRedisRepository
 import com.my.sparta.concert.aggregate.user.application.domain.model.UserToken
 import com.my.sparta.concert.aggregate.user.application.port.outbound.*
@@ -17,22 +16,27 @@ class TokenQueueRedisAdapter(
     LoadNonExpiredTokenPort {
 
     override fun saveUserToken(token: UserToken): String {
+
+        tokenQueueRedisRepository.addToken(token);
+
+        return "token successfully added"
+    }
+
+    override fun saveTokens(tokens: List<UserToken>) {
+        tokens.stream().forEach { token ->
+            tokenQueueRedisRepository.addToken(token)
+        }
+    }
+
+    override fun loadActivatableTokens(): List<UserToken> {
+      return tokenQueueRedisRepository.findActivateTokens();
+    }
+
+    override fun loadExpiredTargetTokens(): List<UserToken> {
         TODO("Not yet implemented")
     }
 
-    override fun saveTokens(tokens: List<UserTokenEntity>) {
-        TODO("Not yet implemented")
-    }
-
-    override fun loadActivatableTokens(): List<UserTokenEntity> {
-        TODO("Not yet implemented")
-    }
-
-    override fun loadExpiredTargetTokens(): List<UserTokenEntity> {
-        TODO("Not yet implemented")
-    }
-
-    override fun deleteTokens(tokens: List<UserTokenEntity>) {
+    override fun deleteTokens(tokens: List<UserToken>) {
         TODO("Not yet implemented")
     }
 

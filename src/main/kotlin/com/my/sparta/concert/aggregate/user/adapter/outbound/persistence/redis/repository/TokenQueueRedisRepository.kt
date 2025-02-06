@@ -4,8 +4,7 @@ import com.my.sparta.concert.aggregate.user.application.domain.model.UserToken
 
 interface TokenQueueRedisRepository {
 
-    fun generateToken(userToken: UserToken): String
-
-    fun reservationComplete(token: String): Boolean
+    fun addToken(userToken: UserToken)
+    fun findActivateTokens(): List<UserToken>
 
 }

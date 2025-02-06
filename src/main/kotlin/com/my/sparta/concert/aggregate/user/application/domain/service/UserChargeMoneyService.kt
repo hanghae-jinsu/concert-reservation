@@ -28,7 +28,7 @@ class UserChargeMoneyService(
     @Transactional
     override fun chargeMoney(command: UserChargeCommand): Users {
 
-        val lockKey = command.userId + command.wallet.money.toString();
+        val lockKey = command.userId;
 
         return lockManager.withLock(lockKey, 0, TimeUnit.SECONDS, lockManager) {
             val userInfo = loadUserInfoPort.getUserInfoById(command.userId)
