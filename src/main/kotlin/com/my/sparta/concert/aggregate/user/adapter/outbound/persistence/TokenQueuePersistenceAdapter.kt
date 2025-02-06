@@ -52,6 +52,8 @@ class TokenQueuePersistenceAdapter(
         return tokenQueueJpaRepository.findByTokenNonExpired(dateTime, pageable)
     }
 
+
+
     override fun loadExpiredTargetTokens(): List<UserTokenEntity> {
         val dateTime = LocalDateTime.now()
 
@@ -69,5 +71,9 @@ class TokenQueuePersistenceAdapter(
 
     override fun deleteTokens(tokens: List<UserTokenEntity>) {
         tokenQueueJpaRepository.deleteAll(tokens)
+    }
+
+    override fun deleteTokenByRedis() {
+        tokenQueueRedisRepository.deleteExpiredToken();
     }
 }

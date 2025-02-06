@@ -15,14 +15,14 @@ import org.springframework.transaction.annotation.Transactional
 @EnableScheduling
 @RequiredArgsConstructor
 class ExpiredTokenDiscardService(
-    private val loadQueueingTokenPort: LoadQueueingTokenPort,
-    private val deleteQueueingTokenPort: DeleteQueueingTokenPort,
+    private val deleteQueueingTokenPort: DeleteQueueingTokenPort
 ) : HandlingTokenUseCase {
-    @Scheduled(cron = "0/30 * * * * ?")
+
+    @Scheduled(cron = "0 0/3 * * * ?")
     @Transactional
     override fun discardExpiredTokens() {
-        val tokens = loadQueueingTokenPort.loadExpiredTargetTokens()
 
-        deleteQueueingTokenPort.deleteTokens(tokens)
+        deleteQueueingTokenPort.deleteTokenByRedis()
+
     }
 }

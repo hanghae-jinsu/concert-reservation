@@ -1,17 +1,19 @@
 package com.my.sparta.concert.common.util
 
-import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.repository.TokenQueueJpaRepository
+import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.repository.TokenQueueRedisRepository
 import com.my.sparta.concert.aggregate.user.application.domain.model.UserToken
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import java.security.MessageDigest
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 
 @Component
 class TokenUtilService(
-    private val tokenRepository: TokenQueueJpaRepository,
+    private val tokenQueueRedisRepository: TokenQueueRedisRepository,
 ) {
+
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     private val algorithm = "SHA-256"
@@ -47,12 +49,12 @@ class TokenUtilService(
         }
 
         // DB 조회
-        val tokenEntity = tokenRepository.findById(token)
-        if (tokenEntity.isPresent) {
-            val tokenData = tokenEntity.get()
+        val tokenEntity = tokenQueueRedisRepository.findByTokenId(token)
+        if (tokenEntity.isActive) {
 
+            val currentTime = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
             // 만료 시간 확인
-            if (tokenData.expiresAt.isBefore(LocalDateTime.now())) {
+            if (tokenEntity.expireTime < currentTime) {
                 logger.info("Token is expired: $token")
                 return false
             }
@@ -68,9 +70,9 @@ class TokenUtilService(
     // 초기 캐싱
     fun loadInitialTokens() {
         logger.info("Loading tokens from database into cache...")
-        val tokens = tokenRepository.findAll()
+        val tokens = tokenQueueRedisRepository.findAllTokenId();
         tokens.forEach { token ->
-            tokenCache.put(token.tokenId, true)
+            tokenCache.put(token.toString(), true)
         }
     }
 
