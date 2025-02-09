@@ -19,7 +19,7 @@ class TokenQueueRedisRepositoryImpl(
     private val activeUsersKey = "active_users"
     private val waitingUsersKey = "waiting_users"
     private val activeLimit = 50L
-    private val ttlMillis = 3 * 60 * 1000L // 3분
+    private val ttlMillis = 5 * 60 * 1000L
 
     override fun saveToken(token: UserToken): String {
         val now = ZonedDateTime.now(ZoneId.of("UTC")).toInstant().toEpochMilli()

@@ -22,10 +22,6 @@ class TokenUtilService(
     private val algorithm = "SHA-256"
     private val platform = "concert-reservation"
 
-//    private val TOKEN_CACHE_PREFIX = "token:" // Redis 키 prefix
-
-//    private val tokenCache = TokenCache<String, Boolean>(50)
-
     fun generateToken(userId: String): UserToken {
         val tokenString = StringBuilder(userId + platform).toString()
         val tokenId = hashString(tokenString)
@@ -46,7 +42,7 @@ class TokenUtilService(
     }
 
     fun validateToken(token: String): Boolean {
-        // Redis에서 조회
+
         val cachedToken = tokenQueueRedisRepository.findByTokenId(token)
         if (cachedToken != null) {
             logger.info("Token found in Redis cache: $token")
