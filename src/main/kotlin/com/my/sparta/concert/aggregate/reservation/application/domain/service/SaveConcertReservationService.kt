@@ -36,19 +36,11 @@ class SaveConcertReservationService(
                 reservation.buyerInfo.cost,
             )
 
-        var tokenDeleteEvent = getCurrentRequest().let { ExecuteDeleteTokenEvent(it) }
 
         eventPublisher.publishEvent(seatEvent)
         eventPublisher.publishEvent(useEvent)
-        eventPublisher.publishEvent(tokenDeleteEvent)
 
         return saveReservationPort.saveReservationHistory(reservation)
     }
 
-    private fun getCurrentRequest(): String {
-        val attributes = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
-        return attributes.request.getHeader("Authorization").also { header ->
-            logger.info("Authorization header value: $header")
-        }
-    }
 }
