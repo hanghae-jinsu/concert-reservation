@@ -19,10 +19,8 @@ class UserEntity(
     val userId: String,
     val userName: String,
     val age: Int,
-
     @Embedded
     val walletValueObject: WalletValueObject,
-
 ) {
     constructor(userId: String) : this(
         userId = userId,

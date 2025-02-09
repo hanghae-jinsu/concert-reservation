@@ -22,7 +22,6 @@ class UserCommandController(
     val userChargeMoneyUseCase: UserChargeMoneyUseCase,
     val userWebMapper: UserWebMapper,
 ) {
-
     @Operation(summary = "해당 유저 잔고를 충전한다.", description = "유저의 잔고를 추가한다.")
     @ApiResponses(
         value = [

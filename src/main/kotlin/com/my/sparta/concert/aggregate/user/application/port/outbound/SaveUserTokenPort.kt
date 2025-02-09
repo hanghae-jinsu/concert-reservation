@@ -4,4 +4,6 @@ import com.my.sparta.concert.aggregate.user.application.domain.model.UserToken
 
 interface SaveUserTokenPort {
     fun saveUserToken(token: UserToken): String
+
+    fun saveToken(tokenid: UserToken): String
 }

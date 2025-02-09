@@ -28,28 +28,27 @@ import java.util.concurrent.atomic.AtomicInteger
 @Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class IsolationConcurrencyTest(
-
     @Autowired private val userUseMoneyUseCase: UserUseMoneyUseCase,
-    @Autowired private val userChargeMoneyUseCase: UserChargeMoneyUseCase
-
+    @Autowired private val userChargeMoneyUseCase: UserChargeMoneyUseCase,
 ) {
-
     private lateinit var userChargeCommand: UserChargeCommand
     private lateinit var userUseMoneyCommand: UserUseMoneyCommand
 
     @BeforeEach
     fun setUp() {
-        userChargeCommand = UserChargeCommand(
-            userId = "user2",
-            wallet = Wallet(
-                PaymentType.CARD, BigDecimal(3000)
+        userChargeCommand =
+            UserChargeCommand(
+                userId = "user2",
+                wallet =
+                    Wallet(
+                        PaymentType.CARD, BigDecimal(3000),
+                    ),
             )
-        )
-        userUseMoneyCommand = UserUseMoneyCommand(
-            userId = "user2",
-            paidAmount = BigDecimal(3000)
-        )
-
+        userUseMoneyCommand =
+            UserUseMoneyCommand(
+                userId = "user2",
+                paidAmount = BigDecimal(3000),
+            )
     }
 
 //    @RepeatedTest(100)
@@ -95,12 +94,10 @@ class IsolationConcurrencyTest(
 //
 //    }
 
-
     @Test
     @Transactional(isolation = Isolation.READ_COMMITTED)
     @DisplayName("다른 트랜잭션이 커밋한 값을 즉시 읽을 수 있는지 확인")
     fun `test for default isolation READ_COMMITTED`() {
-
         val threadCount = 2
         val latch = CountDownLatch(threadCount)
         val executor = Executors.newFixedThreadPool(threadCount)
@@ -136,14 +133,12 @@ class IsolationConcurrencyTest(
         executor.awaitTermination(5, TimeUnit.SECONDS)
 
         assertThat(successCount.get()).isEqualTo(2)
-
     }
 
     @Test
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     @DisplayName("같은 데이터를 여러 번 조회해도 동일한 값이 유지되는지 확인")
     fun `test for default isolation REPEATABLE_READ`() {
-
         val threadCount = 2
         val latch = CountDownLatch(threadCount)
         val executor = Executors.newFixedThreadPool(threadCount)
@@ -179,15 +174,12 @@ class IsolationConcurrencyTest(
         executor.awaitTermination(5, TimeUnit.SECONDS)
 
         assertThat(successCount.get()).isEqualTo(2)
-
     }
 
     @Test
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @DisplayName("하나의 트랜잭션이 끝날 때까지 다른 트랜잭션이 대기하는 것을 확인 ")
     fun `test for default isolation SERIALIZABLE`() {
-
-
         val threadCount = 2
         val latch = CountDownLatch(threadCount)
         val executor = Executors.newFixedThreadPool(threadCount)
@@ -195,36 +187,33 @@ class IsolationConcurrencyTest(
         val successCount = AtomicInteger(0)
         val failureCount = AtomicInteger(0)
 
-            executor.submit {
-                try {
-                    latch.countDown() // 동시 실행을 위해 대기
-                    latch.await()
+        executor.submit {
+            try {
+                latch.countDown() // 동시 실행을 위해 대기
+                latch.await()
 
-                    val userInfo = userChargeMoneyUseCase.chargeMoneyNoneReentrantLock(userChargeCommand) // 충전
-                    successCount.incrementAndGet()
-                } catch (e: Exception) {
-                    failureCount.incrementAndGet()
-                }
+                val userInfo = userChargeMoneyUseCase.chargeMoneyNoneReentrantLock(userChargeCommand) // 충전
+                successCount.incrementAndGet()
+            } catch (e: Exception) {
+                failureCount.incrementAndGet()
             }
+        }
 
-            executor.submit {
-                try {
-                    latch.countDown()
-                    latch.await()
+        executor.submit {
+            try {
+                latch.countDown()
+                latch.await()
 
-                    val userInfo = userUseMoneyUseCase.useMoneyNoneReentrantLock(userUseMoneyCommand) // 차감
-                    successCount.incrementAndGet()
-                } catch (e: Exception) {
-                    failureCount.incrementAndGet()
-                }
+                val userInfo = userUseMoneyUseCase.useMoneyNoneReentrantLock(userUseMoneyCommand) // 차감
+                successCount.incrementAndGet()
+            } catch (e: Exception) {
+                failureCount.incrementAndGet()
             }
+        }
 
         executor.shutdown()
         executor.awaitTermination(5, TimeUnit.SECONDS)
 
         assertThat(successCount.get()).isEqualTo(2)
-
     }
-
-
 }

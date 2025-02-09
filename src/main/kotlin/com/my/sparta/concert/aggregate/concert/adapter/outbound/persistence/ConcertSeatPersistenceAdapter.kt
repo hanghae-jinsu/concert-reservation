@@ -26,6 +26,7 @@ class ConcertSeatPersistenceAdapter(
         scheduleId: String,
     ) {
         val status = listOf(ConcertSeat.SeatStatus.RESERVED, ConcertSeat.SeatStatus.HOLD)
+
         logger.info("@@@ 예약된 좌석 여부 확인 @@@")
         concertSeatRepository.findByIdAndScheduleId(seatId = seatId, scheduleId, status).ifPresent {
             throw EntityExistsException("해당하는 id $seatId 는 이미 예약된 좌석 입니다.")
@@ -35,7 +36,7 @@ class ConcertSeatPersistenceAdapter(
     override fun getConcertSeatInfoList(seatIdList: List<Int>): List<ConcertSeat> {
         val status = ConcertSeat.SeatStatus.HOLD
         val seats =
-            seatIdList.mapNotNull { id ->
+            seatIdList.map { id ->
                 concertSeatRepository.findByIdWithStatus(id.toLong(), status)
             }
 

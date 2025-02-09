@@ -23,7 +23,6 @@ import java.util.concurrent.atomic.AtomicInteger
 class ChargeMoneyConcurrencyTest(
     @Autowired private val userChargeMoneyUseCase: UserChargeMoneyUseCase,
 ) {
-
     lateinit var chargeCommand: MutableList<UserChargeCommand>
     lateinit var nonChargeCommand: MutableList<UserChargeCommand>
 

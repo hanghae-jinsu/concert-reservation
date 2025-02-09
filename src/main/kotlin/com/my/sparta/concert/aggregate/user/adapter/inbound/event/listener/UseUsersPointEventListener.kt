@@ -15,7 +15,6 @@ class UseUsersPointEventListener(
     private val loadUserInfoPort: LoadUserInfoPort,
     private val saveMoneyPort: SaveMoneyPort,
 ) {
-
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
@@ -25,6 +24,5 @@ class UseUsersPointEventListener(
         val userInfo = loadUserInfoPort.getUserInfoById(event.userId)
         userInfo.wallet.useMoney(BigDecimal(event.totalPrice))
         saveMoneyPort.saveMoney(userInfo)
-
     }
 }

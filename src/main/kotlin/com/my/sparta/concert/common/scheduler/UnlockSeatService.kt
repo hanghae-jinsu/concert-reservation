@@ -16,7 +16,7 @@ class UnlockSeatService(
     private val loadConcertSeatPort: LoadConcertSeatPort,
     private val saveConcertSeatPort: SaveConcertSeatPort,
 ) : UnlockConcertSeatUseCase {
-    @Scheduled(cron = " * 0/10 * * * ?")
+//    @Scheduled(cron = " * 0/10 * * * ?")
     @Transactional
     override fun deleteHoldSeatLock() {
         val seatList = loadSeatLockPort.getSeatLockByExpired()

@@ -1,7 +1,6 @@
 package com.my.sparta.concert.common.scheduler
 
 import com.my.sparta.concert.aggregate.user.application.port.outbound.DeleteQueueingTokenPort
-import com.my.sparta.concert.aggregate.user.application.port.outbound.LoadQueueingTokenPort
 import com.my.sparta.concert.common.scheduler.usecase.HandlingTokenUseCase
 import lombok.RequiredArgsConstructor
 import lombok.extern.slf4j.Slf4j
@@ -15,14 +14,11 @@ import org.springframework.transaction.annotation.Transactional
 @EnableScheduling
 @RequiredArgsConstructor
 class ExpiredTokenDiscardService(
-    private val loadQueueingTokenPort: LoadQueueingTokenPort,
     private val deleteQueueingTokenPort: DeleteQueueingTokenPort,
 ) : HandlingTokenUseCase {
-    @Scheduled(cron = "0/30 * * * * ?")
+    @Scheduled(cron = "0 0/3 * * * ?")
     @Transactional
     override fun discardExpiredTokens() {
-        val tokens = loadQueueingTokenPort.loadExpiredTargetTokens()
-
-        deleteQueueingTokenPort.deleteTokens(tokens)
+        deleteQueueingTokenPort.deleteTokenByRedis()
     }
 }

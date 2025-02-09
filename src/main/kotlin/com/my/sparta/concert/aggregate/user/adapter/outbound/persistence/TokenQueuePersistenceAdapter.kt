@@ -3,6 +3,7 @@ package com.my.sparta.concert.aggregate.user.adapter.outbound.persistence
 import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.entity.UserTokenEntity
 import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.mapper.TokenPersistenceMapper
 import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.repository.TokenQueueJpaRepository
+import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.repository.TokenQueueRedisRepository
 import com.my.sparta.concert.aggregate.user.application.domain.model.UserToken
 import com.my.sparta.concert.aggregate.user.application.port.outbound.DeleteQueueingTokenPort
 import com.my.sparta.concert.aggregate.user.application.port.outbound.LoadNonExpiredTokenPort
@@ -23,6 +24,7 @@ import java.time.LocalDateTime
 class TokenQueuePersistenceAdapter(
     private val tokenPersistenceMapper: TokenPersistenceMapper,
     private val tokenQueueJpaRepository: TokenQueueJpaRepository,
+    private val tokenQueueRedisRepository: TokenQueueRedisRepository,
 ) : SaveUserTokenPort,
     SaveQueueingTokenPort,
     LoadQueueingTokenPort,
@@ -35,6 +37,10 @@ class TokenQueuePersistenceAdapter(
         val savedToken = tokenQueueJpaRepository.save(tokenEntity)
 
         return savedToken.tokenId
+    }
+
+    override fun saveToken(token: UserToken): String {
+        return tokenQueueRedisRepository.saveToken(token)
     }
 
     override fun loadActivatableTokens(): List<UserTokenEntity> {
@@ -63,5 +69,9 @@ class TokenQueuePersistenceAdapter(
 
     override fun deleteTokens(tokens: List<UserTokenEntity>) {
         tokenQueueJpaRepository.deleteAll(tokens)
+    }
+
+    override fun deleteTokenByRedis() {
+        tokenQueueRedisRepository.deleteExpiredToken()
     }
 }

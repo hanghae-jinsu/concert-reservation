@@ -24,6 +24,6 @@ class GenerateTokenService(
 
         val generateToken = tokenUtilService.generateToken(userInfo.userId)
 
-        return saveUserTokenPort.saveUserToken(generateToken)
+        return saveUserTokenPort.saveToken(generateToken)
     }
 }

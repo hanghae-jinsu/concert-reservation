@@ -31,65 +31,65 @@ class UserQueryControllerTest(
     @MockBean val tokenUtilService: TokenUtilService,
 ) : BehaviorSpec({
 
-    extensions(SpringExtension)
+        extensions(SpringExtension)
 
-    Given("유효한 userId로 잔고 정보를 조회할 때") {
-        val userId = "user12345"
+        Given("유효한 userId로 잔고 정보를 조회할 때") {
+            val userId = "user12345"
 
-        // 모킹할 사용자 정보 객체 생성
-        val mockUserInfo =
-            Users(
-                userId = userId,
-                username = "user",
-                age = 20,
-                wallet = Wallet(PaymentType.CARD, BigDecimal(5000.0)),
-            )
+            // 모킹할 사용자 정보 객체 생성
+            val mockUserInfo =
+                Users(
+                    userId = userId,
+                    username = "user",
+                    age = 20,
+                    wallet = Wallet(PaymentType.CARD, BigDecimal(5000.0)),
+                )
 
-        // 모킹할 UserWalletInfoResponse 생성
-        val mockUserWalletInfoResponse =
-            UserWalletInfoResponse(
-                userId = userId,
-                money = BigDecimal(5000.0),
-            )
+            // 모킹할 UserWalletInfoResponse 생성
+            val mockUserWalletInfoResponse =
+                UserWalletInfoResponse(
+                    userId = userId,
+                    money = BigDecimal(5000.0),
+                )
 
-        // 의존성 모킹 설정
-        every { loadUserInfoPort.getUserInfoById(userId) } returns mockUserInfo
-        every { userWebMapper.mapToResponse(mockUserInfo) } returns mockUserWalletInfoResponse
+            // 의존성 모킹 설정
+            every { loadUserInfoPort.getUserInfoById(userId) } returns mockUserInfo
+            every { userWebMapper.mapToResponse(mockUserInfo) } returns mockUserWalletInfoResponse
 
-        When("GET /user/money/{userId} 요청을 보내면") {
-            val response =
-                mockMvc.get("/user/money/{userId}", userId) {
-                    contentType = MediaType.APPLICATION_JSON
-                }
+            When("GET /user/money/{userId} 요청을 보내면") {
+                val response =
+                    mockMvc.get("/user/money/{userId}", userId) {
+                        contentType = MediaType.APPLICATION_JSON
+                    }
 
-            Then("응답 상태는 200 OK이고, 잔고 정보가 반환되어야 한다") {
-                response.andExpect {
-                    status { isOk() }
-                    content { contentType(MediaType.APPLICATION_JSON) }
-                    jsonPath("$.userId") { value(userId) }
-                    jsonPath("$.remainingBalance") { value(50000.0) }
-                }
-            }
-        }
-    }
-
-    Given("존재하지 않는 userId로 잔고 정보를 조회할 때") {
-        val invalidUserId = "invalidUserId"
-
-        // 의존성 모킹 설정: NotFoundException 발생
-        every { loadUserInfoPort.getUserInfoById(invalidUserId) } throws EntityNotFoundException("User not found")
-
-        When("GET /user/money/{userId} 요청을 보내면") {
-            val response =
-                mockMvc.get("/user/money/{userId}", invalidUserId) {
-                    contentType = MediaType.APPLICATION_JSON
-                }
-
-            Then("응답 상태는 404 Not Found를 반환해야 한다") {
-                response.andExpect {
-                    status { isNotFound() }
+                Then("응답 상태는 200 OK이고, 잔고 정보가 반환되어야 한다") {
+                    response.andExpect {
+                        status { isOk() }
+                        content { contentType(MediaType.APPLICATION_JSON) }
+                        jsonPath("$.userId") { value(userId) }
+                        jsonPath("$.remainingBalance") { value(50000.0) }
+                    }
                 }
             }
         }
-    }
-})
+
+        Given("존재하지 않는 userId로 잔고 정보를 조회할 때") {
+            val invalidUserId = "invalidUserId"
+
+            // 의존성 모킹 설정: NotFoundException 발생
+            every { loadUserInfoPort.getUserInfoById(invalidUserId) } throws EntityNotFoundException("User not found")
+
+            When("GET /user/money/{userId} 요청을 보내면") {
+                val response =
+                    mockMvc.get("/user/money/{userId}", invalidUserId) {
+                        contentType = MediaType.APPLICATION_JSON
+                    }
+
+                Then("응답 상태는 404 Not Found를 반환해야 한다") {
+                    response.andExpect {
+                        status { isNotFound() }
+                    }
+                }
+            }
+        }
+    })

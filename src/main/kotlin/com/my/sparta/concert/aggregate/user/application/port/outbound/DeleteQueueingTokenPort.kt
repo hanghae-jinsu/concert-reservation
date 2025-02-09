@@ -4,4 +4,6 @@ import com.my.sparta.concert.aggregate.user.adapter.outbound.persistence.entity.
 
 interface DeleteQueueingTokenPort {
     fun deleteTokens(tokens: List<UserTokenEntity>)
+
+    fun deleteTokenByRedis()
 }
