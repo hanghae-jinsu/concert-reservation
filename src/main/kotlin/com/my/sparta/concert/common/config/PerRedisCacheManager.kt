@@ -14,13 +14,15 @@ class PerRedisCacheManager(
     private val earlyThreshold: Double,
     private val refreshProbability: Double,
     private val loaderFunction: (cacheName: String, key: Any) -> Any?,
-    defaultConfiguration: RedisCacheConfiguration
+    defaultConfiguration: RedisCacheConfiguration,
 ) : RedisCacheManager(
-    RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory),
-    defaultConfiguration
-)  {
-
-    override fun createRedisCache(name: String, @Nullable cacheConfiguration: RedisCacheConfiguration?): RedisCache {
+        RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory),
+        defaultConfiguration,
+    ) {
+    override fun createRedisCache(
+        name: String,
+        @Nullable cacheConfiguration: RedisCacheConfiguration?,
+    ): RedisCache {
         val cacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory)
         return PerRedisCache(
             name = name,
@@ -28,7 +30,7 @@ class PerRedisCacheManager(
             cacheConfiguration = cacheConfiguration,
             redisTemplate = redisTemplate,
             earlyThreshold = earlyThreshold,
-            refreshProbability = refreshProbability
+            refreshProbability = refreshProbability,
         ) { key ->
             loaderFunction(name, key)
         }

@@ -10,14 +10,11 @@ import org.springframework.data.redis.serializer.StringRedisSerializer
 
 @Configuration
 class RedisTemplateConfig(
-
     @Value("\${spring.data.redis.host}")
     val host: String,
-
     @Value("\${spring.data.redis.port}")
     val port: Int,
 ) {
-
     @Bean
     fun redisConnectionFactory(): RedisConnectionFactory {
         return LettuceConnectionFactory(host, port)
@@ -34,5 +31,4 @@ class RedisTemplateConfig(
             this.valueSerializer = StringRedisSerializer()
         }
     }
-
 }

@@ -22,7 +22,6 @@ class SaveConcertInfoService(
     private val saveConcertSeatPort: SaveConcertSeatPort,
     private val saveSeatLockPort: SaveSeatLockPort,
 ) : SaveConcertInfoUseCase {
-
     @Transactional
     @DistributedLock(key = "#command.userId + '-' +#command.concertSeatNumber")
     override fun saveConcertSeat(command: ConcertReservationCommand): ConcertSeat {

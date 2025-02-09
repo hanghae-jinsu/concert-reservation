@@ -15,39 +15,38 @@ import java.time.Duration
 @Configuration
 class RedisCacheConfig(
     private val redisConnectionFactory: RedisConnectionFactory,
-    private val redisTemplate: RedisTemplate<String, Any>
+    private val redisTemplate: RedisTemplate<String, Any>,
 ) {
-
-    private val ACTIVE_USERS_KEY = "active_users"
-    private val logger: Logger = LoggerFactory.getLogger(javaClass);
+    private val activeUsersKey = "active_users"
+    private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     @Bean
     fun perRedisCacheManager(): RedisCacheManager {
-        val defaultConfig = RedisCacheConfiguration.defaultCacheConfig()
-            .entryTtl(Duration.ofMinutes(1))
-            .disableCachingNullValues()
+        val defaultConfig =
+            RedisCacheConfiguration.defaultCacheConfig()
+                .entryTtl(Duration.ofMinutes(1))
+                .disableCachingNullValues()
 
         return PerRedisCacheManager(
             connectionFactory = redisConnectionFactory,
             redisTemplate = redisTemplate,
-            earlyThreshold = 0.1,        // 남은 TTL이 10% 이하라면
-            refreshProbability = 0.3,    // 30% 확률로 원본 갱신 시도
+            earlyThreshold = 0.1,
+            refreshProbability = 0.3,
             loaderFunction = { cacheName, key ->
                 fetchFromDatabase(cacheName, key)
             },
-            defaultConfiguration = defaultConfig
+            defaultConfiguration = defaultConfig,
         )
-
     }
 
-    private fun fetchFromDatabase(cacheName: String, key: Any): Any? {
-
-        val allMembers = redisTemplate.opsForZSet()
-            .range(ACTIVE_USERS_KEY, 0, -1) ?: emptySet()
+    private fun fetchFromDatabase(
+        cacheName: String,
+        key: Any,
+    ): Any? {
+        val allMembers =
+            redisTemplate.opsForZSet()
+                .range(activeUsersKey, 0, -1) ?: emptySet()
         logger.info("############### fetchFromDatabase  ################")
         return allMembers.toList()
-
     }
-
-
 }

@@ -10,8 +10,7 @@ class SinkTokenService(
     private val tokenUtilService: TokenUtilService,
     private val loadNonExpiredTokenPort: LoadNonExpiredTokenPort,
 ) : TokenCacheSinkUseCase {
-
-//    @Scheduled(cron = "0 */3 * * * ?")
+    //    @Scheduled(cron = "0 */3 * * * ?")
 //    override fun deleteExpiredToken() {
 //        val tokens = tokenUtilService.loadCurrentTokens()
 //
@@ -21,6 +20,6 @@ class SinkTokenService(
 //    }
 
     override fun deleteExpiredToken() {
-        return;
+        return
     }
 }

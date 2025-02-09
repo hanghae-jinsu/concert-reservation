@@ -15,16 +15,15 @@ class PerRedisCache(
     private val redisTemplate: RedisTemplate<String, Any>,
     private val earlyThreshold: Double,
     private val refreshProbability: Double,
-    private val cacheLoader: (Any) -> Any?
+    private val cacheLoader: (Any) -> Any?,
 ) : RedisCache(name, cacheWriter, cacheConfiguration!!) {
+    private val logger: Logger = LoggerFactory.getLogger(javaClass)
+    private val activeUsersKey = "active_users"
 
-    private val logger: Logger = LoggerFactory.getLogger(javaClass);
-    private val ACTIVE_USERS_KEY = "active_users"
     override fun get(key: Any): Cache.ValueWrapper? {
-
         val wrapper = super.get(key) ?: return null
 
-        val redisKey = ACTIVE_USERS_KEY;
+        val redisKey = activeUsersKey
 
         logger.info("redisKey: $redisKey")
         val remainingTtl = redisTemplate.connectionFactory?.connection?.pTtl(redisKey.toByteArray()) ?: -1
@@ -44,5 +43,4 @@ class PerRedisCache(
         }
         return wrapper
     }
-
 }

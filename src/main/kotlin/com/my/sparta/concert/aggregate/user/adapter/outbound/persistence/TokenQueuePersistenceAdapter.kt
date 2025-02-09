@@ -40,7 +40,7 @@ class TokenQueuePersistenceAdapter(
     }
 
     override fun saveToken(token: UserToken): String {
-        return tokenQueueRedisRepository.saveToken(token);
+        return tokenQueueRedisRepository.saveToken(token)
     }
 
     override fun loadActivatableTokens(): List<UserTokenEntity> {
@@ -51,8 +51,6 @@ class TokenQueuePersistenceAdapter(
 
         return tokenQueueJpaRepository.findByTokenNonExpired(dateTime, pageable)
     }
-
-
 
     override fun loadExpiredTargetTokens(): List<UserTokenEntity> {
         val dateTime = LocalDateTime.now()
@@ -74,6 +72,6 @@ class TokenQueuePersistenceAdapter(
     }
 
     override fun deleteTokenByRedis() {
-        tokenQueueRedisRepository.deleteExpiredToken();
+        tokenQueueRedisRepository.deleteExpiredToken()
     }
 }

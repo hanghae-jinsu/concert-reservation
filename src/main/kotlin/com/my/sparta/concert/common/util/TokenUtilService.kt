@@ -10,19 +10,19 @@ import org.springframework.stereotype.Component
 import java.security.MessageDigest
 import java.time.LocalDateTime
 import java.time.ZoneOffset
+import java.util.concurrent.TimeUnit
 
 @Component
 class TokenUtilService(
     private val tokenQueueRedisRepository: TokenQueueRedisRepository,
-    private val redisTemplate: RedisTemplate<String, Any>
+    private val redisTemplate: RedisTemplate<String, Any>,
 ) {
-
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     private val algorithm = "SHA-256"
     private val platform = "concert-reservation"
 
-    private val TOKEN_CACHE_PREFIX = "token:" // Redis 키 prefix
+//    private val TOKEN_CACHE_PREFIX = "token:" // Redis 키 prefix
 
 //    private val tokenCache = TokenCache<String, Boolean>(50)
 
@@ -47,26 +47,26 @@ class TokenUtilService(
 
     fun validateToken(token: String): Boolean {
         // Redis에서 조회
-        val cachedToken = tokenQueueRedisRepository.findByTokenId(token);
+        val cachedToken = tokenQueueRedisRepository.findByTokenId(token)
         if (cachedToken != null) {
             logger.info("Token found in Redis cache: $token")
             return cachedToken.isActive && !isTokenExpired(cachedToken)
         }
 
-        // DB 조회 (Redis에 없을 경우)
-        val tokenEntity = tokenQueueRedisRepository.findByTokenId(token) ?: return false
-        if (!tokenEntity.isActive || isTokenExpired(tokenEntity)) {
-            logger.info("Token is expired or inactive: $token")
-            return false
+        var active: String? = null
+        if (cachedToken.isActive.equals(true)) {
+            active = "active_users"
+        } else {
+            active = "waiting_users"
         }
 
 //        // Redis에 다시 저장 (만료 시간 설정)
-//        redisTemplate.opsForValue().set(
-//            "",
-//            tokenEntity,
-//            5,
-//            TimeUnit.MINUTES
-//        )
+        redisTemplate.opsForValue().set(
+            active,
+            cachedToken,
+            5,
+            TimeUnit.MINUTES,
+        )
 
         logger.info("Token added to Redis cache: $token")
         return true
@@ -75,9 +75,7 @@ class TokenUtilService(
     /**
      * 토큰 만료 여부 확인
      */
-    private fun isTokenExpired(
-        token: TokenAuthentication
-    ): Boolean {
+    private fun isTokenExpired(token: TokenAuthentication): Boolean {
         val currentTime = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
         val expireTime = token.expireTime
 
@@ -100,7 +98,6 @@ class TokenUtilService(
 //            )
 //        }
 //    }
-
 
 //    // 토큰 조회 및 검증
 //    fun validateToken(token: String): Boolean {

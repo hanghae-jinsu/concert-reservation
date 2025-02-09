@@ -14,22 +14,19 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.concurrent.TimeUnit
 
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
 class UserUseMoneyService(
     private val saveMoneyPort: SaveMoneyPort,
     private val loadUserInfoPort: LoadUserInfoPort,
-    private val lockManager: LockManager
+    private val lockManager: LockManager,
 ) : UserUseMoneyUseCase {
-
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     @Transactional
     override fun useMoney(command: UserUseMoneyCommand): Users {
-
-        val lockKey = command.userId + command.paidAmount.toString();
+        val lockKey = command.userId + command.paidAmount.toString()
 
         return lockManager.withLock(lockKey, 0, TimeUnit.SECONDS, lockManager) {
             val userInfo = loadUserInfoPort.getUserInfoById(command.userId)
@@ -40,13 +37,12 @@ class UserUseMoneyService(
 
             val savedUserInfo = saveMoneyPort.saveMoney(userInfo)
 
-            savedUserInfo;
+            savedUserInfo
         }
     }
 
     @Transactional
     override fun useMoneyNoneReentrantLock(command: UserUseMoneyCommand): Users {
-
         val userInfo = loadUserInfoPort.getUserInfoById(command.userId)
 
         userInfo.wallet.useMoney(command.paidAmount)
@@ -59,6 +55,6 @@ class UserUseMoneyService(
 
         logger.info("saved useMoneyNoneReentrantLock user ${findUserInfo.userId} wallet balance: ${findUserInfo.wallet.money}")
 
-        return savedUserInfo;
+        return savedUserInfo
     }
 }

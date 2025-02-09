@@ -22,20 +22,14 @@ class ConcertReservationFacade(
     private val savePaymentInfoUseCase: SavePaymentInfoUseCase,
     private val saveReservationUseCase: SaveReservationUseCase,
 ) : ReserveConcertUseCase {
-    // lock 을 건게 순서를 보장할 순 없다. ..
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     override fun reserve(command: ConcertReservationCommand): Reservation {
-        val concert = loadConcertPort.getConcertInfoById(command.concertId) // 1
-        logger.info("[ reserve ] :  1")
+        val concert = loadConcertPort.getConcertInfoById(command.concertId)
         val userInfo = loadUserInfoPort.getUserInfoById(command.userId)
-        logger.info("[ reserve ] :  2")
-        val savedConcertSeat = saveConcertInfoUseCase.saveConcertSeat(command); // 3
-        logger.info("[ reserve ] :  3")
-        val paymentInfo = savePaymentInfoUseCase.savePayment(userInfo, concert, command); // 4
-        logger.info("[ reserve ] :  4")
+        val savedConcertSeat = saveConcertInfoUseCase.saveConcertSeat(command)
+        val paymentInfo = savePaymentInfoUseCase.savePayment(userInfo, concert, command)
         val reservation = Reservation.createReservation(concert, userInfo, savedConcertSeat, command, paymentInfo)
-        logger.info("[ reserve ] :  5")
-        return saveReservationUseCase.saveConcertTicket(reservation); // 5
+        return saveReservationUseCase.saveConcertTicket(reservation)
     }
 }

@@ -22,13 +22,11 @@ class UserChargeMoneyService(
     private val loadUserInfoPort: LoadUserInfoPort,
     private val lockManager: LockManager,
 ) : UserChargeMoneyUseCase {
-
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     @Transactional
     override fun chargeMoney(command: UserChargeCommand): Users {
-
-        val lockKey = command.userId + command.wallet.money.toString();
+        val lockKey = command.userId + command.wallet.money.toString()
 
         return lockManager.withLock(lockKey, 0, TimeUnit.SECONDS, lockManager) {
             val userInfo = loadUserInfoPort.getUserInfoById(command.userId)

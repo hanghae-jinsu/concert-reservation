@@ -27,27 +27,22 @@ class TokenConcurrencyTest(
     @Autowired private val generateTokenService: GenerateTokenService,
     @Autowired private val tokenQueueRedisRepository: TokenQueueRedisRepository,
 ) {
-
-
     @BeforeEach
     fun setUp(testInfo: TestInfo) {
         runSqlScript("static/data/user_script.sql")
 
         (0..50).forEach { i ->
-            generateTokenService.generateToken("user" + (i + 1));
+            generateTokenService.generateToken("user" + (i + 1))
         }
-
     }
 
     @Test
     fun `test for real token`() {
+        val activeToken = tokenQueueRedisRepository.findAllTokenId()
+        val waitingToken = tokenQueueRedisRepository.findAllWaitingToken()
 
-        val activeToken = tokenQueueRedisRepository.findAllTokenId();
-        val waitingToken = tokenQueueRedisRepository.findAllWaitingToken();
-
-        assertThat(waitingToken.size).isEqualTo(1);
-        assertThat(activeToken.size).isEqualTo(50);
-
+        assertThat(waitingToken.size).isEqualTo(1)
+        assertThat(activeToken.size).isEqualTo(50)
     }
 
     private fun runSqlScript(scriptPath: String) {
@@ -57,5 +52,3 @@ class TokenConcurrencyTest(
         DatabasePopulatorUtils.execute(populator, dataSource)
     }
 }
-
-

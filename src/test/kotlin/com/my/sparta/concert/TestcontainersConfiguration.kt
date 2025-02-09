@@ -25,11 +25,11 @@ class TestcontainersConfiguration {
                 .withUsername("users")
                 .withPassword("password")
                 .withInitScript("static/data/concert_script.sql")
-                .waitingFor(Wait.forHttp("/"))                          // 가용가능 한지 기다렸다가
+                .waitingFor(Wait.forHttp("/")) // 가용가능 한지 기다렸다가
                 .withReuse(true)
                 .apply {
-                            start()
-                        }
+                    start()
+                }
 
         init {
             System.setProperty(

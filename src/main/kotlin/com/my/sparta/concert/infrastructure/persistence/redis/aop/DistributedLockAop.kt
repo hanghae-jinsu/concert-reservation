@@ -23,7 +23,7 @@ class DistributedLockAop(
     private val redisLockPrefix = "LOCK:"
     private val log = LoggerFactory.getLogger(DistributedLockAop::class.java)
 
-    @Around("@annotation(DistributedLock)")
+    @Around("@annotation(com.my.sparta.concert.infrastructure.persistence.redis.aop.DistributedLock)")
     @Throws(Throwable::class)
     fun lock(joinPoint: ProceedingJoinPoint): Any? {
         val signature = joinPoint.signature as MethodSignature

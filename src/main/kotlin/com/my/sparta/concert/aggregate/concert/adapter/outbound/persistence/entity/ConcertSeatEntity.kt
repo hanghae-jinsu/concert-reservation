@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor
 @Table(name = "concert_seats")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 class ConcertSeatEntity(
-
     @Id
     @Column(name = "concert_seat_id", nullable = false, unique = true)
     val concertSeatId: Int,

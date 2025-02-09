@@ -1,7 +1,6 @@
 package com.my.sparta.concert.common.interceptor
 
 import com.my.sparta.concert.common.util.TokenUtilService
-import jakarta.annotation.PostConstruct
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.slf4j.Logger

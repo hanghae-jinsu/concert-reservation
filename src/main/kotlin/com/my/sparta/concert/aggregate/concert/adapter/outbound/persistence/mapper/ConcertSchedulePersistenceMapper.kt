@@ -47,7 +47,7 @@ class ConcertSchedulePersistenceMapper {
             entity.concertSeatId,
             entity.userId,
             entity.concertSchedule.concertScheduleId,
-            entity.seatStatus
+            entity.seatStatus,
         )
     }
 }

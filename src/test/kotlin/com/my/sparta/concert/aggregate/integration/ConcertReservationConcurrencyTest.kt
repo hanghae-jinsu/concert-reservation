@@ -32,7 +32,6 @@ class ConcertReservationConcurrencyTest(
     @Autowired private val reserveConcertUseCase: ReserveConcertUseCase,
     @Autowired private val reserveWebMapper: ReserveWebMapper,
 ) {
-
     private val concertRequests = mutableListOf<ConcertReservationRequest>()
     private val commandRequest = mutableListOf<ConcertReservationCommand>()
 
@@ -75,15 +74,12 @@ class ConcertReservationConcurrencyTest(
             executor.submit {
                 try {
                     // 예: i번째 콘서트 예약 요청 처리
-                    val request = commandRequest[i-1]
+                    val request = commandRequest[i - 1]
                     reserveConcertUseCase.reserve(request)
                     successCount.incrementAndGet()
-
                 } catch (e: Exception) {
-
                     println(e.message)
                     failureCount.incrementAndGet() // 실패 시 증가
-
                 } finally {
                     latch.countDown()
                 }

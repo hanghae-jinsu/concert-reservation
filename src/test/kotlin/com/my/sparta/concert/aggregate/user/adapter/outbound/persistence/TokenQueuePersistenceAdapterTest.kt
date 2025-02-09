@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 
 class TokenQueuePersistenceAdapterTest() {
-
     private val tokenPersistenceMapper: TokenPersistenceMapper = mockk()
     private val tokenQueueJpaRepository: TokenQueueJpaRepository = mockk()
     private val tokenQueueRedisRepository: TokenQueueRedisRepository = mockk()
